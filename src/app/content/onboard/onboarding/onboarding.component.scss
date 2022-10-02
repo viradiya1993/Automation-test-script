@@ -1,0 +1,110 @@
+.onboard-page {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  //left: 50%;
+  //top: 50%;
+  //transform: translate(-50%, -50%);
+  width: 100%;
+  background-image: url("../../../../assets/img/wizard-book.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+
+  .container {
+    padding-top: 6vh !important;
+  }
+
+  .page-header {
+    min-height: 100vh;
+    height: auto;
+    display: inherit;
+  }
+
+  .page-header {
+    min-height: 100vh;
+    height: auto;
+    display: inherit;
+  }
+
+  .success-tick {
+    border-radius: 50%;
+    padding: 0.4rem;
+    font-size: 110%;
+  }
+}
+
+.wizard-navigation {
+  .nav-pills {
+    .nav-item {
+      margin: 0;
+
+      .nav-link.active {
+        color: var(--ahq-primary);
+        background-color: transparent;
+        box-shadow: none;
+        border-bottom: 2px solid var(--ahq-primary);
+        border-radius: 0;
+
+        .material-icons {
+          display: none;
+        }
+
+        .wizard-num {
+          display: inline-block !important;
+          border-radius: 50px;
+          background: var(--ahq-primary);
+          width: 18px;
+          height: 18px;
+          color: #FFF;
+          vertical-align: 0;
+          margin-right: 2px;
+          padding: 2px 4px;
+          line-height: 15px;
+        }
+      }
+
+      .nav-link {
+        border-radius: 0;
+        border-bottom: 2px solid #e5e5e5;
+
+        .material-icons {
+          vertical-align: -6px;
+          font-size: 21px;
+          color: var(--ahq-primary);
+        }
+
+        .wizard-num {
+          display: inline-block;
+          border-radius: 50px;
+          background: #e5e5e5;
+          width: 18px;
+          height: 18px;
+          color: #FFF;
+          vertical-align: 0;
+          margin-right: 2px;
+          padding: 2px 4px;
+          line-height: 15px;
+        }
+      }
+
+      .nav-link:hover {
+        background: transparent;
+      }
+    }
+
+    .nav-item:first-child {
+      .nav-link:first-child {
+        .wizard-num {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.onboarding-height {
+  min-height: 550px !important;
+  max-height: 650px;
+}

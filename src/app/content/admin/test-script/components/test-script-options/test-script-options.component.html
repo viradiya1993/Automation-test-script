@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-3">
+        <mat-form-field>
+            <mat-label>Group By</mat-label>
+            <mat-select (selectionChange)="onGroupByChange()" [(ngModel)]="groupBy">
+                <mat-option value="1">Epic</mat-option>
+                <mat-option value="2">Story</mat-option>
+                <mat-option value="3">Test Script</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3 text-right">
+        <mat-form-field>
+            <mat-label>Sort By</mat-label>
+            <mat-select (selectionChange)="onSortByChange()" [(ngModel)]="sortBy">
+                <mat-option value="1">Date Created</mat-option>
+                <mat-option value="2">Date Modified</mat-option>
+                <mat-option value="3">Name</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-3 text-right">
+        <button (click)="openEpicDialog()" color="primary" mat-stroked-button>
+            Epic
+            <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="openStoryDialog()" color="primary" mat-stroked-button>
+            Story
+            <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="openTestScriptDialog()" color="primary" mat-stroked-button>
+            Test Script
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>

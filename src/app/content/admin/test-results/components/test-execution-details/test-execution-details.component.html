@@ -1,0 +1,68 @@
+<div class="test-suite-result-wrapper">
+    <div class="popupframe-title">
+        <div class="d-flex justify-content-between">
+            <h2 mat-dialog-title>Execution Name: {{ consolidatedExecution.executionName}}</h2>
+            <div class="rightpopup-section">
+                <div class="custom-badge d-inline-block">
+                    <span class="badge badge-success line" matTooltip="Passed">Passed:
+                        {{consolidatedExecution.progress.passed}}</span>
+                    <span class="badge badge-danger line" matTooltip="Failed">Failed:
+                        {{consolidatedExecution.progress.failed}}</span>
+                    <span class="badge badge-warning line" matTooltip="Skipped">Skipped:
+                        {{consolidatedExecution.progress.skipped}}</span>
+                    <span class="badge badge-info line"
+                          matTooltip="Total">Total: {{consolidatedExecution.progress.total}}</span>
+                </div>
+                <button class="btn-popupClose ml-3" mat-button mat-dialog-close><span
+                        class="material-icons">close</span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-dialog-content">
+        <div class="row">
+            <div class="col-md">
+                <mat-table [dataSource]="consolidatedExecution.testSuiteResults"
+                           class="test-suite-result-table mat-elevation-z8" matSort
+                           matSortActive="name" matSortDirection="asc" matSortDisableClear>
+
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef class="size-40 no-justify">Test Suite Name</mat-header-cell>
+                        <mat-cell (click)="openTestSuiteResultDialog(testSuiteResult);"
+                                  *matCellDef="let testSuiteResult"
+                                  class="size-40 no-justify link-purple">
+                            {{testSuiteResult.testSuiteName}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="passed">
+                        <mat-header-cell *matHeaderCellDef>Passed</mat-header-cell>
+                        <mat-cell *matCellDef="let testSuiteResult">
+                            {{testSuiteResult.progress.passed}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="failed">
+                        <mat-header-cell *matHeaderCellDef>Failed</mat-header-cell>
+                        <mat-cell *matCellDef="let testSuiteResult">
+                            {{testSuiteResult.progress.failed}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="skipped">
+                        <mat-header-cell *matHeaderCellDef>Skipped</mat-header-cell>
+                        <mat-cell *matCellDef="let testSuiteResult">
+                            {{testSuiteResult.progress.skipped}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total">
+                        <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+                        <mat-cell *matCellDef="let testSuiteResult">
+                            {{testSuiteResult.progress.total}}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+    </div>
+</div>

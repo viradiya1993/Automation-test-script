@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="customScroll-contentScroll list-contentScroll">
+            <mat-table
+                    [dataSource]="browsers"
+                    class="test-suites-table"
+                    matSort
+                    matSortActive="name"
+                    matSortDirection="asc"
+                    matSortDisableClear
+            >
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Name
+                    </mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let browser" class="name-cell">
+                        {{ browser.name }}</mat-cell
+                    >
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Configuration
+                    </mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let browser" class="value-cell">
+                        {{ browser.value }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="createdBy">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Created By
+                    </mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let browser" class="value-cell">
+            <span class="d-block"
+            >{{ browser.createdBy?.firstName }}
+                {{ browser.createdBy?.lastName }}</span
+            >
+                        <span class="d-block config-date-txt">{{
+						  browser.createdDate | date: "medium"
+                            }}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="updatedBy">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Updated By
+                    </mat-header-cell
+                    >
+                    <mat-cell *matCellDef="let browser" class="value-cell">
+            <span class="d-block"
+            >{{ browser.updatedBy.firstName }}
+                {{ browser.updatedBy.lastName }}</span
+            >
+                        <span class="d-block config-date-txt">{{
+						  browser.updatedDate | date: "medium"
+                            }}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="align-right">
+                    </mat-header-cell>
+                    <mat-cell
+                            *matCellDef="let browser"
+                            class="justify-content-end flex-g-small"
+                            mat-cell
+                    >
+                        <button
+                                [matMenuTriggerFor]="menu"
+                                aria-label="Browser More Menu"
+                                class="
+                btn btn-link btn-primary btn-just-icon
+                custom-btn-icon
+                ml-1
+              "
+                                mat-icon-button
+                        >
+                            <mat-icon class="material-icons">more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button
+                                    (click)="editBrowser(browser)"
+                                    class="custom-matmenu"
+                                    mat-menu-item
+                                    matTooltip="Edit Browser"
+                            >
+                                <mat-icon class="custom-btn-icon mr-0">edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                            <button
+                                    (click)="setBrowserToRemove(browser)"
+                                    class="custom-matmenu"
+                                    data-target="#removeBrowserConfirmation"
+                                    data-toggle="modal"
+                                    mat-menu-item
+                                    matTooltip="Delete Browser"
+                            >
+                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                        class="element-row"
+                >
+                </mat-row>
+            </mat-table>
+
+            <div
+                    [style.display]="resultsLength == 0 ? '' : 'none'"
+                    class="no-results"
+            >
+                No results
+            </div>
+        </div>
+        <div class="pagination">
+            <mat-paginator
+                    [length]="resultsLength"
+                    [pageSizeOptions]="[10, 20, 50]"
+                    [pageSize]="10"
+            ></mat-paginator>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade modal-mini modal-primary deleteModal-dialog text-body"
+     id="removeBrowserConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Browser</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ browserToRemove ? browserToRemove.name : "" }}?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeBrowser(browserToRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                        mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.logo {
+  height: 70px;
+  width: auto;
+  overflow: hidden;
+  padding: 15px 0 15px 15px;
+  // border-right: 16px solid var(--ahq-grey-1);
+  border-right: 16px solid transparent;
+  background: #FFF;
+
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.link-disabled {
+  opacity: .4;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}

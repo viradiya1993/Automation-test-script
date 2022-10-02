@@ -1,0 +1,292 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div class="mt-3" mat-dialog-title>
+            <h2>Scheduler</h2>
+        </div>
+        <div class="rightpopup-section mr-3">
+            <button (click)="onSchedulerSaveClick()" [disabled]="!schedulerForm.valid" [mat-dialog-close]="true"
+                    class="btn btn-primary mr-2" mat-raised-button>
+                Save
+            </button>
+            <button (click)="onSchedulerCancelClick();" class="btn btn-plain" mat-dialog-close mat-raised-button>
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+<form [formGroup]="schedulerForm">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Scheduler Name</mat-label>
+                <input autocomplete="off" formControlName="name" matInput placeholder="Scheduler Name"/>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field appearance="fill">
+                <mat-label>Add Emails</mat-label>
+                <mat-chip-list #chipList formControlName="emails">
+                    <mat-chip (removed)="removeEmailAddress(email)"
+                              *ngFor="let email of schedulerForm.get('emails').value; let i=index"
+                              [color]="(email.emailArray) ? 'warn' : ''" [removable]="removable"
+                              [selectable]="true" name="chips" required selected>
+                        {{ email }}
+                        <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                    <input (matChipInputTokenEnd)="addEmailAddress($event)" (paste)="paste($event)" [email]="true"
+                           [matChipInputAddOnBlur]="true" [matChipInputFor]="chipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes" autocomplete="off"
+                           placeholder="Add emails here">
+                </mat-chip-list>
+            </mat-form-field>
+
+            <mat-error *ngIf="f.emails.touched && f.emails.errors?.required">Please enter email.</mat-error>
+            <mat-error *ngIf="f.emails.touched && f.emails.errors?.emailArray">Please enter a valid email.</mat-error>
+            <mat-error *ngIf="f.emails.touched && f.emails.errors?.invalid">
+                Please enter valid emails to continue. For multiple emails
+                use spaces or semi-colon(;) or comma(,) in between
+            </mat-error>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="scheduler-main">
+                <cron-editor [options]="cronOptions" formControlName="recurringRule"></cron-editor>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" formGroupName="executionConfiguration">
+        <div class="col-12">
+            <h4>Configuration</h4>
+            <mat-divider class="pb-2 pt-2"></mat-divider>
+        </div>
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>Test Execution Grid</mat-label>
+                <mat-select (appMatSelectScrollBottom)="loadNextGrids()" [disabled]="!commonService.isUserPaid()"
+                            formControlName="gridId">
+                    <mat-option *ngFor="let grid of grids" [value]="grid.gridId">
+                        {{grid.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <mat-form-field appearance="fill">
+                <mat-label>Environment</mat-label>
+                <mat-select (appMatSelectScrollBottom)="loadNextEnvironments()" formControlName="baseUrl">
+                    <mat-option value="createNewEnv">
+                        <span class="my-2">+ ADD ENV</span>
+                    </mat-option>
+                    <mat-option *ngFor="let environment of environments" [value]="environment.value">
+                        {{environment.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <!-- Device Type -->
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>Testing Type</mat-label>
+                <mat-select [disabled]="!commonService.isUserPaid()" formControlName="type">
+                    <!--<mat-option value="Mobile">
+                        Mobile
+                    </mat-option>-->
+                    <mat-option value="Web">
+                        Web
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+
+        <!-- OS Type -->
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>OS Type</mat-label>
+                <mat-select [disabled]="!commonService.isUserPaid()" formControlName="osType" >
+                    <mat-option *ngFor="let osType of osTypes" [value]="osType">
+                        {{osType}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+
+        <!-- Browser -->
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>Browser</mat-label>
+                <mat-select [disabled]="!commonService.isUserPaid()" formControlName="browser">
+                    <mat-option *ngFor="let browser of browsers" [value]="browser">
+                        {{browser}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+
+        <!-- Browser Version -->
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>Browser Version</mat-label>
+                <mat-select [disabled]="!commonService.isUserPaid()" formControlName="browserVersion">
+                    <mat-option *ngFor="let browserVersion of browserVersions" [value]="browserVersion">
+                        {{browserVersion}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+
+        <!-- Resolutions -->
+        <div class="col-12 col-md-4">
+            <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''" appearance="fill">
+                <mat-label>Display Resolution</mat-label>
+                <mat-select [disabled]="!commonService.isUserPaid()" formControlName="resolution">
+                    <mat-option *ngFor="let value of resolutions" [value]="value">
+                        {{value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <mat-form-field appearance="fill">
+                <mat-label>Implicit Timeout in Sec</mat-label>
+                <input formControlName="timeout" matInput placeholder="Timeout in Sec">
+                <mat-icon class="mat-icon-primary ml-1" matSuffix
+                          matTooltip="Wait for number of seconds before throwing exception error">
+                    info_outline
+                </mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4">
+            <mat-form-field appearance="fill">
+                <mat-label>Explicit Timeout in Sec</mat-label>
+                <input formControlName="waitForElementTimeout" matInput
+                       placeholder="Explicit Timeout in Sec">
+                <mat-icon class="mat-icon-primary ml-1" matSuffix
+                          matTooltip="Wait for seconds until a certain condition occurs before proceeding with executing the code">
+                    info_outline
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12">
+            <div class="row mt-3 mb-4">
+                <div class="col-12 col-md-3">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [disabled]="!commonService.isUserPaid()" [labelPosition]="'after'"
+                                      formControlName="screenshotAfterEachStep">
+                                <span [class]="!commonService.isUserPaid() ? 'text-gray' : 'text-primary'"
+                                      class="checkbox-label">Screenshot After Each Step</span><br/>
+                            <span *ngIf="commonService.getUpgradeRequire()" class="text-danger small">
+                                    Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+                                </span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="screenshotOnError">
+                            <span class="text-primary checkbox-label">Screenshot On Error</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="screenshotOnFinish">
+                            <span class="text-primary checkbox-label">Screenshot On Finish</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="closeBrowserAfterEachExecution">
+                            <span class="text-primary checkbox-label">Close Browser After Each Execution</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="row mt-3 mb-4">
+                <div class="col-md-12">
+                    <h4>Custom Properties</h4>
+                    <mat-divider class="pb-2 pt-2"></mat-divider>
+                    <div *ngFor="let item of getCustomPropertiesFA().controls; let i = index;"
+                         formArrayName="customProperties">
+                        <div [formGroupName]="i" class="row">
+                            <mat-form-field class="col-md">
+                                <input formControlName="name" matInput placeholder="Name">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-md">
+                                <input formControlName="value" matInput placeholder="Value">
+                            </mat-form-field>
+
+                            <button (click)="removeCustomPropertyFG(i)" class="primary-color" class="col-md"
+                                    mat-icon-button>
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-md-right" style="display: none;">
+                    <button (click)="addCustomPropertyFG(undefined);" class="btn btn-primary" mat-raised-button>Add
+                        Custom Property
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <mat-checkbox labelPosition="before" class="col-md-6" formControlName="active">Active</mat-checkbox> -->
+</form>
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div *ngIf="scheduler?.createdBy" class="mat-cell">Created By: {{scheduler?.createdBy?.firstName ?
+				scheduler?.createdBy?.firstName : ''}}</div>
+
+            <div *ngIf="scheduler?.createdDate" class="mat-cell"><span
+                    class="d-block config-date-txt">{{scheduler?.createdDate | date:'medium'}}</span></div>
+        </div>
+        <div class="col-md-6">
+            <div *ngIf="scheduler?.updatedBy" class="mat-cell">Updated By: {{scheduler?.updatedBy?.firstName ?
+				scheduler?.updatedBy?.firstName : ''}}</div>
+            <div *ngIf="scheduler?.updatedDate" class="mat-cell"><span
+                    class="d-block config-date-txt">{{scheduler?.updatedDate | date:'medium'}}</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-end">
+            <button mat-raised-button class="btn btn-primary" [disabled]="!schedulerForm.valid"
+                (click)="onSchedulerSaveClick()">
+                Save
+            </button>
+            <button mat-button (click)="onSchedulerCancelClick()">Cancel</button>
+        </div>
+    </div>
+</div> -->

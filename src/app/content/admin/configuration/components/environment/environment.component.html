@@ -1,0 +1,14 @@
+<div class="card-header d-flex justify-content-between">
+    <h4 class="card-title text-primary">Environment</h4>
+    <button
+            (click)="openAddEnvironmentDialog()"
+            class="btn btn-primary btn-link text-capitalize"
+            mat-stroked-button
+            matTooltip="Add Environment"
+    >
+        <i class="material-icons">add</i> Add Environment
+    </button>
+</div>
+<div class="card-body">
+    <app-environment-list></app-environment-list>
+</div>

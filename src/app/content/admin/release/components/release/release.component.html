@@ -1,0 +1,37 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 align-middle">
+                <app-release-list></app-release-list>
+            </div>
+            <div class="col-md-9 align-middle">
+                <div class="card custom-card mt-0 height-100">
+                    <!-- <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title">Releases</h4>
+                        </div>
+                    </div> -->
+                    <div class="card-body">
+                        <div class="mat-tab-main-wrapper">
+                            <mat-tab-group animationDuration="0ms">
+                                <!-- #docregion mat-tab-content -->
+                                <mat-tab label="Test Runs">
+                                    <ng-template matTabContent>
+                                        <app-test-run-list></app-test-run-list>
+                                    </ng-template>
+                                </mat-tab>
+                                <!-- #enddocregion mat-tab-content -->
+                                <mat-tab [disabled]="!releaseFilterService.appliedFilter.release"
+                                         label="Release Details">
+                                    <ng-template matTabContent>
+                                        <app-release-details></app-release-details>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

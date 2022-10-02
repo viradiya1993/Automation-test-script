@@ -1,0 +1,278 @@
+<div class="row">
+    <div class="col-md-3 align-middle">
+        <div class="card custom-card mt-0 height-100">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title text-primary">Application</h4>
+                    <button #websiteFormMatTrigger="matMenuTrigger" (click)="addWebsite()"
+                        [matMenuTriggerFor]="websiteForm" class="btn btn-primary btn-link text-capitalize"
+                        mat-stroked-button matTooltip="Add Application">
+                        <i class="material-icons">add</i> Add Application
+                    </button>
+                </div>
+                <mat-menu #websiteForm="matMenu" [hasBackdrop]="false" class="add-edit-form mat-menu-form"
+                    xPosition="before">
+                    <app-website-form (closeMenu)="websiteFormMatTrigger.closeMenu()" [mat-menu-prevent]>
+                    </app-website-form>
+                </mat-menu>
+            </div>
+            <div class="card-body listCol-scroll">
+                <app-search-field (searchEvent)="searchInWebList($event)" class="search-box"
+                    label="Search Applications"></app-search-field>
+                <mat-accordion *ngIf="websites.length > 0" [multi]="false" class="list-contentScroll">
+                    <mat-expansion-panel (closed)="panelOpenState = false" (opened)="panelOpenState = true"
+                        *ngFor="let website of websites; let i = index" class="expansion-list epics-list"
+                        togglePosition="before">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="epic-header-title d-flex justify-content-between">
+                                <div (click)="onWebsiteSelect(website, $event)" class="epic-title"
+                                    matTooltip="{{ website.name }}">                                    
+                                    <span class="material-icons align-middle font-size-21 mat-icon-color">web</span>
+                                    {{ website.name }}
+                                </div>
+                                <div class="epictitle-config d-flex justify-content-between align-items-center">
+                                    <span class="badge badge-primary-light" matTooltip="Number of Stories">{{
+                                        website.numberOfPages ? website.numberOfPages : 0
+                                        }}</span>
+                                    <!--TODO:: TASK-729 - Add this button after fixing the library-->
+                                    <!-- <button class="
+                                        btn btn-link btn-primary btn-just-icon
+                                        custom-btn-icon
+                                        ml-1
+                                      " *ngIf="selectedWebsiteLactor?.websiteId !== website.websiteId"
+                                            (click)="onWebsiteSelectLocator(website)"
+                                            data-toggle="modal" data-target="#locatorModal">
+                                      <mat-icon>play_circle_outline</mat-icon>
+                                    </button>-->
+                                    <button (click)="stopLocator()" *ngIf="
+                      selectedWebsiteLactor &&
+                      selectedWebsiteLactor.websiteId === website.websiteId
+                    " class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1">
+                                        <mat-icon>stop</mat-icon>
+                                    </button>
+                                    <button [matMenuTriggerFor]="menu" aria-label="Releases More Menu"
+                                        class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1"
+                                        mat-icon-button>
+                                        <mat-icon class="material-icons">more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu" [hasBackdrop]="true">
+                                        <button #websiteFormMatTrigger="matMenuTrigger" [mat-menu-prevent]
+                                            [matMenuTriggerFor]="websiteEditForm" class="custom-matmenu" mat-menu-item
+                                            matTooltip="Edit Application">
+                                            <mat-icon class="custom-btn-icon mr-0">edit</mat-icon>
+                                            <span>Edit</span>
+                                        </button>
+                                        <mat-menu #websiteEditForm="matMenu" [hasBackdrop]="false"
+                                            class="add-edit-form mat-menu-form" xPosition="before">
+                                            <app-website-form (closeMenu)="
+                          closeWebsiteForm(); websiteFormMatTrigger.closeMenu()
+                        " [mat-menu-prevent] [website]="website">
+                                            </app-website-form>
+                                        </mat-menu>
+                                        <button (click)="setWebsiteToRemove(website)" [mat-menu-prevent]
+                                            class="custom-matmenu" data-target="#removeWebsiteConfirmation"
+                                            data-toggle="modal" mat-menu-item matTooltip="Delete Application">
+                                            <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                            <span>Delete</span>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="epics-descrpt">{{ website.websiteUrl }}</div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <div *ngIf="websites.length === 0" class="d-flex justify-content-between align-items-center mb-3">
+                    Applications do not exist.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9 col-sm-6 align-middle">
+        <div class="card custom-card mt-0 height-100">
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h4 class="card-title text-primary">Page</h4>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <button (click)="addPage()" [disabled]="!selectedWebsite"
+                            class="btn btn-primary btn-link text-capitalize mr-2" mat-stroked-button
+                            matTooltip="Add Page">
+                            <i class="material-icons">add</i> Add Page
+                        </button>
+                        <button #filterFormMatTrigger="matMenuTrigger" [matMenuTriggerFor]="filterMenu"
+                            class="btn btn-primary btn-link text-capitalize" mat-stroked-button>
+                            <i class="material-icons">filter_alt</i> Filter
+                        </button>
+                        <mat-menu #filterMenu="matMenu" [hasBackdrop]="false" class="filter-mat-menu-form mat-menu-form"
+                            xPosition="before">
+                            <div (click)="$event.stopPropagation()">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <mat-form-field appearance="fill">
+                                            <input [(ngModel)]="searchText" matInput name="name" placeholder="Name" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="d-flex justify-content-end">
+                                            <button (click)="applyFilter()" class="btn btn-primary" mat-raised-button>
+                                                Filter
+                                            </button>
+                                            <button (click)="onFilterCancelClick()" mat-button>
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body listCol-scroll">
+                <app-filter (valueChange)='changeFilter()' [filter]="filterValue"></app-filter>
+                <div *ngIf="!selectedWebsite; else elseBlock"
+                    class="d-flex justify-content-between align-items-center mb-3"
+                    matTooltip="Please select application to see related pages.">
+                    Please select application to see related pages.
+                </div>
+                <ng-template #elseBlock>
+                    <!-- && showList === 'page' -->
+                    <mat-action-list *ngIf="pages.length > 0" class="list-contentScroll">
+                        <div *ngFor="let page of pages"
+                            class="d-flex justify-content-between row-list align-items-center border item-2 py-2 mb-3"
+                            mat-list-item>
+                            <div class="justify-content-start">
+                                <button (click)="onPageSelect(page, $event)"
+                                    [ngClass]="page === selectedPage ? 'primary-color' : ''"
+                                    matTooltip="{{ page.pageName }}" style="cursor: pointer">
+                                    <span class="material-icons align-middle font-size-21 mat-icon-color">list_alt</span>
+                                    {{ page.pageName }}
+                                </button>
+                            </div>
+                            <div class="justify-content-end">
+                                <span class="badge badge-primary-light" matTooltip="Number of Elements">{{
+                                    page.locators.length
+                                    }}</span>
+                                <button (click)="setPageToRemove(page)"
+                                    class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2"
+                                    data-target="#removePageConfirmation" data-toggle="modal">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-action-list>
+                    <div *ngIf="pages.length === 0" class="d-flex align-items-center border-bottom pb-2 mb-2">
+                        Pages do not exist.
+                    </div>
+                </ng-template>
+            </div>
+            <div *ngIf="showList == 'AHQDEV-263'" class="card-body listCol-scroll">
+                <h1>Amit</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade modal-mini modal-primary deleteModal-dialog"
+    id="locatorModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Elements</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field>
+                            <input [(ngModel)]="websiteUrl" matInput placeholder="Url" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="startLocator()" class="btn btn-primary mr-2" data-dismiss="modal" mat-raised-button
+                    type="button">
+                    Start
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button type="button">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade modal-mini modal-primary deleteModal-dialog"
+    id="removeWebsiteConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Website</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ websiteToRemove ? websiteToRemove.name : "" }} website?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeWebsite(websiteToRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                    mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade modal-mini modal-primary deleteModal-dialog"
+    id="removePageConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Page</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ pageToRemove ? pageToRemove.pageName : "" }}?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removePage(pageToRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                    mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model End-->

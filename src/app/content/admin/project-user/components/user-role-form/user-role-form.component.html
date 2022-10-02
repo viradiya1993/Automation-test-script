@@ -1,0 +1,28 @@
+<div (click)="$event.stopPropagation()">
+    <!-- <h4 class="mat-title pb-3">Edit User Role</h4> -->
+
+    <form [formGroup]="userRoleForm" novalidate>
+        <mat-form-field appearance="fill" class="role-list">
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="selectedRole" formControlName="roleId" placeholder="Select Role">
+                <mat-option *ngFor="let role of roles" [value]="role.id">
+          <span class="roleName">{{ role.roleName }}
+              <!-- <mat-icon [matTooltip]="role.description">info</mat-icon> -->
+          </span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="submitted && f.roleId.errors" class="help-block" style="color: red">
+            <div *ngIf="f.roleId.errors.required">Role is required</div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-end">
+        <button (click)="saveEditUserRole()" [disabled]="!userRoleForm.valid" class="btn btn-primary" mat-raised-button>
+            Save
+        </button>
+        <button (click)="onEditUserRoleCancel()" mat-button>
+            Cancel
+        </button>
+    </div>
+</div>

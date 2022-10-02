@@ -1,0 +1,474 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div class="mt-3" mat-dialog-title>
+            <h2>Test Script</h2>
+        </div>
+        <div class="rightpopup-section mr-3">
+            <button (click)="onTestScriptSaveClick(true)" [disabled]="!testScriptForm.valid || isStatusAHQRecommended"
+                    class="btn btn-primary mr-2" mat-raised-button>
+                Save & Run
+            </button>
+            <button (click)="onTestScriptSaveClick()" [disabled]="!testScriptForm.valid || isStatusAHQRecommended"
+                    [mat-dialog-close]="true" class="btn btn-primary mr-2"
+                    mat-raised-button>
+                Save
+            </button>
+            <button (click)="onTestScriptCancelClick()" class="btn btn-plain" mat-dialog-close mat-raised-button>
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content class="test-script-form-content">
+    <form [formGroup]="testScriptForm">
+        <div class="testscript-topform">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Name</mat-label>
+                                <input formControlName="name" matInput placeholder="Name"/>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Description</mat-label>
+                                <textarea cols="50" formControlName="description" matInput placeholder="Description"
+                                          rows="3"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill" class="custom-dropdownselect">
+                                <mat-label>
+                                    Status
+                                    <mat-icon *ngIf="isStatusAHQRecommended" color="warn">error
+                                    </mat-icon>
+                                </mat-label>
+                                <mat-select formControlName="status">
+                                    <mat-option value="Not Started">Not Started</mat-option>
+                                    <mat-option value="In Progress">In Progress</mat-option>
+                                    <mat-option value="Ready">Ready</mat-option>
+                                    <mat-option value="To Be Repaired">To Be Repaired</mat-option>
+                                    <mat-option value="On Hold">On Hold</mat-option>
+                                    <mat-option [disabled]="true" value="To Be Repaired (AHQ Rec)">
+                                        To Be Repaired (AHQ Rec)
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Application</mat-label>
+                                <input [formControl]="searchApplicationCtrl" [matAutocomplete]="autoApplication"
+                                       aria-label="Application"
+                                       matInput placeholder="Select Application"/>
+                                <mat-autocomplete #autoApplication="matAutocomplete"
+                                                  (optionSelected)="getSelectedApplication($event.option.value)"
+                                                  [displayWith]="displayApplicationFn.bind(this)">
+                                    <mat-option *ngFor="let website of websites" [value]="website">
+                                        {{ website.name }}
+                                    </mat-option>
+                                    <mat-option class="add-application-option" value="createNewApplication">
+                                        <button class="btn btn-primary border">
+                                            <i class="material-icons">add</i> Add Application
+                                        </button>
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-form-field *ngIf="!storyId && !testScriptId" appearance="fill">
+                                <input [formControl]="searchStoriesCtrl" [matAutocomplete]="auto" aria-label="Story"
+                                       matInput
+                                       placeholder="Select Story"/>
+                                <mat-autocomplete #auto="matAutocomplete"
+                                                  (optionSelected)="getSelectedStory($event.option.value)"
+                                                  [displayWith]="displayFn.bind(this)">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...
+                                    </mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-optgroup *ngFor="let epic of epics" [label]="epic.name">
+                                            <mat-option *ngFor="let story of epic.stories" [value]="story">
+                                                {{ story.name }}
+                                            </mat-option>
+                                        </mat-optgroup>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-form-field appearance="fill" class="custom-tagfield">
+                                <mat-label>Label</mat-label>
+                                <mat-chip-list #tagChipList>
+                                    <mat-chip (removed)="onRemoveTag(tag)" *ngFor="let tag of tags" [removable]="true">
+                                        {{ tag }}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input (matChipInputTokenEnd)="addTag($event)" [matChipInputAddOnBlur]="true"
+                                           [matChipInputFor]="tagChipList"
+                                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes" placeholder="Label"/>
+                                </mat-chip-list>
+                            </mat-form-field>
+                        </div>
+
+                        <div *ngIf="testScript" class="col-md-12">
+                            <div class="d-inline-block align-middle">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="d-inline-block border-right pr-2 mr-2">
+                                        <div class="mat-cell by-txtName d-inline-block">
+                                            Created By:
+                                            {{
+										  testScript?.createdBy?.firstName
+											  ? testScript?.createdBy?.firstName
+											  : "User not available"
+                                            }}
+                                        </div>
+                                        <div *ngIf="testScript.createdDate != null"
+                                             class="mat-cell config-date-txt d-inline-block">
+                                            ({{ testScript?.createdDate | date: "medium" }})
+                                        </div>
+                                        <div *ngIf="testScript.createdDate == null"
+                                             class="mat-cell config-date-txt d-inline-block">
+                                            ({{ "Created Date not available" }})
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-block mr-2">
+                                        <div class="mat-cell by-txtName d-inline-block">
+                                            Updated By:
+                                            {{
+										  testScript?.updatedBy?.firstName
+											  ? testScript?.updatedBy?.firstName
+											  : "User not available"
+                                            }}
+                                        </div>
+                                        <div *ngIf="testScript.updatedDate != null"
+                                             class="mat-cell config-date-txt d-inline-block">
+                                            ({{ testScript?.updatedDate | date: "medium" }})
+                                        </div>
+                                        <div *ngIf="testScript.updatedDate == null"
+                                             class="mat-cell config-date-txt d-inline-block">
+                                            ({{ "Updated Date not available" }})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr/>
+        <!-- Drag Start-->
+        <div class="testscript-middleform mb-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="popupframe-title">
+                                    <div class="mt-3" mat-dialog-title>
+                                        <h4 class="card-title text-primary d-flex align-items-center">
+                                            Test Steps
+                                            <mat-icon #tooltip="matTooltip" class="mat-icon-primary ml-1 font-size-21"
+                                                      matTooltip="Drag & Drop pre-defined test step from right panel">
+                                                info_outline
+                                            </mat-icon>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="custom-serachfield">
+                                        <span matPrefix>
+                                            <mat-icon>search</mat-icon>
+                                        </span>
+                                        <!-- <mat-label>
+                                                          <mat-icon>search</mat-icon> Search predefined steps
+                                                        </mat-label> -->
+                                        <input [(ngModel)]="searchTextPS" [ngModelOptions]="{ standalone: true }"
+                                               matInput
+                                               placeholder="Search predefined steps" type="text"/>
+                                        <button (click)="searchTextPS = ''" *ngIf="searchTextPS" aria-label="Clear"
+                                                mat-button
+                                                mat-icon-button matSuffix>
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-md-4">
+                                  <mat-form-field>
+                                    <mat-label>Type</mat-label>
+                                    <mat-select
+                                      [ngModelOptions]="{ standalone: true }"
+                                      [(ngModel)]="selectTemplateType"
+                                    >
+                                      <mat-option>None</mat-option>
+                                      <mat-option
+                                        *ngFor="let templateType of templateTypes"
+                                        [value]="templateType"
+                                      >
+                                        {{ templateType }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dragdrop-teststeps-container drag-drop-container" id="test-steps-container">
+                                <div #testStepList="cdkDropList" (cdkDropListDropped)="dropFromTemplate($event)"
+                                     [cdkDropListData]="getControls(testScriptForm, 'testSteps')"
+                                     cdkDropList class="drag-drop-list"
+                                     formArrayName="testSteps">
+                                    <div *ngFor="
+                                          let testStep of getControls(testScriptForm, 'testSteps');
+                                          let i = index
+                                        " cdkDrag class="drag-drop-box flex-wrap">
+                                        <div class="d-flex justify-content-between w-100">
+                                            <div class="teststeps-rowform">
+                                                <div class="badge badge-primary">{{ i + 1 }}</div>
+                                                <app-test-step-form (addColumnEvent)="addColumn($event)"
+                                                                    (removeColumnEvent)="removeColumn($event)"
+                                                                    [columns]="getDataColumns()"
+                                                                    [globalParameters]="globalParameters"
+                                                                    [mat-menu-prevent]
+                                                                    [pages]="pages"
+                                                                    [testStepFG]="testStep"
+                                                                    class="teststeps-inputs teststeps-testscript">
+                                                </app-test-step-form>
+                                            </div>
+                                            <div class="teststep-delete">
+                                                <a (click)="deleteTestStep(i)"
+                                                   class="btn btn-link btn-primary btn-just-icon move-icon"
+                                                   matTooltip="Delete Test Step">
+                                                    <i aria-label="Delete TestSuite" class="material-icons">delete</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="dragdrop-teststeps-container drag-drop-container" id="templates-container">
+                                <div (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="[testStepList]"
+                                     [cdkDropListData]="
+                    templates
+                      | templateFilter
+                        : {
+                            templateTitle: searchTextPS,
+                            type: selectTemplateType
+                          }
+                  " cdkDropList class="drag-drop-list">
+                                    <div *ngFor="
+                      let template of templates
+                        | templateFilter
+                          : {
+                              templateTitle: searchTextPS,
+                              type: selectTemplateType
+                            }
+                    " cdkDrag class="drag-drop-box testscripts-templatesrow">
+                                        <span [innerHTML]="
+                        getDisplayTemplateTitle(template.templateTitle)
+                      "></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Drag End-->
+
+        <div class="d-flex flex-row justify-content-start align-items-end">
+            <div class="mr-4">
+                <mat-checkbox formControlName="consolidateResults" labelPosition="after">
+                    Save variables of this Test Script in CSV file
+                </mat-checkbox>
+            </div>
+            <div>
+                <mat-form-field appearance="standard" floatLabel="always">
+                    <mat-label></mat-label>
+                    <input [readonly]="!testScriptForm.controls['consolidateResults'].value"
+                           formControlName="consolidatedResultFile" matInput
+                           placeholder="Type result file...."/>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+    <!-- Table Start-->
+    <div class="testscript-bottomform">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="popupframe-title">
+                    <div class="d-flex justify-content-between">
+                        <div class="mt-3 mb-0" mat-dialog-title>
+                            <!-- <h2>Data Table </h2> -->
+                            <h4 class="card-title text-primary d-flex align-items-center">
+                                Data Table
+                                <mat-icon #tooltip="matTooltip" class="mat-icon-primary ml-1 mb-0 font-size-21"
+                                          matTooltip="This is only enabled if the data. &lt;data-field&gt; is used in text field of any Test Step">
+                                    info_outline
+                                </mat-icon>
+                            </h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="datatable-container">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <button (click)="deleteSelectedRow()" *ngIf="selection.selected.length"
+                                    class="btn btn-primary btn-sm mt-0 mb-2">
+                                <mat-ico class="material-icons custom-btn-icon mr-1">delete
+                                </mat-ico>
+                                <span>Delete</span>
+                            </button>
+                        </div>
+                        <div class="rightpopup-section m-0">
+                            <button (click)="onAddRow()" [disabled]="!(columnsToDisplay.length > 2)"
+                                    class="btn btn-primary btn-sm mt-0 mb-2" mat-raised-button>
+                                <mat-ico class="material-icons custom-btn-icon mr-1">add
+                                </mat-ico>
+                                <span>Add Row</span>
+                            </button>
+
+                            <button [disabled]="!(columnsToDisplay.length > 2)" [matMenuTriggerFor]="fileDownloadMenu"
+                                    class="btn btn-primary btn-sm mt-0 mb-2" mat-raised-button>
+                                <mat-ico class="material-icons custom-btn-icon mr-1">file_download
+                                </mat-ico>
+                                <span>Export</span>
+                            </button>
+                            <mat-menu #fileDownloadMenu="matMenu" xPosition="before">
+                                <button (click)="
+                    dataTableExporter.exportTable('xlsx', {
+                      fileName: 'data-table',
+                      sheet: 'data',
+                      Props: { Author: 'AutomationHQ' }
+                    })
+                  " mat-menu-item>
+                                    Excel
+                                </button>
+                                <button (click)="
+                    dataTableExporter.exportTable('csv', {
+                      fileName: 'data-table'
+                    })
+                  " mat-menu-item>
+                                    Csv
+                                </button>
+                                <!-- <button mat-menu-item
+                                                (click)="dataTableExporter.exportTable('json', {fileName:'data-table'})">Json</button> -->
+                            </mat-menu>
+
+                            <label [ngClass]="{
+                  'btn btn-primary btn-sm mt-0 mb-2': true,
+                  disabled: !(columnsToDisplay.length > 2)
+                }">
+                                <mat-ico class="material-icons custom-btn-icon mr-1">file_upload
+                                </mat-ico>
+                                <span>Import</span>
+                                <input #inputImportFile (change)="onImportFileChange($event)"
+                                       [disabled]="!(columnsToDisplay.length > 2)"
+                                       accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                       style="display: none"
+                                       type="file"/>
+                            </label>
+                        </div>
+                    </div>
+                    <table #dataTableExporter="matTableExporter" [dataSource]="rowData" [hiddenColumns]="[0, 1]"
+                           class="testscript-datatable border"
+                           mat-table matTableExporter>
+                        <ng-container *ngFor="let column of columnsToDisplay" [matColumnDef]="column">
+                            <th *matHeaderCellDef [sticky]="true" class="header-datatable" mat-header-cell>
+                                <div *ngIf="column === 'select_ahq_2021'" class="checkbox-grp">
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                                  [aria-label]="checkboxLabel()"
+                                                  [checked]="selection.hasValue() && isAllSelected()"
+                                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </div>
+                                <span *ngIf="column === 'action_ahq_2021'">action</span>
+                                <span *ngIf="
+                    column !== 'action_ahq_2021' && column !== 'select_ahq_2021'
+                  ">{{ column }}</span>
+                            </th>
+                            <td *matCellDef="let row" mat-cell>
+                                <div *ngIf="column === 'select_ahq_2021'" class="checkbox-grp">
+                                    <mat-checkbox (change)="$event ? selection.toggle(row) : null"
+                                                  (click)="$event.stopPropagation()"
+                                                  [aria-label]="checkboxLabel(row)"
+                                                  [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </div>
+                                <div *ngIf="
+                    column !== 'action_ahq_2021' && column !== 'select_ahq_2021'
+                  ">
+                                    <ng-container *ngIf="!row.edit_ahq_2021">
+                                        <p class="text-truncate">{{ row[column] }}</p>
+                                    </ng-container>
+                                    <div class="data-field">
+                                        <ng-container *ngIf="row.edit_ahq_2021">
+                                            <mat-form-field>
+                                                <input [(ngModel)]="row[column]" matInput name="{{ column }}"
+                                                       placeholder="{{ column }}"/>
+                                            </mat-form-field>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div *ngIf="column === 'action_ahq_2021'">
+                                    <ng-container *ngIf="!row.edit_ahq_2021">
+                                        <button (click)="editRow(row)"
+                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button (click)="deleteRow(row)"
+                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="row.edit_ahq_2021">
+                                        <button (click)="updateEdit(row)"
+                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon">
+                                            <i class="material-icons">done</i>
+                                        </button>
+                                        <button (click)="cancelEdit(row)"
+                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                    </ng-container>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr *matHeaderRowDef="columnsToDisplay; sticky: true" class="header-bg" mat-header-row></tr>
+                        <tr *matRowDef="let row; columns: columnsToDisplay" mat-row></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Table End -->
+</mat-dialog-content>

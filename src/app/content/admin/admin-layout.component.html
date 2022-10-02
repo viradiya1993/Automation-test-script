@@ -1,0 +1,827 @@
+<mat-drawer-container [hasBackdrop]="false" class="upgrade-container">
+    <mat-drawer #sideNav [opened]="commonService.gotIt()" mode="over" position="end">
+        <div class="d-flex flex-row justify-content-between cursor-pointer">
+            <h5 class="help-font">AutomationHQ guide video</h5>
+            <mat-icon class="mat-close-icon mx-3" (click)="commonService.changeGotIt()" [matTooltip]="'Got it'">
+                close
+            </mat-icon>
+        </div>
+        <div *ngIf="commonService.gotIt()" class="mb-3 mt-2">
+            <div class="p-0">
+                <iframe [src]="videoLink" allowfullscreen frameborder="no" height="200px" width="100%"></iframe>
+            </div>
+            <div class="my-1">
+                <div *ngIf="router.url === '/dashboard'">
+                    <h3 class="help-font">AHQ Local Agent</h3>
+                    <p>
+                        AHQ Local Agent is a client side application of AutomationHQ that is installed on the user
+                        machine. This agent coordinate the test execution with the AutomationHQ web application. It is
+                        used for both debugging (dry run) of Test Script while development phase and also to run Test
+                        Bot on local machine in silent mode.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Download AHQ Agent
+                        </li>
+                        <li>
+                            Install AHQ Agent
+                        </li>
+                        <li>
+                            Download AHQ Test Script Agent
+                        </li>
+                        <li>
+                            Download AHQ Test Bot Agent
+                        </li>
+                        <li>
+                            Start / Stop AHQ Local Agent
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Download & Install AHQ Agent</h3>
+                    <p>
+                        You can download AHQ Agent from the onboarding wizard during onboarding or from the AHQ Home
+                        Page
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Go to AHQ Home Page and click on Download AHQ Agent based on your local machine operating
+                            system
+                        </li>
+                        <li>
+                            On the windows machine, double click on exe downloaded in your /download folder
+                        </li>
+                        <li>
+                            Click on Show More Info and Click on Run anyway for the “Widows protected for your PC”
+                            message
+                        </li>
+                        <li>
+                            Once you complete installation then you can see AHQ Agent in your windows start menu
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Download AHQ Test Script Agent</h3>
+                    <p>
+                        AHQ Test Script Agent is for running the test script in local machine for the debugging purpose.
+                        When you are creating test script in AHQ, you want to verify if the script is running fine and
+                        if its not then where is it failing. This debugging can be done in Test Script module with the
+                        help of this AHQ Test Script Agent on your local machine.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Launch AHQ Agent from windows start menu
+                        </li>
+                        <li>
+                            Please check the Java JDK version on your machine and if not available then download as
+                            instructed on the AHQ Agent
+                        </li>
+                        <li>
+                            In the Test Script tab click on Download link. It will download a file and once its
+                            complete then it shows Start - Stop buttons.
+                        </li>
+                        <li>
+                            Click on Start button to start the local agent. It will give a successful start message in
+                            the console when it’s ready.
+                        </li>
+                        <li>
+                            Your machine is now ready for running test script in debug mode from AutomationHQ web app
+                        </li>
+                    </ul>
+
+                    <h3 class="help-font">Download AHQ Test Bot Agent</h3>
+                    <p>
+                        AHQ Test Bot Agent is for running the test bots in local machine for free community edition of
+                        AutomationHQ. If you are using AHQ community edition then running test bot on local machine is
+                        the default option and before you run your test bot, you must start this AHQ Test Bot Agent on
+                        your local machine.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Launch AHQ Agent from windows start menu
+                        </li>
+                        <li>
+                            In the Test Bot tab click on Download link. It will download a file and once its complete
+                            then it shows Start - Stop buttons.
+                        </li>
+                        <li>
+                            Click on Start button to start the local agent. It will give a successful start message when
+                            it’s ready.
+                        </li>
+                        <li>
+                            Your machine is now ready for running test bots from AutomationHQ web app
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/object-repository'">
+                    <h3 class="help-font">Element Library</h3>
+                    <p>
+                        In this module you can enter the details of the web & mobile elements on which you want to
+                        develop the test scripts.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Add Application
+                        </li>
+                        <li>
+                            Add Page
+                        </li>
+                        <li>
+                            Add Elements
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Application</h3>
+                    <p>
+                        This is the application under test. If you have multiple web applications then add the name of
+                        your application to uniquely identify each app.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Add Application button
+                        </li>
+                        <li>
+                            Enter name of your application in Application Name
+                        </li>
+                        <li>
+                            Enter the URL of the web address from where you wanted to record the elements in URL field
+                        </li>
+                        <li>
+                            Click SAVE button to save the application
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Page</h3>
+                    <p>
+                        This is a web page for the web application. Each web page should be recorded separately for the
+                        easy maintenance.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Select the Application Name under which you want to add page.
+                        </li>
+                        <li>
+                            Click on Add Page button
+                        </li>
+                        <li>
+                            Enter name of the page in Name
+                        </li>
+                        <li>
+                            Enter the description of the page in Description field
+                        </li>
+                        <li>
+                            Click SAVE button to save the page
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Elements</h3>
+                    <p>
+                        Element or Locators are the component of your application that automation engine can find for
+                        doing any action. You should name it appropriately to easily identify them on the page and in
+                        test scripts.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Select the Application and select the page
+                        </li>
+                        <li>
+                            Click on Add Element button
+                        </li>
+                        <li>
+                            Select from drop down list which Type of element you are adding
+                        </li>
+                        <li>
+                            Select appropriate By based on which parameter of element you are recording
+                        </li>
+                        <li>
+                            Enter the value of the element parameter in Value field
+                        </li>
+                        <li>
+                            Click SAVE button of the page to save the elements
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/test-script'">
+                    <h3 class="help-font">Test Script</h3>
+                    <p>
+                        In this module you can create your test automation scripts without any coding.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Add Epic
+                        </li>
+                        <li>
+                            Add Story
+                        </li>
+                        <li>
+                            Add Test Script
+                        </li>
+                        <li>
+                            Add Test Steps
+                        </li>
+                        <li>
+                            Add Test Data
+                        </li>
+                        <li>
+                            Test Script Debug Run
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Epic</h3>
+                    <p>
+                        Epic can be same Epic that you have in your agile sprint planning or you can enter the major
+                        module of your application as Epic.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Add Epics button
+                        </li>
+                        <li>
+                            Enter name of your Epic in Name
+                        </li>
+                        <li>
+                            Enter the details of the Epic in Summary field
+                        </li>
+                        <li>
+                            Click SAVE button to save the Epic
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Story</h3>
+                    <p>
+                        Story can be same Story that you have in your agile sprint planning or you can enter the minor
+                        features of your application as a story.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Select the Epic under which you want to create a story. (you can also create story without
+                            selecting Epic, in that case you can select Epic from the Select Epic field )
+                        </li>
+                        <li>
+                            Click on Add Story button on top right menu
+                        </li>
+                        <li>
+                            Enter name of the story in Story Name field
+                        </li>
+                        <li>
+                            Click SAVE button to save the story
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Script</h3>
+                    <p>
+                        Test Script is the basic test case that you wanted to execute and verify specific point in your
+                        application.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Select the Epic under which you want to create the test script. (you can also create test
+                            script without selecting Epic & Story, in that case you can select Story from the Select
+                            Story field )
+                        </li>
+                        <li>
+                            Expand the Story Name under which you wanted to create test script
+                        </li>
+                        <li>
+                            Click on Add Test Script button under this story name (Test Script creation page will open
+                            up)
+                        </li>
+                        <li>
+                            Enter name of the test script in Name field
+                        </li>
+                        <li>
+                            Enter description of the test script in Description field. You can also enter the manual
+                            test steps in this field so that later on you can refer this section for automation script.
+                        </li>
+                        <li>
+                            Select status of the test script from Status dropdown list
+                        </li>
+                        <li>
+                            Select which application this test script belongs to by selecting name from Application
+                            field. If you haven’t created any application then you can use Add Application link here to
+                            create new application.
+                        </li>
+                        <li>
+                            You can enter the feature name of your application in the Tag field. This field will be
+                            helpful in Analytics to review test scripts status based on your application features.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Steps</h3>
+                    <p>
+                        These are pre-defined test steps that is available for creating new test script.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Enter the text in Search box of the test steps. Test steps list will be filtered based on
+                            the text you search.
+                        </li>
+                        <li>
+                            Select the test step that you would like to add to your test script and drag and drop in the
+                            left side of the box
+                        </li>
+                        <li>
+                            Enter the value or select locator in the selected test step. If you want to add flexible
+                            value then you can create variable in Settings à Global Parameters à Custom Properties and
+                            put the config[variableName] as value here in the test step. For the Environment variable
+                            you can use config.baseUrl which will help selecting dynamic environment during run time
+                        </li>
+                        <li>
+                            You can click Save button from top menu to save the test script
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Data</h3>
+                    <p>
+                        If you want to create data driven test scripts so that you can parse multiple data to your test
+                        script then you can create test data table in the test script module. When you run the test
+                        script then every time it will take data from one row of the data table then execute all test
+                        steps for that data.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Open Test Script if its closed
+                        </li>
+                        <li>
+                            In the selected test step where you want to put the data instead of fixed value then type
+                            data.[field-name] and press enter key on keyboard. You can see the [field-name] column
+                            appears in the data table
+                        </li>
+                        <li>
+                            Click on Add Row button to add one row in the data table
+                        </li>
+                        <li>
+                            Enter the value in each cell and save by clicking check mark button
+                        </li>
+                        <li>
+                            Alternatively you can import the csv file for the data from Import button
+                        </li>
+                        <li>
+                            Click on Save button from top menu on test script to save test script
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Script Debug</h3>
+                    <p>
+                        You can run your test script on your local machine to check if the test script you created is
+                        working as expected. You can only run one test script at a time in debug mode.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Launch AHQ Local Agent on your system
+                        </li>
+                        <li>
+                            Go to Test Script and click on Start Button. Wait until the message on console shows
+                            successful start.
+                        </li>
+                        <li>
+                            In your AutomationHQ web app, open Test Script if its closed
+                        </li>
+                        <li>
+                            Click on Save & Run button. Alternatively you can click Play button icon beside the test
+                            script in the test script list
+                        </li>
+                        <li>
+                            This will launch a debug page for the test script with all test steps listed in it.
+                        </li>
+                        <li>
+                            Click on Run button. It will run each test step on your local machine and you can review the
+                            test run.
+                        </li>
+                        <li>
+                            If you want to edit the test script then you can click on Edit button.
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/test-suite'">
+                    <h3 class="help-font">Test Suite</h3>
+                    <p>
+                        In this module you can group test scripts together based on various criteria of grouping the
+                        test scripts e.g. Feature based grouping, Execution based grouping.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Add Test Suite
+                        </li>
+                        <li>
+                            Add Test Scripts
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Suite</h3>
+                    <p>
+                        Test Suite is a group of test scripts bound together based on the purpose. Test Suite can be
+                        further used in the test execution area as part of Test Bot.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Add Test Suite button
+                        </li>
+                        <li>
+                            Enter name of the test suite in Name field
+                        </li>
+                        <li>
+                            Enter description of the test suite in Description field. You can put details of the
+                            purpose of test suite and what it contains to easily identify the groupings later.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Scripts</h3>
+                    <ul class="help-list">
+                        <li>
+                            Select Test Suite Name in which you wanted to add test scripts
+                        </li>
+                        <li>
+                            Select the Test Script from the right side box, drag & drop it to left box to associate
+                            test scripts to this test suite
+                        </li>
+                        <li>
+                            Alternatively you can start entering name in the Search box. You will see list of Epics,
+                            Stories, Test Scripts appear in the drop down list
+                        </li>
+                        <li>
+                            Select any Epic or Story from the drop down list and it will filter all test scripts in
+                            right side box and only test scripts available that are associated with that Epic or Story.
+                            You can than drag and drop as selection in left box. If you select the test script from the
+                            search drop down list then it will directly get selected and appears in the left box.
+                        </li>
+                        <li>
+                            Click on Save button to save the test scripts association with Test Suite.
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/test-bot'">
+                    <h3 class="help-font">Test Bot</h3>
+                    <p>
+                        Test Bots are the virtual testing robots in AutomationHQ. You can configure them with the
+                        information of what test suites to run, where to run, when to run and it will run the automation
+                        test scripts based on these instructions.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Add Test Bot
+                        </li>
+                        <li>
+                            Edit Testbot details
+                        </li>
+                        <li>
+                            Execute your Test Bot
+                        </li>
+                        <li>
+                            Schedule Test Bot
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Test Bot</h3>
+                    <p>
+                        TestBot is a batch run where you can run 100s of scripts at the press of a button and it
+                        executes all test in silent mode.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Test Bot button on top left menu.
+                        </li>
+                        <li>
+                            Enter name of the Test Bot in Name field.
+                        </li>
+                        <li>
+                            Enter the details of the Test Bot in Summary field.
+                        </li>
+                        <li>
+                            Click SAVE button to save the Test Bot.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Edit Test Bot Details</h3>
+                    <p>
+                        You can provide all the details related to test bot in this detail tab.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Select your Test Bot form the left menu.
+                        </li>
+                        <li>
+                            Select Test Bot Details.
+                        </li>
+                        <li>
+                            In the Test Suites section, Drag and drop the Test Suites you want to run from the right
+                            panel.
+                        </li>
+                        <li>
+                            Click on Save to save your Test Bot details.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Execute your Test Bot</h3>
+                    <p>
+                        You can run your test Bot on your local machine or remotely (only available if you are paid
+                        client) then it runs on our remote server and shows the recorded video as well in results.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Launch AHQ Local Agent on your system.
+                        </li>
+                        <li>
+                            Go to Test Bot and click on Start Button. Wait until the initiating status changes to
+                            Running.
+                        </li>
+                        <li>
+                            In the AHQ web app, enter the name of Test run in the Name field.
+                        </li>
+                        <li>
+                            Select your test environment from the Environment dropdown (This is where your Test Bot
+                            will run)
+                        </li>
+                        <li>
+                            If you want to add a new Environment Click on Add Environment where you can add your
+                            Environment name in the Name field and your Environment URL in the URL field then click Save
+                            to save your Environment.
+                        </li>
+                        <li>
+                            Add Time out in the Time out field which is the number of seconds AHQ will wait if the
+                            current command is not returning pass or fail value.
+                        </li>
+                        <li>
+                            Add Time out in the Time out field which is the number of seconds AHQ will wait if the
+                            current command is not returning pass or fail value.
+                        </li>
+                        <li>
+                            Check or Uncheck Screenshot on Error as needed, it provides you with a screen shot of each
+                            error.
+                        </li>
+                        <li>
+                            Check or Uncheck Screenshot on Finish as needed, it provides you with a screen shot after
+                            finishing the Execution.
+                        </li>
+                        <li>
+                            Check or Uncheck Close Browser after Each Execution as needed, it closes the browser after
+                            each execution.
+                        </li>
+                    </ul>
+                    <h3 class="help-font"> For Premium Users</h3>
+                    <ul class="help-list">
+                        <li>
+                            You can select Type, Browser, Browser Version, OS Type and Resolution.
+                        </li>
+                        <li>
+                            For Grid URL if you select the Grid as "AHQ Local Agent" then test will run on the local
+                            machine in a silent mode. If you select Grid as "AHQ Premium Grid" then it will run on our
+                            remote server and shows the recorded video as well in results.
+                        </li>
+                        <li>
+                            Check or Uncheck Screenshot After Each Step as needed, it provides you with a screen shot of
+                            each test step
+                        </li>
+                        <li>
+                            Scheduler tab will be enabled for the Premium user to schedule the Test bot run on daily,
+                            weekly, monthly basis on specific time.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Test Results</h3>
+                    <ul class="help-list">
+                        <li>
+                            Select Test Bot Name
+                        </li>
+                        <li>
+                            In right panel click and expand the Test Results (only available if you have executed this
+                            test bot in past)
+                        </li>
+                        <li>
+                            Click on Test Suite
+                        </li>
+                        <li>
+                            Click on Test Script
+                        </li>
+                        <li>
+                            You can review test results of each test step in this window
+                        </li>
+                        <li>
+                            Click on Edit button on top to edit this test script in Test Script module
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/projects-and-users'">
+                    <h3 class="help-font">Projects and Users</h3>
+                    <p>
+                        In this module you can add the details of your Projects & and mange their users , each Project
+                        can has it's own Elements Library , Test Scripts , Test Suites , Test Bots , Analytics ,
+                        Settings and Users.
+                        Projects are either enabled or diabled , enabled projects appear in the Projects drop down list
+                        at the top of the page and diabled projects dosen't appear in this list .
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Add Project
+                        </li>
+                        <li>
+                            Invite Users
+                        </li>
+                        <li>
+                            Assign Users to a certain project
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Invite Users</h3>
+                    <ul class="help-list">
+                        <li>
+                            Select All Users from the right panel.
+                        </li>
+                        <li>
+                            Click on Invite Users button.
+                        </li>
+                        <li>
+                            Enter the Email addresses in the Email Address field of invited users , Press Enter after
+                            each email if you want to add another one .
+                        </li>
+                        <li>
+                            Click on Send.
+                        </li>
+                        <li>
+                            Now an Invitation email is sent to the user , when the user accepts the invitation and
+                            complete the Regestration steps ,The status will be changed from Invited to Enabled,also you
+                            can click on the circular arrow to Resent invitation to the user.
+                        </li>
+                        <li>
+                            If you want to delete a user , Click on the Bin Icon then Yes , so you will get user
+                            deleted.
+                        </li>
+                        <li>
+                            If you want to disable an enabled the user , click on the slide toogle , so the Status will
+                            be changed from Enabled to Disabled.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Add Project</h3>
+                    <p>
+                        You can add different projects to work on ,and diable or enable them.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Add Project button.
+                        </li>
+                        <li>
+                            Enter Project name in the Project Name field
+                        </li>
+                        <li>
+                            Enter Project Description in the Project Description field
+                        </li>
+                        <li>
+                            If you want to enable the user leave the slide toggle as purple , if you want to disable the
+                            project click on the slide toggle so it will be gray, enabled projects appear in the
+                            Projects drop down list at the top of the page and disabled projects doesn't appear in this
+                            list.
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Assign Users to Certain project</h3>
+                    <p>
+                        You can assign users to your project each user will have a different view according to his Role
+                        , there are four roles in AHQ.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            <b>Project Admin:</b> where User can create new Project, invite/assign Users, disable/remove
+                            Users, setup test environment, global parameters
+                        </li>
+                        <li>
+                            <b>QA Director:</b> where User can access Analytics Module for all project in an
+                            organisation and
+                            drill to Test Results.
+                        </li>
+                        <li>
+                            <b>Tester:</b> where User can create test script, Test Suites, TestBots for execution, can
+                            execute test on local machine.
+                        </li>
+                        <li>
+                            <b>QA Manger:</b> whereUser can access Analytics Module for assigned project in an
+                            organisation
+                            and drill to Test Results.
+                        </li>
+                        <li>
+                            Select the project you want to assign users to from All Projects panel at the left.
+                        </li>
+                        <li>
+                            Click on Assign User button at the top right panel.
+                        </li>
+                        <li>
+                            Enter the User name in the User field , and select the desired user from the drop down
+                            list, you can add many users by pressing enter between each one .
+                        </li>
+                        <li>
+                            Select the Role of the user from the Role field , Assigned users gets view according to
+                            the role assigned to them .
+                        </li>
+                        <li>
+                            Click on Save button to save your assigned users.
+                        </li>
+                        <li>
+                            Assigned users appear at the bottom of Assigned Users panel.
+                        </li>
+                    </ul>
+                </div>
+
+                <div *ngIf="router.url === '/settings'">
+                    <h3 class="help-font">Settings</h3>
+                    <p>
+                        In this module you can setup various parameters and settings for your project.
+                    </p>
+                    <h3 class="help-font">Workflow</h3>
+                    <ul class="help-list">
+                        <li>
+                            Environments
+                        </li>
+                        <li>
+                            Global Parameters
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Environments</h3>
+                    <p>
+                        This is the area where you can define various environment you have for your applications e.g.
+                        Test Environment, Pre-PROD environment. Purpose of creating these environments is to make your
+                        test scripts flexible to run it on any environment. In order to use this flexibility, you have
+                        to use config.baseUrl when you put the URI of your application in test script.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Settings
+                        </li>
+                        <li>
+                            Click on Environments
+                        </li>
+                        <li>
+                            Click on Add Environment
+                        </li>
+                        <li>
+                            Add Name of your environment in Name field
+                        </li>
+                        <li>
+                            Add web url of your environment to URL field
+                        </li>
+                        <li>
+                            Click on Save button to save information
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Global Parameters</h3>
+                    <p>
+                        This is the area where you can define various global parameters to be used during your Test
+                        Script debugging mode. As you create your Test Script, you wanted to verify if its working as
+                        expected and for that you run it in debug mode. These parameters will be assign to test script
+                        debug mode.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Settings
+                        </li>
+                        <li>
+                            Click on Global Parameters
+                        </li>
+                        <li>
+                            Click on Environment dropdown and select the environment on which you wanted to run all your
+                            test script debugging
+                        </li>
+                        <li>
+                            Enter seconds in Timeout field to release the script if it hangs or fail - @Rajesh confirm
+                            and lets rename field to reflect what it’s doing , here and in TestBot à Run
+                        </li>
+                        <li>
+                            Enter seconds in Wait for Element Timeout field to release the script if it cannot find
+                            the element within given time
+                        </li>
+                        <li>
+                            Click on Save button to save the details
+                        </li>
+                    </ul>
+                    <h3 class="help-font">Custom Properties</h3>
+                    <p>
+                        If you have custom fields like a database needs to be connected and you wanted to pass it
+                        dynamically in test script then you can use the Custom Properties.
+                    </p>
+                    <ul class="help-list">
+                        <li>
+                            Click on Settings
+                        </li>
+                        <li>
+                            Click on Global Parameters
+                        </li>
+                        <li>
+                            Click on Add Custom Property
+                        </li>
+                        <li>
+                            Enter name of the parameter in Name field and value of parameter in Value field
+                        </li>
+                        <li>
+                            Click on Save button to save the details
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div class="wrapper">
+            <div class="sidebar" data-background-color="purple" data-color="white"
+                 data-image="./assets/img/sidebar-1.jpg">
+                <app-sidebar-cmp></app-sidebar-cmp>
+                <div class="sidebar-background" style="background-image: url(assets/img/sidebar-1.jpg)"></div>
+            </div>
+            <div class="main-panel">
+                <app-navbar-cmp></app-navbar-cmp>
+                <router-outlet></router-outlet>
+                <div *ngIf="!isMap()">
+                    <!-- <app-footer-cmp></app-footer-cmp> -->
+                </div>
+            </div>
+            <!-- <app-fixed-plugin></app-fixed-plugin> -->
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

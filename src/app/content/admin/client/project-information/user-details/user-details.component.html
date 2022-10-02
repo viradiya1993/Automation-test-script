@@ -1,0 +1,94 @@
+<h2 mat-dialog-title style="text-align:center">Users List</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="card-body">
+        <div class="row justify-content-lg-center">
+            <div class="col-md-10">
+                <form [formGroup]="userForm" class="needs-validation" novalidate role="form">
+                    <div class="form-group has-default">
+                        <ngx-select-dropdown (change)="selectionChanged($event)" [(ngModel)]="selectedItems"
+                                             [config]="config"
+                                             [multiple]="true" [options]="options" class="form-control"
+                                             formControlName="userIds"
+                                             id="user"></ngx-select-dropdown>
+                        <div *ngIf="submitted && f.userIds.errors" class="help-block mt-4" style="color: red">
+                            <div *ngIf="f.userIds.errors.required">User is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-default">
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="selectedRole" formControlName="role" name="role"
+                                        placeholder="Select Role">
+                                <mat-option [value]="">
+                                    Select Role
+                                </mat-option>
+                                <mat-option *ngFor="let role of roles" [value]="role.id">
+                                    {{ role.roleName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="submitted && f.role.errors" class="help-block" style="color: red">
+                            <div *ngIf="f.role.errors.required">Role is required</div>
+                        </div>
+                    </div>
+
+                    <mat-dialog-actions align="end">
+                        <button (click)="addUser()" cdkFocusInitial class="btn btn-primary">Add User</button>
+                    </mat-dialog-actions>
+                </form>
+            </div>
+
+            <div class="col-md-12 ml-auto mr-auto mt-5">
+                <h3 class="card-title text-primary">User List</h3>
+                <hr/>
+                <div class="material-datatables">
+                    <table *ngIf="updateDataTable" [dataSource]="dataSource.data" aria-describedby="datatables_project"
+                           cellspacing="0"
+                           class="table table-striped table-no-bordered table-hover dataTable dtr-inline mat-elevation-z8"
+                           mat-table role="grid" style="width: 100%;" width="100%">
+                        <ng-container matColumnDef="name">
+                            <th *matHeaderCellDef mat-header-cell> Name</th>
+                            <td *matCellDef="let element" mat-cell> {{element.firstName}}
+                                {{element.lastName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                            <th *matHeaderCellDef mat-header-cell> Email Address</th>
+                            <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="role">
+                            <th *matHeaderCellDef mat-header-cell> User Role</th>
+                            <td *matCellDef="let element" mat-cell> {{ getRoleData(element.userRole.roleId) }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th *matHeaderCellDef mat-header-cell>Actions</th>
+                            <td *matCellDef="let element" mat-cell>
+                                <a (click)="deleteProject(element)" class="btn btn-link btn-primary btn-just-icon"
+                                   matTooltip="Delete Project">
+                                    <i aria-label="Delete Project" class="material-icons">delete</i>
+                                </a>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="noRecord">
+                            <td *matFooterCellDef class="text-center" colspan="4" mat-footer-cell>No records found.</td>
+                        </ng-container>
+
+                        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                        <tr *matFooterRowDef="['noRecord']"
+                            [ngClass]="{'d-none':!(dataSource.data === null || dataSource.data.length==0)}"
+                            mat-footer-row></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="ml-auto mb-5 pr-3">
+                <button class="btn btn-default" mat-dialog-close>Cancel</button>
+                <button (click)="saveUser()" cdkFocusInitial class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

@@ -1,0 +1,57 @@
+<h2 *ngIf="!client.id" mat-dialog-title style="text-align: center">
+    Add Organization Information
+</h2>
+<h2 *ngIf="client.id" mat-dialog-title style="text-align: center">
+    Edit Organization Information
+</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <form [formGroup]="clientForm" novalidate role="form">
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    (change)="validateOrgName()"
+                                    [(ngModel)]="client.orgName"
+                                    class="form-control input-sm"
+                                    formControlName="orgName"
+                                    id="orgName"
+                                    name="orgName"
+                                    placeholder="Organization Name"
+                                    type="text"
+                            />
+                        </div>
+                        <div
+                                *ngIf="submitted && f.orgName.errors"
+                                class="help-block"
+                                style="color: red"
+                        >
+                            <div *ngIf="f.orgName.errors.required">
+                                Organization Name is required
+                            </div>
+                        </div>
+                        <div
+                                *ngIf="error.domain"
+                                [style.color]="error.domainCode === 400 ? 'red' : 'green'"
+                                class="help-block"
+                        >
+                            {{ error.domainValue }}
+                        </div>
+                    </div>
+                    <mat-dialog-actions align="end">
+                        <button class="btn btn-default mr-3" mat-dialog-close>
+                            Cancel
+                        </button>
+                        <button (click)="submit()" cdkFocusInitial class="btn btn-primary">
+                            save
+                        </button>
+                    </mat-dialog-actions>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- </mat-dialog-content> --></mat-dialog-content
+>

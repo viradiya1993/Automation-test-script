@@ -1,0 +1,19 @@
+.margin-neg {
+  margin-top: -1% !important;
+}
+
+.icon-hover {
+  border: 1px solid var(--ahq-primary);
+  border-radius: 4px;
+  transition: transform .3s;
+
+  &:hover {
+    border: 2px solid var(--ahq-primary);
+    color: var(--ahq-primary);
+    transform: scale(1.15)
+  }
+
+  ::ng-deep button:hover {
+    color: var(--ahq-primary) !important;
+  }
+}

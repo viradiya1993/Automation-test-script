@@ -1,0 +1,304 @@
+<div class="test-suite-form-wrapper">
+    <div class="card-header d-flex justify-content-end">
+        <button (click)="onUserScriptSaveClick();" [disabled]="!userScriptForm.valid" class="btn btn-primary mr-2"
+                mat-raised-button>
+            {{userscriptId ? 'Update' : 'Save'}}
+        </button>
+        <button (click)="onUserScriptCancelClick();" class="btn btn-plain" mat-raised-button>
+            Reset
+        </button>
+    </div>
+
+    <form [formGroup]="userScriptForm"
+          class="customScroll-contentScroll list-contentScroll">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput placeholder="Name"/>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea cols="50" formControlName="description" matInput placeholder="Description"
+                                  rows="3"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <mat-form-field appearance="fill" class="custom-dropdownselect">
+                        <mat-label>
+                            Status
+                        </mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option value="Not Started">Not Started
+                            </mat-option>
+                            <mat-option value="In Progress">In Progress
+                            </mat-option>
+                            <mat-option value="Ready">Ready</mat-option>
+                            <mat-option value="To Be Repaired">To Be Repaired
+                            </mat-option>
+                            <mat-option value="On Hold">On Hold</mat-option>
+                            <mat-option [disabled]="true"
+                                        value="To Be Repaired (AHQ Rec)">
+                                To Be Repaired (AHQ Rec)
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <mat-form-field appearance="fill"
+                                    class="custom-dropdownselect">
+                        <mat-label>Application</mat-label>
+                        <mat-select formControlName="websiteId">
+                            <mat-option *ngFor="let website of websites"
+                                        [value]="website.websiteId">
+                                {{website.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary my-2">
+                                    Parameter
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <button (click)="addCustomConfiguration()" class="btn btn-primary" dense
+                                    mat-raised-button matTooltip="Import Configuration">
+                                <mat-icon>settings</mat-icon>
+                                Import Configuration
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <P class="mat-header-cell mb-1">Name</P>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-2">
+                    <p class="mat-header-cell mb-1">Type</p>
+                </div>
+            </div>
+
+            <mat-divider class="pb-3"></mat-divider>
+            <div *ngFor="let item of getParametersFormArray().controls; let i = index"
+                 formArrayName="parameters">
+                <div [formGroupName]="i" class="row align-items-center">
+                    <mat-form-field appearance="fill" class="col-md-3">
+                        <input formControlName="name" matInput placeholder="name" (input)="checkDuplicateParam(i, $event.target.value)"
+                        (blur)="addCompletedParam()"/>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="col-md-3">
+                        <mat-select formControlName="type" placeholder="type">
+                            <mat-select-trigger>
+                                {{ getParameterType(item.get('type').value) }}
+                            </mat-select-trigger>
+                            <mat-option *ngFor="let commonType of commonFunctionType" [value]="commonType.value">
+                                {{commonType.type}}
+                            </mat-option>
+                            <mat-option (click)="addCustomParams()">
+                                Custom Parameter...
+                            </mat-option>
+                            <mat-option *ngFor="let commonObject of commonObjects" [value]="commonObject.id"
+                                        class="change-option-view">
+                                {{commonObject.name}}
+                                <mat-icon (click)="onEditCustomParameter(commonObject)">edit</mat-icon>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="col-md-1">
+                        <div class="bmd-form-group pl-1">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input checked class="form-check-input"
+                                           formControlName="array"
+                                           type="checkbox" value=""/>
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                    Array
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 text-right">
+                        <button (click)="addParamter()"
+                                [disabled]="currentIndex > 8"
+                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon"
+                                matTooltip="Add Parameter">
+                            <mat-icon class="f-18">add_circle_outline</mat-icon>
+                        </button>
+                    </div>
+                    <div class="col-md-1 text-right">
+                        <button (click)="removeParams(i)"
+                                [disabled]="i == 0"
+                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon"
+                                matTooltip="Delete Parameter">
+                            <mat-icon class="f-18">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card-header">
+                        <h4 class="card-title text-primary my-2">
+                            Return's Type
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row" formGroupName="returnType">
+                <mat-form-field appearance="fill" class="col-md-3">
+                    <mat-label>Return's Type</mat-label>
+                    <mat-select formControlName="type"
+                                placeholder="Return'sType">
+                        <mat-option
+                                *ngFor="let commonType of commonFunctionType"
+                                [value]="commonType.value">
+                            {{commonType.type}}
+                        </mat-option>
+                        <mat-option (click)="addCustomParams()">Custom
+                            Parameter...
+                        </mat-option>
+                        <mat-option *ngFor="let commonObject of commonObjects"
+                                    [value]="commonObject.id">
+                            {{commonObject.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-md-1">
+                    <div class="bmd-form-group pl-1">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input checked class="form-check-input"
+                                       formControlName="array" type="checkbox"
+                                       value=""/>
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                                Array
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-header">
+                                <h4 class="card-title text-primary my-3">
+                                    Test Steps
+                                </h4>
+                            </div>
+                            <span>Drag & Drop pre-defined test step from right panel</span>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <mat-form-field class="custom-serachfield">
+                                        <span matPrefix>
+                                            <mat-icon>search</mat-icon>
+                                        </span>
+                                        <input [(ngModel)]="searchTextPS" [ngModelOptions]="{standalone: true}"
+                                               matInput
+                                               placeholder="Search predefined steps"
+                                               type="text"/>
+                                        <button (click)="searchTextPS=''" *ngIf="searchTextPS"
+                                                aria-label="Clear" mat-button
+                                                mat-icon-button
+                                                matSuffix>
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field>
+                                        <mat-label>Type</mat-label>
+                                        <mat-select
+                                                [(ngModel)]="selectTemplateType"
+                                                [ngModelOptions]="{standalone: true}">
+                                            <mat-option>None</mat-option>
+                                            <mat-option
+                                                    *ngFor="let templateType of templateTypes"
+                                                    [value]="templateType">
+                                                {{templateType}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dragdrop-teststeps-container drag-drop-container"
+                                 id="test-steps-container">
+                                <div #testStepList="cdkDropList" (cdkDropListDropped)="drop($event)"
+                                     [cdkDropListData]="getControls(userScriptForm, 'testSteps')"
+                                     cdkDropList class="drag-drop-list" formArrayName="testSteps">
+                                    <div *ngFor="let testStep of getControls(userScriptForm, 'testSteps'); let i = index;"
+                                         cdkDrag
+                                         class="drag-drop-box flex-wrap">
+                                        <div class="d-flex justify-content-between w-100">
+                                            <div class="teststeps-rowform">
+                                                <div class="badge badge-primary">{{i + 1}}</div>
+                                                <app-test-step-form
+                                                        (addColumnEvent)="addColumn($event)"
+                                                        (removeColumnEvent)="removeColumn($event)"
+                                                        [columns]="getDataColumns()"
+                                                        [globalParameters]="globalParameters"
+                                                        [pages]="pages"
+                                                        [parametersObject]="getValidParametersFormArray.value"
+                                                        [testStepFG]="testStep"
+                                                        class="teststeps-inputs teststeps-testscript">
+                                                </app-test-step-form>
+                                            </div>
+                                            <div class="teststep-delete">
+                                                <a (click)="deleteTestStep(i)"
+                                                   class="btn btn-link btn-primary btn-just-icon move-icon"
+                                                   matTooltip="Delete Test Step">
+                                                    <i aria-label="Delete TestSuite"
+                                                       class="material-icons">delete</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dragdrop-teststeps-container drag-drop-container"
+                                 id="templates-container">
+                                <div (cdkDropListDropped)="drop($event)"
+                                     [cdkDropListConnectedTo]="[testStepList]"
+                                     [cdkDropListData]="templates | templateFilter: {templateTitle: searchTextPS, type: selectTemplateType}"
+                                     cdkDropList
+                                     class="drag-drop-list">
+                                    <div *ngFor="let template of templates | templateFilter: {templateTitle: searchTextPS, type: selectTemplateType};"
+                                         cdkDrag
+                                         class="drag-drop-box testscripts-templatesrow">
+                                        <span [innerHTML]="getDisplayTemplateTitle(template.templateTitle)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

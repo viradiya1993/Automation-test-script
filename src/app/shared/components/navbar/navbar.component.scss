@@ -1,0 +1,27 @@
+.navbar.navbar-absolute {
+  z-index: 1000;
+}
+
+.input-color {
+  color: var(--ahq-grey-13);
+}
+
+.logout-link {
+  font-size: 14px;
+}
+
+.btn.btn-help {
+  line-height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--ahq-primary);
+}
+
+.field-container {
+  mat-form-field {
+    max-width: 400px;
+  }
+
+  .nav-link {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  }
+}

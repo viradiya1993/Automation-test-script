@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-start">
+    <div>
+        <mat-chip-list class="primary-chip">
+            <mat-chip
+                    (removed)="removeFilter(); valueChange.emit()"
+                    *ngIf="selectWebsite"
+                    class="primary-box"
+            >
+                Application: {{ selectWebsite.name }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip (click)="valueChange.emit()" *ngIf="filter" class="primary-box">
+                Filter: {{filter}}
+                <mat-icon (click)="valueChange.emit()" matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+    <!-- <div>
+      <button
+        mat-flat-button
+        class="btn btn-primary btn-link text-capitalize mt-1"
+        *ngIf="isFilterApplied"
+        (click)="removeFilter()"
+      >
+        <medium>
+          <span class="mat-button-wrapper">
+            <i class="material-icons">close</i>
+          </span>
+          Clear filters
+        </medium>
+      </button>
+    </div> -->
+</div>

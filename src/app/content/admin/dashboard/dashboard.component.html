@@ -1,0 +1,225 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <ng-container *ngIf="testBots.length === 0; else botDashboard">
+            <div class="row">
+                <div class="col-md-12 text-center bg-white p-5">
+                    <ng-container *ngIf="!isLoading">
+                        <div class="p-3">
+                            There are no Test Bots to select from to view the Execution Results, either create a new
+                            Test Bot or run at least one of the existing Test Bots to view the Execution Results.
+                        </div>
+                        <button [routerLink]="['/test-bot']" cdkFocusInitial class="btn btn-primary mt-3">
+                            GO TO TEST BOT
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<ng-template #botDashboard>
+    <div class="row p-0">
+        <!-- Select Test Bot -->
+        <div class="col-xl-3 col-lg-4 col-4 p-0">
+            <div class="card custom-card h-100">
+                <div class="card-header">
+                    <h4 class="card-title text-primary">Test Bots</h4>
+                </div>
+                <div class="card-body">
+                    <app-search-field (searchEvent)="searchInBotList($event)" class="search-box"
+                                      label="Search Test Bots"></app-search-field>
+                    <mat-selection-list (selectionChange)="botChange(selectedBot[0])" [(ngModel)]="selectedBot"
+                                        [multiple]="false" class="list-contentScroll customMat-selection-list">
+                        <mat-list-option *ngFor="let testBot of testBots; last as last" [value]="testBot"
+                                         matTooltip="{{testBot.name}}">
+                            <!-- <mat-icon style="position: absolute;right: 10px">keyboard_arrow_right</mat-icon> -->
+                            <h3 matLine class="testBot-title">
+                                <mat-icon class="material-icons-outlined align-middle">check_circle_outline</mat-icon>                            
+                                {{testBot.name}} </h3>
+                            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+                        </mat-list-option>
+                    </mat-selection-list>
+                </div>
+            </div>
+        </div>
+        <!-- END - Select Test Bot -->
+        <!--  Test Bot Reports -->
+        <div class="col-xl-9 col-lg-8 col-8 h-100">
+            <div class="card custom-card h-100">
+                <div class="card-header">
+                    <h4 *ngIf="selectedBot[0] " class="card-title text-primary">{{ selectedBot[0].name }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Last execution - PIE Chart  -->
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Latest Results -
+                                    {{lastExecutionReport?.executionName}}</h2>
+                                <div class="card-body">
+                                    <h5 class="text-center m-1">
+                                        Total test cases - {{lastExecutionReport?.progress.total}}
+                                    </h5>
+                                    <canvas *ngIf="lastExecutionData?.length" [chartType]="'doughnut'"
+                                            [colors]="piChartColors" [data]="lastExecutionData"
+                                            [labels]="lastExecutionLabels"
+                                            [legend]="true" [options]="piChartOptions"
+                                            baseChart
+                                            height="1" width="2">
+                                    </canvas>
+                                    <div class="pull-right">{{lastExecutionReport?.executionDate | date:'medium'}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Results History of {{ selectedBot[0].name }}</h2>
+
+                                <div *ngIf="commonService.isUserPaid()" class="card-body">
+                                    <canvas *ngIf="trendData?.length" [chartType]="'line'" [colors]="areaChartColors"
+                                            [datasets]="trendData"
+                                            [labels]="trendLabels"
+                                            [legend]="true" [options]="areaChartOption" baseChart
+                                            class="mt-3">
+                                    </canvas>
+                                    <div class="pull-right">{{executionTrend?.createdDate | date: 'medium'}}</div>
+                                </div>
+
+                                <div *ngIf="!commonService.isUserPaid()">
+                                    <img alt="bar-chart-example" class="image-overly"
+                                         src="assets/img/bar_chart_example.jpg">
+                                    <div class="text-center margin-top--35">
+                                        <h4 class="text_bold">Please Upgrade to Premium plan to see the results
+                                            history</h4>
+                                        <button class="mt-2" color="primary" dense mat-raised-button>
+                                            Upgrade to Premium
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Suites - Horizonal Bar Chart  -->
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Test Suite Results</h2>
+
+                                <div *ngIf="commonService.isUserPaid()" class="card-body">
+                                    <canvas *ngIf="testSuiteData.length" [chartType]="'horizontalBar'"
+                                            [colors]="lineChartColors"
+                                            [datasets]="testSuiteData"
+                                            [labels]="testSuitLabels" [legend]="true"
+                                            [options]="barchartOptionForTestSuiteResults"
+                                            baseChart>
+                                    </canvas>
+                                    <div class="pull-right">{{testSuiteReport?.executionDate | date:'medium'}}</div>
+                                </div>
+
+                                <div *ngIf="!commonService.isUserPaid()">
+                                    <img alt="bar-chart-example" class="image-overly"
+                                         src="assets/img/bar_chart_example.jpg">
+                                    <div class="text-center margin-top--35">
+                                        <h4 class="text_bold">Please Upgrade to Premium plan to see the test suite
+                                            results</h4>
+                                        <button class="mt-2" color="primary" dense mat-raised-button>Upgrade to Premium
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Test Results By Labels</h2>
+
+                                <div *ngIf="commonService.isUserPaid()" class="card-body">
+                                    <canvas *ngIf="tagData.length" [chartType]="'horizontalBar'"
+                                            [colors]="lineChartColors"
+                                            [datasets]="tagData"
+                                            [labels]="tagDataLabels" [legend]="true" [options]="barchartOption"
+                                            baseChart>
+                                    </canvas>
+                                    <div class="pull-right">{{tagReport?.executionDate | date:'medium'}}</div>
+                                </div>
+
+                                <div *ngIf="!commonService.isUserPaid()">
+                                    <img alt="bar-chart-example" class="image-overly"
+                                         src="assets/img/bar_chart_example.jpg">
+                                    <div class="text-center margin-top--35">
+                                        <h4 class="text_bold">Please Upgrade to Premium plan to see the test results by
+                                            labels</h4>
+                                        <button class="mt-2" color="primary" dense mat-raised-button>Upgrade to Premium
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Test Results By Epic</h2>
+
+                                <div *ngIf="commonService.isUserPaid()" class="card-body">
+                                    <canvas *ngIf="epicData.length" [chartType]="'horizontalBar'"
+                                            [colors]="lineChartColors"
+                                            [datasets]="epicData"
+                                            [labels]="epicDataLabels" [legend]="true" [options]="barchartOption"
+                                            baseChart>
+                                    </canvas>
+                                    <div class="pull-right">{{epicReport?.createdDate | date: 'medium'}}</div>
+                                </div>
+
+                                <div *ngIf="epicData.length == 0 && commonService.isUserPaid()" class="card-body">
+                                    <h6 style="text-align: center;">No Data available</h6>
+                                </div>
+
+                                <div *ngIf="!commonService.isUserPaid()">
+                                    <img alt="bar-chart-example" class="image-overly"
+                                         src="assets/img/bar_chart_example.jpg">
+                                    <div class="text-center margin-top--35">
+                                        <h4 class="text_bold">Please Upgrade to Premium plan to see the test results by
+                                            epic</h4>
+                                        <button class="mt-2" color="primary" dense mat-raised-button>Upgrade to Premium
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-12 col-sm-12 mb-4">
+                            <div class="card custom-card charts-boxes h-100">
+                                <h2 class="blacklight-title m-0 p-2">Test Results By Story</h2>
+
+                                <div *ngIf="commonService.isUserPaid()" class="card-body">
+                                    <canvas *ngIf="storyData.length" [chartType]="'horizontalBar'"
+                                            [colors]="lineChartColors"
+                                            [datasets]="storyData"
+                                            [labels]="storyDataLabels" [legend]="true" [options]="barchartOption"
+                                            baseChart>
+                                    </canvas>
+                                    <div class="pull-right">{{storyReport?.createdDate | date: 'medium'}}</div>
+                                </div>
+                                <div *ngIf="storyData.length == 0 && commonService.isUserPaid()"
+                                     class="card-body">
+                                    <h6 style="text-align: center;">No Data available</h6>
+                                </div>
+
+                                <div *ngIf="!commonService.isUserPaid()">
+                                    <img alt="bar-chart-example" class="image-overly"
+                                         src="assets/img/bar_chart_example.jpg">
+                                    <div class="text-center margin-top--35">
+                                        <h4 class="text_bold">Please Upgrade to Premium plan to see the test results by
+                                            story</h4>
+                                        <button class="mt-2" color="primary" dense mat-raised-button>Upgrade to Premium
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END - Test Bot Reports -->
+    </div>
+</ng-template>

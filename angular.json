@@ -1,0 +1,201 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "automation-hq": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:module": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": ["src/assets", "src/favicon.ico"],
+            "styles": [
+              "node_modules/intro.js/minified/introjs.min.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "src/assets/scss/material-dashboard.scss",
+              "node_modules/angular2-toaster/toaster.min.css",
+              "node_modules/ngx-sharebuttons/themes/circles/circles-dark-theme.scss",
+              "node_modules/ngx-sharebuttons/themes/modern/modern-dark-theme.scss",
+              "src/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/arrive/minified/arrive.min.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/web-animations-js/web-animations.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/intro.js/minified/intro.min.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "chart.js",
+              "rxjs-compat",
+              "jquery",
+              "rxjs",
+              "xlsx",
+              "crypto-js",
+              "file-saver"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "bundle",
+                  "name": "main",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "commonChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "automation-hq:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "automation-hq:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "automation-hq:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/arrive/minified/arrive.min.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/web-animations-js/web-animations.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/intro.js/minified/intro.min.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.min.js"
+            ],
+            "styles": [
+              "node_modules/intro.js/minified/introjs.min.css",
+              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "src/assets/scss/material-dashboard.scss",
+              "node_modules/angular2-toaster/toaster.min.css",
+              "node_modules/ngx-sharebuttons/themes/circles/circles-dark-theme.scss",
+              "node_modules/ngx-sharebuttons/themes/modern/modern-dark-theme.scss",
+              "src/styles.scss"
+            ],
+            "assets": ["src/assets", "src/favicon.ico"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": []
+          }
+        }
+      }
+    },
+    "automation-hq-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "automation-hq:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "exclude": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "automation-hq",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

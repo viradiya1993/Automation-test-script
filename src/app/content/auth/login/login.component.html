@@ -1,0 +1,138 @@
+<div class="main-container-wrapper">
+    <div class="row nomargin">
+        <section>
+            <div class="region region-content">
+                <div class="block block-system clearfix">
+                    <div class="ahq-signup-page-wrap">
+                        <div class="header-part">
+                        </div>
+                        <div class="signup-form w-75">
+                            <form (submit)="login()" [formGroup]="loginForm" class="form w-75" novalidate>
+                                <div class="ahq-product"><img alt="AutomationHQ" src="/assets/img/logo/ahq-logo.png">
+                                </div>
+                                <div class="card-login">
+                                    <div class="card-body px-0">
+                                        <h5 class="card-description">Login with Email</h5>
+                                        <span class="bmd-form-group mb-3 d-block">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text pl-0">
+                                                        <i class="material-icons">email</i>
+                                                    </span>
+                                                </div>
+                                                <input [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+                                                       class="form-control" formControlName="username"
+                                                       name="username"
+                                                       placeholder="Email Address"
+                                                       type="text"/>
+                                                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.username.errors.required">
+                                                        Email Address is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <span class="bmd-form-group mb-3 d-block">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text pl-0">
+                                                        <i class="material-icons">lock_outline</i>
+                                                    </span>
+                                                </div>
+                                                <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                                                       class="form-control"
+                                                       formControlName="password"
+                                                       name="password" placeholder="Password" type="password"/>
+                                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.password.errors.required">
+                                                        Password is required
+                                                    </div>
+                                                    <div *ngIf="f.password.errors.minlength">
+                                                        Password must be at least 6 characters
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="bmd-form-group pl-1 mt-3 mb-3">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input checked class="form-check-input"
+                                                                   formControlName="rememberMe" type="checkbox"
+                                                                   value=""/>
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span></span>
+                                                            Remember Me
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <div class="form-check mt-3 mb-3">
+                                                    <a [routerLink]="['/auth/forgot-password']">Forgot
+                                                        password</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-check mt-3 mb-3 w-100">
+                                                    <button class="btn btn-rose w-100" mat-raised-button type="submit">
+                                                        <h6 class="m-0">Login</h6>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                            <div class="p-3 w-50 d-flex align-items-center text-center justify-content-center">
+                                <h5 class="card-description">OR</h5>
+                            </div>
+                            <div class="my-2">
+                                <h5 class="card-description m-2">Sign in using</h5>
+                                <div class="row d-flex align-items-center justify-content-center">
+                                    <div class="col-md-12">
+                                        <button (click)="signInWithGoogle($event)" class="btn btn-google w-160 m-2"
+                                                mat-raised-button>
+                                            Google
+                                        </button>
+                                    </div>
+                                    <!--TODO:: will be enabled again after sso facebook logout feature fixed-->
+                                    <!--<div class="col-md-12">
+                                        <button mat-raised-button class="btn btn-facebook w-160 m-2"
+                                            (click)="signInWithFacebook($event)">
+                                            Facebook
+                                        </button>
+                                    </div>-->
+                                    <div class="col-md-12">
+                                        <button (click)="signInWithMicrosoft($event)" class="btn btn-twitter w-160 m-2"
+                                                mat-raised-button>
+                                            Microsoft
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="signup-testimonial-wrap">
+                            <div class="testimonial-content">
+                                <span><img alt="" class="img-responsive"
+                                           height="64" src="assets/img/AHQ-Testimonal.png" typeof="foaf:Image"
+                                           width="64"></span>
+                                <h4 class="mt-2">“AutomationHQ™ is our sincere effort to empower software quality
+                                    assurance community. AHQ is a powerful test automation tool to match the speed of
+                                    Agile delivery. Feel free to provide your feedback to our support team.”</h4>
+                                <h6 class="customer-detail mt-3">Team AutomationHQ</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

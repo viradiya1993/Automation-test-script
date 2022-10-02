@@ -1,0 +1,172 @@
+<div class="add-story">
+    <button
+		#storyFormMatTrigger="matMenuTrigger"
+        *ngIf="!linkBtn && !editIconBtn"
+        [disabled]="disableStoryAddBtn"
+        [mat-menu-prevent]
+        [matMenuTriggerFor]="storyFormMenu"
+        [ngStyle]="disableStoryAddBtn ? {border: '1px solid grey'}: {}"
+        class="btn btn-primary btn-link text-capitalize mr-2"
+        mat-stroked-button
+    >
+        <i class="material-icons">add</i> Add Story
+    </button>
+    <button
+		#storyFormMatTrigger="matMenuTrigger"
+        (menuOpened)="setStoryForEdit()"
+        *ngIf="editIconBtn"
+        [mat-menu-prevent]
+        [matMenuTriggerFor]="storyFormMenu"
+        class="custom-matmenu"
+        mat-menu-item
+        matTooltip="Edit Story"
+    >
+        <mat-icon aria-label="Edit Epic" class="material-icons custom-btn-icon mr-1">edit</mat-icon>
+        <span>Edit</span>
+    </button>
+
+    <button
+		#storyFormMatTrigger="matMenuTrigger"
+        *ngIf="linkBtn && !disableStoryAddBtn"
+        [mat-menu-prevent]
+        [matMenuTriggerFor]="storyFormMenu"
+        class="btn btn-primary btn-link text-capitalize"
+        mat-flat-button
+    >
+        Add Story
+    </button>
+
+    <button
+            *ngIf="linkBtn && disableStoryAddBtn"
+            [mat-menu-prevent]
+            class="btn btn-primary btn-link text-capitalize"
+            mat-flat-button
+            style="color: grey"
+    >
+        Add Story
+    </button>
+
+    <mat-menu
+		#storyFormMenu="matMenu"
+        (closed)="reset()"
+        [hasBackdrop]="false"
+        class="add-story-form mat-menu-form"
+        xPosition="before"
+    >
+        <div (click)="$event.stopPropagation()"
+             (keydown.tab)="changeStoryTab(storySelect, storyName, storySaveBtn, storyCancelBtn)"
+             [mat-menu-prevent]>
+            <form [formGroup]="storyForm" class="row">
+                <mat-form-field
+                        [ngClass]="(!filterService.appliedFilter.epic && !editIconBtn) ? 'd-flex' : 'd-none'"
+                        appearance="fill"
+                        class="col-md-12"
+                >
+                    <mat-label>Select Epic</mat-label>
+                    <input
+						#storySelect
+                        [formControl]="searchEpicsCtrl"
+                        [matAutocomplete]="auto"
+                        aria-label="Epic"
+                        matInput
+                        placeholder="Select Epic"
+                    />
+                    <mat-autocomplete
+						#auto="matAutocomplete"
+                        (optionSelected)="getSelectedEpic($event.option.value)"
+                        [displayWith]="displayFn.bind(this)"
+                    >
+                        <mat-option *ngIf="isLoading" class="is-loading"
+                        >Loading...
+                        </mat-option
+                        >
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let epic of epics" [value]="epic">
+                                {{ epic.name }}
+                            </mat-option>
+                            <mat-option (click)="$event.stopImmediatePropagation()" value="createNewEpic">
+                                <button
+									#epicFormMatTrigger="matMenuTrigger"
+                                    [matMenuTriggerFor]="epicFormMenu"
+                                    class="btn btn-link"
+                                >
+                                    <i class="material-icons">add</i> Add Epic
+                                </button>
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Story Name</mat-label>
+                    <input #storyName formControlName="name" matInput placeholder="Story Name"/>
+                </mat-form-field>
+                <!-- <mat-form-field class="col-md-12">
+                  <textarea matInput rows="3" cols="50" placeholder="Summary" formControlName="summary"></textarea>
+                </mat-form-field> -->
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button
+							#storySaveBtn
+                            (click)="onStorySaveClick()"
+                            [disabled]="!storyForm.valid"
+                            class="btn btn-primary"
+                            mat-raised-button
+                        >
+                            Save
+                        </button>
+                        <button #storyCancelBtn (click)="onStoryCancelClick()" mat-button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-menu>
+
+    <mat-menu
+		#epicFormMenu="matMenu"
+        (closed)="epicForm.reset()"
+        [hasBackdrop]="false"
+        class="add-epic-form mat-menu-form"
+        xPosition="before"
+    >
+        <div (click)="$event.stopPropagation()"
+             (keydown.tab)="changeEpicTab(epicName, epicSummary, epicSaveBtn, epicCancelBtn)"
+             [mat-menu-prevent]>
+            <form [formGroup]="epicForm" class="row">
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Name</mat-label>
+                    <input #epicName formControlName="name" matInput placeholder="Name"/>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Summary</mat-label>
+                    <textarea
+						#epicSummary
+                        cols="50"
+                        formControlName="summary"
+                        matInput
+                        placeholder="Summary"
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button
+							#epicSaveBtn
+                            (click)="onEpicSaveClick()"
+                            [disabled]="!epicForm.valid"
+                            class="btn btn-primary"
+                            mat-raised-button
+                        >
+                            Save
+                        </button>
+                        <button #epicCancelBtn (click)="onEpicCancelClick()" mat-button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-menu>
+</div>

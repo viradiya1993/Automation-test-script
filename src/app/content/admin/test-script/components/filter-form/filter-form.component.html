@@ -1,0 +1,91 @@
+<div class="filter-form">
+    <button
+		#filterFormMatTrigger="matMenuTrigger"
+        [mat-menu-prevent]
+        [matMenuTriggerFor]="filterMenu"
+        class="btn btn-primary btn-link text-capitalize"
+        mat-stroked-button
+    >
+        <i class="material-icons">filter_alt</i> Filter
+    </button>
+    <mat-menu
+		#filterMenu="matMenu"
+        [hasBackdrop]="false"
+        class="filter-mat-menu-form mat-menu-form"
+        xPosition="before"
+    >
+        <div (click)="$event.stopPropagation()" [mat-menu-prevent]>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <input
+                                [(ngModel)]="appliedFilter.name"
+                                matInput
+                                name="name"
+                                placeholder="Name"
+                        />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Application</mat-label>
+                        <mat-select [(ngModel)]="appliedFilter.website" name="website">
+                            <mat-option>Select Application</mat-option>
+                            <mat-option *ngFor="let website of websites" [value]="website">
+                                {{ website.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Status</mat-label>
+                        <mat-select [(ngModel)]="appliedFilter.status" name="status">
+                            <mat-option>Select Status</mat-option>
+                            <mat-option value="Not Started">Not Started</mat-option>
+                            <mat-option value="In Progress">In Progress</mat-option>
+                            <mat-option value="Ready">Ready</mat-option>
+                            <mat-option value="To Be Repaired">To Be Repaired</mat-option>
+                            <mat-option value="On Hold">On Hold</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                        <mat-chip-list #tagChipList>
+                            <mat-chip
+                                    (removed)="onRemoveTag(tag)"
+                                    *ngFor="let tag of appliedFilter.tags"
+                                    [removable]="true"
+                            >
+                                {{ tag }}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input
+                                    (matChipInputTokenEnd)="addTag($event)"
+                                    [matChipInputAddOnBlur]="true"
+                                    [matChipInputFor]="tagChipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    placeholder="Label"
+                            />
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button
+                                (click)="applyFilter()"
+                                class="btn btn-primary"
+                                mat-raised-button
+                        >
+                            Filter
+                        </button>
+                        <button (click)="onFilterCancelClick()" mat-button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-menu>
+</div>

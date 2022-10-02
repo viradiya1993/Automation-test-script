@@ -1,0 +1,17 @@
+<div class="row text-center justify-content-center font-size-14">
+    <div class="col-12 mb-4">
+        You must download and install AHQ Local Agent on your local machine for test execution. Without this you will
+        not be able to run any test script
+    </div>
+    <div (click)="downloadAgent(agent.link)" (mouseleave)="onMouseLeave(agent)"
+         (mouseover)="onMouseOver(agent)" *ngFor="let agent of agents"
+         [matTooltip]="agent.name" class="col-3 cursor-pointer px-4 pb-3">
+        <div class="flex-column icon-hover" style="border-radius: 4px">
+            <img [src]="agent.agentIcon" height="60" width="60">
+            <div>{{ capitalize(agent.id) }}</div>
+            <button (click)="downloadAgent(agent.link)" mat-icon-button>
+                <mat-icon>download</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

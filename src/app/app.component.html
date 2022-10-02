@@ -1,0 +1,5 @@
+<!--<ngx-spinner [fullScreen]="true" bdColor="rgba(35,30,30,0.8)" bdOpacity="0.9"
+             color="#ab6868" size="medium" type="ball-clip-rotate"></ngx-spinner>-->
+<mat-progress-bar [mode]="'indeterminate'" *ngIf="progressBar$ | async" class="custom-progress-bar"></mat-progress-bar>
+<app-message></app-message>
+<router-outlet></router-outlet>

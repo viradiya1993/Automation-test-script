@@ -1,0 +1,206 @@
+<div class="card-header">
+    <div class="d-flex justify-content-between">
+        <h4 class="card-title text-primary">Global Parameters</h4>
+        <button (click)="onGlobalParametersSaveClick()" [disabled]="!globalParametersForm.valid"
+                class="btn btn-primary m-0"
+                mat-raised-button>
+            Save
+        </button>
+    </div>
+</div>
+<div class="card-body">
+    <form [formGroup]="globalParametersForm">
+        <div class="customScroll-contentScroll list-contentScroll globalParameter_wrapper">
+            <div class="row">
+                <div [ngClass]="commonService.getUpgradeRequire() ? 'cursor-not-allowed' : ''"
+                     class="col-4">
+                    <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''"
+                                    appearance="fill">
+                        <mat-label>Test Execution Grid</mat-label>
+                        <mat-select (appMatSelectScrollBottom)="loadNextGrids()"
+                                    [disabled]="!commonService.isUserPaid()"
+                                    formControlName="gridUrl">
+                            <mat-option *ngFor="let grid of grids" [value]="grid.gridId">
+                                {{ grid.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                        Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Environment</mat-label>
+                        <mat-select (appMatSelectScrollBottom)="loadNextEnvironments()" formControlName="baseUrl">
+                            <mat-option value="createNewEnv">
+                                <span class="my-2">+ ADD ENV</span>
+                            </mat-option>
+                            <mat-option *ngFor="let environment of environments" [value]="environment.environmentId">
+                                {{ environment.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div [ngClass]="commonService.getUpgradeRequire() ? 'cursor-not-allowed' : ''"
+                     class="col-4">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Testing Type</mat-label>
+                        <input [readonly]="!commonService.isUserPaid()" formControlName="type" matInput
+                               placeholder="Type"/>
+                    </mat-form-field>
+                    <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small"
+                         style="margin-top: -12px">
+                        Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+                    </div>
+                </div>
+                <div [ngClass]="commonService.getUpgradeRequire() ? 'cursor-not-allowed' : ''"
+                     class="col-4">
+                    <mat-form-field [class]="commonService.getUpgradeRequire() ? 'remove-padding' : ''"
+                                    appearance="fill">
+                        <mat-label>Browser</mat-label>
+                        <mat-select (appMatSelectScrollBottom)="loadNextBrowsers()"
+                                    [disabled]="!commonService.isUserPaid()"
+                                    formControlName="browser">
+                            <mat-option *ngFor="let browser of browsers" [value]="browser.browserId">
+                                {{ browser.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                        Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Implicit Timeout in Sec</mat-label>
+                        <input formControlName="timeout" matInput placeholder="Timeout in Sec"/>
+                        <mat-icon class="mat-icon-primary ml-1" matSuffix
+                                  matTooltip="Wait for number of seconds before throwing exception error">
+                            info_outline
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Explicit Timeout in Sec</mat-label>
+                        <input formControlName="waitForElementTimeout" matInput
+                               placeholder="Explicit Timeout in Sec"/>
+                        <mat-icon class="mat-icon-primary ml-1" matSuffix
+                                  matTooltip="Wait for seconds until a certain condition occurs before proceeding with executing the code">
+                            info_outline
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="d-inline-block align-middle">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div *ngIf="globalParameters" class="d-inline-block border-right pr-2 mr-2">
+                                <div class="mat-cell by-txtName d-inline-block">Created by:
+                                    {{globalParameters?.createdBy?.firstName ?
+									  globalParameters?.createdBy?.firstName :
+									  'User not available'}}</div>
+                                <div *ngIf="globalParameters.createdDate != null"
+                                     class="mat-cell d-inline-block config-date-txt">
+                                    ({{globalParameters?.createdDate | date:'medium'}})
+                                </div>
+                                <div *ngIf="globalParameters.createdDate == null"
+                                     class="mat-cell d-inline-block config-date-txt">
+                                    ({{'Created Date not available'}})
+                                </div>
+                            </div>
+                            <div *ngIf="globalParameters" class="d-inline-block mr-2">
+                                <div class="mat-cell by-txtName d-inline-block">Updated by:
+                                    {{globalParameters?.updatedBy?.firstName ?
+									  globalParameters?.updatedBy?.firstName :
+									  'User not available'}}
+                                </div>
+                                <div *ngIf="globalParameters.updatedDate != null"
+                                     class="mat-cell d-inline-block config-date-txt">
+                                    ({{globalParameters?.updatedDate | date:'medium'}})
+                                </div>
+                                <div *ngIf="globalParameters.updatedDate == null"
+                                     class="mat-cell d-inline-block config-date-txt">
+                                    ({{'Updated Date not available'}})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-4">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [disabled]="!commonService.isUserPaid()" [labelPosition]="'after'"
+                                      [ngClass]="!commonService.isUserPaid() ? 'cursor-not-allowed' : ''"
+                                      formControlName="screenshotAfterEachStep">
+                            <span [ngClass]="!commonService.isUserPaid() ? 'text-gray': ''"
+                                  class="text-primary checkbox-label">
+                                Screenshot After Each Step
+                            </span>
+                            <div *ngIf="commonService.getUpgradeRequire()" class="pb-4 text-danger small">
+                                Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+                            </div>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="screenshotOnError">
+                            <span class="text-primary checkbox-label">Screenshot On Error</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="screenshotOnFinish">
+                            <span class="text-primary checkbox-label">Screenshot On Finish</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                    <div class="checkbox-grp mt-1 mb-1">
+                        <mat-checkbox [labelPosition]="'after'" formControlName="closeBrowserAfterEachExecution">
+                            <span class="text-primary checkbox-label">Close Browser After Each Execution</span>
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md pb-2 pt-2">
+                    <h4 class="card-title text-primary">Custom Properties</h4>
+                </div>
+                <div class="col-md text-md-right">
+                    <button (click)="addCustomPropertyFG(undefined)" class="btn btn-primary btn-link text-capitalize"
+                            mat-stroked-button>
+                        <i class="material-icons">add</i>Add Custom Property
+                    </button>
+                </div>
+            </div>
+            <mat-divider class="pb-2 pt-2"></mat-divider>
+            <div class="row">
+                <div class="col-md-12">
+                    <div *ngFor="let item of getCustomPropertiesFA().controls; let i = index"
+                         formArrayName="customProperties">
+                        <div [formGroupName]="i" class="row">
+                            <mat-form-field appearance="fill" class="col-md">
+                                <mat-label>Name</mat-label>
+                                <input formControlName="name" matInput placeholder="Name"/>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" class="col-md">
+                                <mat-label>Value</mat-label>
+                                <input formControlName="value" matInput placeholder="Value"/>
+                            </mat-form-field>
+                            <button (click)="removeCustomPropertyFG(i)" class="btn btn-link btn-primary btn-just-icon">
+                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

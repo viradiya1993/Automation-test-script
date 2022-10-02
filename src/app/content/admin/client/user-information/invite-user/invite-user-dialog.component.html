@@ -1,0 +1,74 @@
+<h2 mat-dialog-title style="text-align:center">Invite Users</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <form [formGroup]="userForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button (click)="addUser()" class="btn btn-default float-right" type="button">+ Add
+                                User
+                            </button>
+                        </div>
+                        <div *ngFor="let item of getControls(); let i = index;" class="col-md-12"
+                             formArrayName="items">
+                            <div [formGroupName]="i" class="row">
+                                <div class="col-md-4">
+                                    <label class="sr-only" for="email_{{i}}">Email Address</label>
+                                    <input class="form-control" formControlName="email" id="email_{{i}}" name="email"
+                                           placeholder="Email Address" type="email">
+                                    <div *ngIf="submitted && f.controls[i].get('email').errors" class="help-block"
+                                         style="color: red">
+                                        <div *ngIf="f.controls[i].get('email').errors.required">Email Address is
+                                            required
+                                        </div>
+                                        <div *ngIf="f.controls[i].get('email').errors.pattern">Email is not valid</div>
+                                        <div *ngIf="f.controls[i].get('email').errors.emailExists">
+                                            This email is already taken. Please choose another email.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="sr-only" for="first_name_{{i}}">First Name</label>
+                                    <input class="form-control input-sm" formControlName="firstName"
+                                           id="first_name_{{i}}"
+                                           name="first_name"
+                                           placeholder="First Name" type="text">
+                                    <div *ngIf="submitted && f.controls[i].get('firstName').errors" class="help-block"
+                                         style="color: red">
+                                        <div *ngIf="f.controls[i].get('firstName').errors.required">First name is
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="sr-only" for="last_name_{{i}}">Last Name</label>
+                                    <input class="form-control input-sm" formControlName="lastName" id="last_name_{{i}}"
+                                           name="last_name"
+                                           placeholder="Last Name" type="text">
+                                    <div *ngIf="submitted && f.controls[i].get('lastName').errors" class="help-block"
+                                         style="color: red">
+                                        <div *ngIf="f.controls[i].get('lastName').errors.required">Last name is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <a (click)="removeUser(i)" *ngIf="i !== 0"
+                                       class="btn btn-link btn-primary btn-just-icon" matTooltip="Delete User">
+                                        <i aria-label="Delete User" class="material-icons">delete</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <mat-dialog-actions align="end">
+                                <button class="btn btn-default" mat-dialog-close>Cancel</button>
+                                <button (click)="saveUserInfo()" cdkFocusInitial class="btn btn-primary">Send</button>
+                            </mat-dialog-actions>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

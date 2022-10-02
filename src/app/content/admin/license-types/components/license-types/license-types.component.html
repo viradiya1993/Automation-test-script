@@ -1,0 +1,375 @@
+<div class="popupframe-title">
+    <div class="col-xl-12 col-lg-12 col-12 h-100">
+        <div class="card custom-card h-100">
+            <div class="d-flex justify-content-between">
+                <div class="card-header">
+                    <h4 class="card-title text-primary mt-3">Licnces Type</h4>
+                </div>
+                <div class="rightpopup-section mr-3">
+                    <button (click)="onLicenceTypeSaveClick();" [mat-dialog-close]="true" class="btn btn-primary mr-2"
+                            mat-raised-button>
+                        Save
+                    </button>
+                    <button (click)="onLicenceTypeCancelClick();" class="btn btn-plain" mat-dialog-close
+                            mat-raised-button>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+            <!-- <form [formGroup]="licenseTypeForm">
+                <div class="card-body">
+                    <!-- section 1 Name of license start -->
+            <!-- <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Name of license</mat-label>
+                        <input matInput placeholder="Name of license" formControlName="name" autocomplete="off" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form> -->
+            <!-- section 1 Name of license end -->
+            <!-- section 2 Executor License start -->
+            <div formGroupName="executorLicense">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card custom-card mt-0 height-100">
+                            <div class="card-body listCol-scroll">
+                                <div class="all-test-bot-row">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="all-test-bot-title">All Licnces</span>
+                                        <span class="badge badge-primary-light mr-4" matTooltip="Number of Licence">Licences</span>
+                                    </div>
+                                </div>
+                                <mat-accordion [multi]="false" class="list-contentScroll">
+                                    <mat-expansion-panel class="expansion-list test-bots-list" togglePosition="before">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title
+                                                    class="test-bot-header-title d-flex justify-content-between">
+                                                <div (click)="selectedLicense('licence')" class="test-bot-title"
+                                                     matTooltip="{{ 'licence' }}">
+                                                    {{ 'licence name' }}
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <button [matMenuTriggerFor]="menu" aria-label="Test Bots More Menu"
+                                                            class="
+												btn btn-link btn-primary btn-just-icon
+												custom-btn-icon
+												ml-1
+											" mat-icon-button>
+                                                        <mat-icon class="material-icons">more_vert</mat-icon>
+                                                    </button>
+                                                    <mat-menu #menu="matMenu">
+                                                        <button (click)="removeLicenseList('licence')"
+                                                                class="custom-matmenu"
+                                                                data-target="#removeLicenceConfirmation"
+                                                                data-toggle="modal"
+                                                                mat-menu-item
+                                                                matTooltip="Delete Test Bot">
+                                                            <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </mat-menu>
+                                                </div>
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <div class="test-bots-descrpt mb-2 ml-4">{{ 'Licence Discription' }}</div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card custom-card h-100">
+                            <div class="d-flex justify-content-between">
+                                <div class="card-header">
+                                    <h2 class="card-title text-primary mt-3">Licnces Type</h2>
+                                </div>
+                                <div class="rightpopup-section mr-3">
+                                    <button (click)="onLicenceTypeSaveClick();" class="btn btn-primary mr-2"
+                                            mat-raised-button>
+                                        Save
+                                    </button>
+                                    <button (click)="onLicenceTypeCancelClick();" class="btn btn-plain"
+                                            mat-raised-button>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                            <form [formGroup]="licenseTypeForm">
+                                <div class="card-body">
+                                    <!-- section 1 Name of Licence start -->
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Name of licence</mat-label>
+                                                <input autocomplete="off" formControlName="name" matInput
+                                                       placeholder="Name of licence"/>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- section 1 Name of Licence end -->
+                                    <!-- section 2 Executor License start -->
+                                    <div formGroupName="executorLicense">
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <div class="col-md-6">
+                                                <div class="mt-3 popupframe-title">
+                                                    <h2 class="card-title text-primary mt-3">Executor License</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="customScroll-contentScroll list-contentScroll">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <P class="mat-header-cell mb-1">Number of minutes</P>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <P class="mat-header-cell mb-1">Frequency type</P>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <p class="mat-header-cell mb-1">Base Price</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <mat-form-field appearance="fill" class="col-md-4">
+                                                <mat-label>Number of minutes</mat-label>
+                                                <input autocomplete="off" formControlName="numberOfMinutes"
+                                                       matInput placeholder="Number of minutes"
+                                                       type="number"/>
+                                                <mat-error
+                                                        *ngIf="executorLicense.numberOfMinutes.errors?.pattern && executorLicense.numberOfMinutes.touched">
+                                                    Please enter only number.
+                                                </mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="fill" class="col-md-4">
+                                                <mat-label>Frequency type</mat-label>
+                                                <mat-select formControlName="frequencyType"
+                                                            placeholder="Frequency type">
+                                                    <mat-option value="DAY">Day</mat-option>
+                                                    <mat-option value="WEEK">Week</mat-option>
+                                                    <mat-option value="MONTH">Month</mat-option>
+                                                    <mat-option value="YEAR">Year</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field appearance="fill" class="col-md-4">
+                                                <mat-label>Base Price</mat-label>
+                                                <input autocomplete="off" formControlName="basePrice" matInput
+                                                       placeholder="Base Price"
+                                                       type="number"/>
+                                                <mat-error
+                                                        *ngIf="executorLicense.basePrice.errors?.pattern && executorLicense.basePrice.touched">
+                                                    Please enter only decimal number.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <div class="col-md-6">
+                                                <div class="mt-3 popupframe-title">
+                                                    <h2 class="card-title text-primary mt-3">Prallel License Matrix</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="customScroll-contentScroll list-contentScroll">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                                    <P class="mat-header-cell mb-1">From</P>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                                    <p class="mat-header-cell mb-1">To</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                                    <p class="mat-header-cell mb-1">Price</p>
+                                                </div>
+                                            </div>
+                                            <mat-divider class="pb-3"></mat-divider>
+                                            <div *ngFor="let item of getLicenseConfig().controls; let i = index"
+                                                 formArrayName="parallelLicenseMatrix">
+                                                <div [formGroupName]="i" class="row align-items-center">
+                                                    <div class="col-md-3">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>From</mat-label>
+                                                            <input autocomplete="off" formControlName="from" matInput
+                                                                   placeholder="From" type="number"/>
+                                                            <mat-error *ngIf="licenseMatrix.controls[i].get('from')?.errors?.pattern
+													&& licenseMatrix.controls[i].get('from').touched">
+                                                                Please enter only number.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>To</mat-label>
+                                                            <input autocomplete="off" formControlName="to" matInput
+                                                                   placeholder="To" type="number"/>
+                                                            <mat-error *ngIf="licenseMatrix.controls[i].get('to')?.errors?.pattern
+												&& licenseMatrix.controls[i].get('to').touched">
+                                                                Please enter only number.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>Price</mat-label>
+                                                            <input autocomplete="off" formControlName="price" matInput
+                                                                   placeholder="Price" type="number"/>
+                                                            <mat-error *ngIf="licenseMatrix.controls[i].get('price')?.errors?.pattern
+														&& licenseMatrix.controls[i].get('price').touched">
+                                                                Please enter only decimal number.
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button (click)="addLicense()"
+                                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                                            <mat-icon class="f-18">add_circle_outline</mat-icon>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <button (click)="removeLicense(i, item)"
+                                                                [disabled]="i == 0"
+                                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                                            <mat-icon class="f-18">delete</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <mat-divider class="pb-3"></mat-divider>
+                                    <!-- section 2 Executor License end -->
+                                    <!-- section 3 Support License start -->
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="mt-3 popupframe-title">
+                                                <h2 class="card-title text-primary mt-3">Support License</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="customScroll-contentScroll list-contentScroll"
+                                         formGroupName="supportLicense">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <P class="mat-header-cell mb-1">Cost Per Hours</P>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <p class="mat-header-cell mb-1">Type</p>
+                                            </div>
+                                        </div>
+                                        <mat-divider class="pb-3"></mat-divider>
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Cost Per Hours</mat-label>
+                                                    <input autocomplete="off" formControlName="perHourCost"
+                                                           matInput placeholder="Cost Per Hours"
+                                                           type="number"/>
+                                                    <mat-error
+                                                            *ngIf="supportLicense.perHourCost.errors?.pattern && supportLicense.perHourCost.touched">
+                                                        Please enter only decimal number.
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Type</mat-label>
+                                                    <input autocomplete="off" formControlName="type" matInput
+                                                           placeholder="Type"/>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <mat-divider class="pb-3"></mat-divider>
+                                    <!-- section 3 Support License end -->
+                                    <!-- section 4 Information comment  end -->
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="mt-3 popupframe-title">
+                                                <h2 class="card-title text-primary mt-3">Information</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="customScroll-contentScroll list-contentScroll">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <P class="mat-header-cell mb-1">Comments</P>
+                                            </div>
+                                        </div>
+                                        <mat-divider class="pb-3"></mat-divider>
+                                        <div *ngFor="let item of getCommentInfo().controls; let i = index"
+                                             formArrayName="informations">
+                                            <div [formGroupName]="i" class="row align-items-center">
+                                                <div class="col-md-6">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Comments</mat-label>
+                                                        <input autocomplete="off" formControlName="information"
+                                                               matInput placeholder="Comments"/>
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button (click)="addInfomations()"
+                                                            class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                                        <mat-icon class="f-18">add_circle_outline</mat-icon>
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button (click)="removeInformation(i, item)"
+                                                            [disabled]="i == 0"
+                                                            class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-2">
+                                                        <mat-icon class="f-18">delete</mat-icon>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- section 4 Information comment end -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div aria-hidden="true" aria-labelledby="myModalLabel"
+                 class="modal fade modal-mini modal-primary deleteModal-dialog"
+                 id="removeLicenceConfirmation" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="popupframe-title">
+                                <div class="mat-dialog-title">
+                                    <h2>Delete License</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body m-0 pt-3">
+                            <p> Are you sure you want to delete?</p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button (click)="deleteLicence('Licence')" class="btn btn-primary mr-2" data-dismiss="modal"
+                                    mat-raised-button type="button">
+                                Yes
+                                <div class="ripple-container"></div>
+                            </button>
+                            <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button
+                                    type="button">
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

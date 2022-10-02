@@ -1,0 +1,76 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div *ngIf="selectedProject" class="col-md-3 col-sm-6 align-middle">
+                <app-epic-list (noEpics)="noEpicsAvailable = $event"></app-epic-list>
+            </div>
+            <div *ngIf="selectedProject" class="col-md-9 col-sm-6 align-middle">
+                <div class="card custom-card height-100">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <mat-button-toggle-group
+									#group="matButtonToggleGroup"
+                                    (ngModelChange)="modelChangeShowList($event)"
+                                    [(ngModel)]="showList"
+                                    class="tabs-btns"
+                                >
+                                    <mat-button-toggle class="primary" value="stories">
+                                        Stories
+                                    </mat-button-toggle>
+                                    <mat-button-toggle [disabled]="(noEpicsAvailable || noStoriesAvailable)"
+                                                       [ngClass]="(noEpicsAvailable || noStoriesAvailable) ? 'text-gray' : ''"
+                                                       value="testScripts">
+                                        Test Scripts
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end">
+                                <app-story-form *ngIf="showList === 'stories'" [disableStoryAddBtn]="noEpicsAvailable"
+                                                [mat-menu-prevent]>
+                                </app-story-form>
+                                <button
+                                        (click)="openTestScriptDialog()"
+                                        *ngIf="showList === 'testScripts'"
+                                        [disabled]="(noEpicsAvailable || noStoriesAvailable)"
+                                        class="btn btn-primary btn-link text-capitalize mr-2"
+                                        mat-stroked-button
+                                        matTooltip="Add Test Script"
+                                >
+                                    <i class="material-icons">add</i> Add Test Script
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a
+                                            *ngFor="let agent of agents; let i = index"
+                                            class="dropdown-item"
+                                            download="{{ agent.name }}"
+                                            href="{{ agent.link }}"
+                                    >{{ agent.name }}</a
+                                    >
+                                </div>
+                                <div class="filter-list">
+                                    <app-filter-form
+                                            [mat-menu-prevent]
+                                            [websites]="websites"
+                                    ></app-filter-form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <app-applied-filters [mat-menu-prevent]></app-applied-filters>
+                        <app-story-list (noStoriesAvailable)="noStoriesAvailable = $event"
+                                        *ngIf="showList === 'stories'"
+                                        [noEpicsAvailable]="noEpicsAvailable">
+                        </app-story-list>
+                        <app-test-script-list *ngIf="showList === 'testScripts'">
+                        </app-test-script-list>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!selectedProject" class="col-md-12">
+                <p>Please select Project</p>
+            </div>
+        </div>
+    </div>
+</div>

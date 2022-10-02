@@ -1,0 +1,57 @@
+
+.test-scripts-table {
+  min-height: 200px;
+  margin-top: 10px;
+}
+
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cdk-overlay-pane {
+  width: 50vw;
+}
+
+.test-suite-form-wrapper {
+  padding: 0 24px 24px;
+  color: var(--dark);
+  font-size: 1rem;
+
+  mat-cell {
+    font-size: 1rem;
+  }
+
+  .mat-dialog-content {
+    padding-top: 20px;
+  }
+}
+
+.mat-dialog-title {
+  background-color: var(--purple);
+  padding: 8px 24px;
+  color: var(--white);
+  opacity: 0.8;
+  font-size: 1.5rem;
+  margin: 0;
+  box-shadow: 1px 1px 10px 1px #ccc;
+}
+
+.test-script-array, .title-ts {
+  a {
+    margin: 0;
+
+    i {
+      font-size: 1.8rem;
+    }
+  }
+}

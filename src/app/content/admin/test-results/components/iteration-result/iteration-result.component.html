@@ -1,0 +1,340 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div mat-dialog-title>
+            <div class="d-flex align-items-center mb-2">
+                <h2 *ngIf="testScriptResult && testScriptResult.testScriptName">
+                    Test Script: {{ testScriptResult.testScriptName }}
+                </h2>
+                <button [routerLink]="['/test-script']" [state]="{ openTestScriptId: testScriptResult.testScriptId }"
+                        class="btn btn-primary btn-sm ml-2">
+                    Edit Script
+                </button>
+            </div>
+            <div *ngIf="iterationResult.dataInfo" class="iterationResult-dataInfo">
+                <span>Data:</span> {{ iterationResult.dataInfo }}
+            </div>
+        </div>
+        <div class="rightpopup-section">
+            <button class="btn-popupClose" mat-button mat-dialog-close>
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="iterationResult" class="popup-dialog-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-5">
+
+                    <!-- <div class="row">
+                        <div class="col-md-3">
+                          <div class="iterationResult-title">Grid Url</div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="iterationResult-decrpt">
+                            {{ executionConfiguration.gridUrl }}
+                          </div>
+                        </div>
+                      </div> -->
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="iterationResult-title">Environment URL</div>
+                                    <div class="iterationResult-decrpt">
+                                        {{ executionConfiguration.baseUrl }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">Browser</div>
+                                    <div class="iterationResult-decrpt">
+                                        <img [src]="browsers[executionConfiguration.browser.toLowerCase()]"
+                                             alt="" style="width: 18px; height: 18px"/>
+                                        <span>{{ executionConfiguration.browser }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">Label</div>
+                                    <div class="iterationResult-decrpt">
+                                        {{ executionConfiguration.type }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">Timeout in Sec</div>
+                                    <div class="iterationResult-decrpt">
+                                        <div class="timing-show">
+                      <span class="
+                            material-icons material-icons-outlined
+                            orange-time
+                          ">watch_later</span>
+                                            {{ executionConfiguration.timeout }}s
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">
+                                        Explicit Timeout in Sec
+                                    </div>
+                                    <div class="iterationResult-decrpt">
+                                        <div class="timing-show">
+                      <span class="
+                            material-icons material-icons-outlined
+                            orange-time
+                          ">watch_later</span>
+                                            {{ executionConfiguration.waitForElementTimeout }}s
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">
+                                        Screenshot After Each Step
+                                    </div>
+                                    <div class="iterationResult-decrpt">
+                    <span [ngClass]="{
+                          'badge-success':
+                            executionConfiguration.screenshotAfterEachStep ===
+                            true,
+                          'badge-danger':
+                            executionConfiguration.screenshotAfterEachStep ===
+                            false
+                        }" class="badge">
+                      {{ executionConfiguration.screenshotAfterEachStep }}
+                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">
+                                        Close Browser After Each Execution
+                                    </div>
+                                    <div class="iterationResult-decrpt">
+                    <span [ngClass]="{
+                          'badge-success':
+                            executionConfiguration.closeBrowserAfterEachExecution ===
+                            true,
+                          'badge-danger':
+                            executionConfiguration.closeBrowserAfterEachExecution ===
+                            false
+                        }" class="badge">
+                      {{
+					  executionConfiguration.closeBrowserAfterEachExecution
+                        }}
+                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">Screenshot On Error</div>
+                                    <div class="iterationResult-decrpt">
+                    <span [ngClass]="{
+                          'badge-success':
+                            executionConfiguration.screenshotOnError === true,
+                          'badge-danger':
+                            executionConfiguration.screenshotOnError === false
+                        }" class="badge">
+                      {{ executionConfiguration.screenshotOnError }}
+                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="iterationResult-title">Screenshot On Finish</div>
+                                    <div class="iterationResult-decrpt">
+                    <span [ngClass]="{
+                          'badge-success':
+                            executionConfiguration.screenshotOnFinish === true,
+                          'badge-danger':
+                            executionConfiguration.screenshotOnFinish === false
+                        }" class="badge">
+                      {{ executionConfiguration.screenshotOnFinish }}
+                    </span>
+                                    </div>
+                                </div>
+                                <div *ngIf="userType" class="col-md-6">
+                                    <div class="iterationResult-title">Execution Status</div>
+                                    <div class="iterationResult-decrpt">
+                    <span [ngClass]="{
+                          'badge-success': true
+                        }" class="badge">
+                      <span [title]="gridMessage">{{gridStatus}}</span>
+                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div *ngIf="commonService.isUserPaid() then paidUser; else freeUser"></div>
+                    <ng-template #paidUser>
+                        <div *ngIf="iterationResult.videoUrl.indexOf('lambda') then lambda; else noLambda"></div>
+                        <ng-template #lambda>
+                            <iframe *ngIf="gridStatus" [src]="urlSafe" allowfullscreen class="responsive-iframe"
+                                    frameborder="0"
+                                    height="100%" mozallowfullscreen webkitallowfullscreen width="100%"></iframe>
+                        </ng-template>
+                        <ng-template #noLambda>
+                            <video autoplay class="video-fluid z-depth-1 w-100" controls loop muted>
+                                <source src="{{iterationResult.videoUrl}}" type="video/mp4"/>
+                            </video>
+                        </ng-template>
+                    </ng-template>
+                    <ng-template #freeUser>
+                        <img alt="free user video" class="video-fluid z-depth-1 w-100"
+                             src="assets/img/ahq-training.png">;
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+        <div *ngIf="testScriptResult.consolidatedResult" class="ml-2">
+            <button (click)="downloadConsolidatedReport()" color="primary" mat-icon-button>
+                <mat-icon>download</mat-icon>
+                Download the consolidated Report
+            </button>
+        </div>
+        <div class="col-md-12 mt-3">
+            <div class="result-title d-flex justify-content-between">
+                <h2 class="test-titlePopup">Test Step Results</h2>
+                <div class="timing-show">
+                    <span class="material-icons material-icons-outlined orange-time">watch_later</span>
+                    {{ iterationResult.startTimeStamp
+					| datesDiff: iterationResult.endTimeStamp
+                    }}
+                </div>
+            </div>
+            <div *ngFor="
+          let testStepResult of iterationResult.testStepResults;
+          let i = index
+        " class="test-step-data-group">
+                <!-- <li class="list-group-item"> -->
+                <mat-expansion-panel class="expansion-panelMain" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="expansion-panelWrapper">
+                                <div class="iterationResult-title">
+                  <span [ngClass]="{
+                      passed: testStepResult.result === 'PASSED',
+                      failed: testStepResult.result === 'FAILED'
+                    }" class="expansion-num">{{ testStepResult.sequence }}</span>
+                                    {{ testStepResult.testStepName }}
+                                </div>
+                                <div class="expansion-panelTitleRight">
+                                    <!-- <div class="testStepResult-status"><span class="green">{{testStepResult.result}}</span></div> -->
+                                    <div [ngClass]="{
+                      'badge-success': testStepResult.result === 'PASSED',
+                      'badge-danger': testStepResult.result === 'FAILED'
+                    }" class="badge">
+                                        {{ testStepResult.result }}
+                                    </div>
+                                    <div class="timing-show">
+                                        <span class="material-icons material-icons-outlined orange-time">watch_later</span>
+                                        <span class="timing-txt">{{
+										  testStepResult.status.startTimeStamp
+											  | datesDiff: testStepResult.status.endTimeStamp
+                                            }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="group-iterationResult">
+                        <div *ngIf="testStepResult.data" class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title data-descrpt">
+                                    <span class="material-icons"> insert_chart_outlined </span>
+                                    Data
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="iterationResult-decrpt">
+                                    {{ testStepResult.data }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title">
+                                    <span class="material-icons link-icon"> swap_calls </span>
+                                    Test Step
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="iterationResult-decrpt">
+                                    {{ testStepResult.testStepName }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title">
+                                    <span class="material-icons material-icons-outlined orange-time">watch_later</span>
+                                    Time
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="iterationResult-decrpt timing-show">
+                                    {{
+								  testStepResult.status.startTimeStamp
+									  | date: "MMM d, y, h:mm:ss.SSS a"
+                                    }}
+                                    to
+                                    {{
+								  testStepResult.status.endTimeStamp
+									  | date: "MMM d, y, h:mm:ss.SSS a"
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="testStepResult.status.message" class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title">
+                                    <span class="material-icons link-icon"> message </span>
+                                    Message
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="iterationResult-decrpt">
+                                    {{ testStepResult.status.message }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="testStepResult.status.returnValue" class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title">Return Value</div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="iterationResult-decrpt">
+                                    {{ testStepResult.status.returnValue }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="testStepResult.status.screenshotLink" class="row">
+                            <div class="col-md-2">
+                                <div class="iterationResult-title">Screenshot Link:</div>
+                            </div>
+                            <div class="col-md-10">
+                                <div (click)="showScreenShot(i)"
+                                     *ngIf="testStepResult.status.screenshotLink"
+                                     class="iterationResult-decrpt img-wrapper">
+                                    <img alt="" class="img-link" height="50px"
+                                         src="{{ testStepResult.status.screenshotLink }}"
+                                         width="50px"/>
+                                </div>
+                                <div *ngIf="!testStepResult.status.screenshotLink" class="iterationResult-decrpt">
+                                    NA
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </div>
+        </div>
+    </div>
+</div>

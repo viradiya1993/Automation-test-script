@@ -1,0 +1,110 @@
+.releasetestbot-list {
+  padding: 0 10px;
+  border: 1px solid #e5e5e5;
+  height: 40px !important;
+  line-height: 20px;
+  margin-bottom: -1px;
+
+  .releasetestbot-listNames {
+    margin: 10px 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 100%;
+  }
+}
+
+.drag-drop-container {
+  height: 400px;
+  overflow: auto;
+  border: solid 1px var(--ahq-grey-4);
+}
+
+.drag-drop-list {
+  min-height: 100%;
+  display: block;
+  padding-bottom: 50px;
+  /*min-height: 30px;
+  height: 100%;
+  background: var(--white);
+  overflow: hidden;
+  display: block;*/
+}
+
+.drag-drop-box {
+  position: relative;
+  padding: 5px 10px 5px 10px;
+  // border-bottom: solid 1px var(--ahq-grey-4);
+  border-bottom: solid 1px transparent;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+
+.testscripts-templatesrow {
+  padding-bottom: 5px;
+}
+
+.drag-drop-box:nth-child(even) {
+  background: rgba(181, 181, 181, 0.1);
+}
+
+.drag-drop-box:nth-child(odd) {
+  background: #fff;
+}
+
+.teststeps-inputs {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.teststeps-rowform {
+  width: 100%;
+
+  .badge {
+    margin: 12px 0;
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 1;
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-drop-box:last-child {
+  margin-bottom: 50px;
+}
+
+.drag-drop-list.cdk-drop-list-dragging
+.drag-drop-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.customScroll-contentScroll {
+  height: calc(100vh - 260px);
+  overflow-y: auto;
+  display: block;
+  overflow-x: hidden;
+}
+

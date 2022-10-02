@@ -1,0 +1,4 @@
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button {
+    background-color: gainsboro;
+    color: var(--ahq-grey-10);
+}

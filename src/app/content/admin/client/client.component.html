@@ -1,0 +1,140 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h4 class="card-title text-primary">Client Summary</h4>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end">
+                                <button (click)="openDialog()" class="btn btn-primary btn-link text-capitalize mr-2"
+                                        mat-stroked-button
+                                        matTooltip="Add Client">
+                                    <i class="material-icons">add</i> Add Client
+                                </button>
+                                <button #filterFormMatTrigger="matMenuTrigger" [matMenuTriggerFor]="filterMenu"
+                                        class="btn btn-primary btn-link text-capitalize" mat-stroked-button>
+                                    <i class="material-icons">filter_alt</i> Filter
+                                </button>
+                                <mat-menu #filterMenu="matMenu" [hasBackdrop]="false"
+                                          class="filter-mat-menu-form mat-menu-form"
+                                          xPosition="before">
+                                    <div (click)="$event.stopPropagation()">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <mat-form-field appearance="fill">
+                                                    <input matInput name="name" placeholder="Name"/>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="d-flex justify-content-end">
+                                                    <button (click)="applyFilter()" class="btn btn-primary"
+                                                            mat-raised-button>
+                                                        Filter
+                                                    </button>
+                                                    <button (click)="onFilterCancelClick()" mat-button>Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="material-datatables">
+                            <table [dataSource]="dataSource.data" aria-describedby="datatables_client"
+                                   class="table table-striped table-no-bordered table-hover dataTable dtr-inline mat-elevation-z8"
+                                   mat-table role="grid" style="width: 100%">
+                                <ng-container matColumnDef="orgName">
+                                    <th *matHeaderCellDef id="orgName" mat-header-cell>
+                                        Organization Name
+                                    </th>
+                                    <td *matCellDef="let element" mat-cell>
+                                        {{ element.orgName }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="userName">
+                                    <th *matHeaderCellDef id="userName" mat-header-cell>
+                                        User Name
+                                    </th>
+                                    <td *matCellDef="let element" [attr.colspan]="getColSpan(element.userName)"
+                                        mat-cell>
+                                        {{ element.userName }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="email">
+                                    <th *matHeaderCellDef id="email" mat-header-cell>
+                                        Email Address
+                                    </th>
+                                    <td *matCellDef="let element" [style.display]="getTextSpan(element.userName)"
+                                        mat-cell>
+                                        {{ element.email }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="phone">
+                                    <th *matHeaderCellDef id="phone" mat-header-cell>Phone</th>
+                                    <td *matCellDef="let element" [style.display]="getTextSpan(element.userName)"
+                                        mat-cell>
+                                        {{ element.phone }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="status">
+                                    <th *matHeaderCellDef id="status" mat-header-cell>Status</th>
+                                    <td *matCellDef="let element" mat-cell>
+                                        <mat-slide-toggle (change)="updateStatus($event, element.id)"
+                                                          [checked]="element.active"
+                                                          color="primary">
+                                            {{ element.active ? "Enabled" : "Disabled" }}
+                                        </mat-slide-toggle>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="actions">
+                                    <th *matHeaderCellDef id="action" mat-header-cell></th>
+                                    <td *matCellDef="let element" mat-cell>
+                                        <a (click)="editClient(element)" class="btn btn-link btn-primary btn-just-icon"
+                                           matTooltip="Edit Client">
+                                            <i aria-label="Edit Client" class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="noRecord">
+                                    <td *matFooterCellDef colspan="7" mat-footer-cell>
+                                        No records found.
+                                    </td>
+                                </ng-container>
+
+                                <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                                <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+                                <tr *matFooterRowDef="['noRecord']" [ngClass]="{
+                    'd-none': !(
+                      dataSource != null && dataSource.data.length == 0
+                    )
+                  }" mat-footer-row></tr>
+                            </table>
+                            <mat-paginator (page)="pageEvent = $event; loadClientsPage($event)" [hidePageSize]="true"
+                                           [length]="pageLength"
+                                           [pageSizeOptions]="pageSizeOptions"
+                                           [pageSize]="pageSize">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                    <!-- end content-->
+                </div>
+                <!--  end card  -->
+            </div>
+            <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+</div>

@@ -1,0 +1,120 @@
+<div class="test-suite-result-wrapper">
+
+    <div class="popupframe-title">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex  align-items-center mb-2">
+                <h2 mat-dialog-title>Test Suite: {{ testSuiteResult.testSuiteName}}</h2>
+            </div>
+            <div class="rightpopup-section">
+                <div class="custom-badge d-inline-block">
+                    <span class="badge badge-success line"
+                          matTooltip="Passed">Passed: {{testSuiteResult.progress.passed}}</span>
+                    <span class="badge badge-danger line"
+                          matTooltip="Failed">Failed: {{testSuiteResult.progress.failed}}</span>
+                    <span class="badge badge-warning line"
+                          matTooltip="Skipped">Skipped: {{testSuiteResult.progress.skipped}}</span>
+                    <span class="badge badge-info line"
+                          matTooltip="Total">Total: {{testSuiteResult.progress.total}}</span>
+                </div>
+                <!--TODO:: can be enabled again-->
+                <!--<button mat-stroked-button class="btn btn-primary btn-link text-capitalize"
+                  #filterFormMatTrigger="matMenuTrigger" [matMenuTriggerFor]="filterMenu">
+                  <i class="material-icons">filter_alt</i> Filter
+                </button>-->
+                <mat-menu #filterMenu="matMenu" [hasBackdrop]="false" class="filter-mat-menu-form mat-menu-form"
+                          xPosition="before">
+                    <div (click)="$event.stopPropagation()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="fill">
+                                    <input matInput name="name" placeholder="Name"/>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Status</mat-label>
+                                    <mat-select name="status">
+                                        <mat-option>Select Status</mat-option>
+                                        <mat-option value="Passed">Passed</mat-option>
+                                        <mat-option value="Failed">Failed</mat-option>
+                                        <mat-option value="Skipped">Skipped</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button (click)="applyFilter()" class="btn btn-primary" mat-raised-button>
+                                        Filter
+                                    </button>
+                                    <button (click)="onFilterCancelClick()" mat-button>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-menu>
+                <button class="btn-popupClose" mat-button mat-dialog-close><span class="material-icons">close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="progress">
+        <div class="progress-bar bg-success" [ngStyle]="{'width.%':passedPer}">
+          {{testSuiteResult.progress.passed}}
+        </div>
+        <div class="progress-bar bg-danger" [ngStyle]="{'width.%':failedPer}">
+          {{testSuiteResult.progress.failed}}
+        </div>
+        <div class="progress-bar bg-warning" [ngStyle]="{'width.%':skippedPer}">
+          {{testSuiteResult.progress.skipped}}
+        </div>
+      </div> -->
+    <div class="popup-dialog-content">
+        <div class="row">
+            <div class="col-md">
+                <mat-table [dataSource]="testScriptResults" class="test-suite-result-table mat-elevation-z8" matSort
+                           matSortActive="name" matSortDirection="asc" matSortDisableClear>
+
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef class="size-40 no-justify">Test Script Name</mat-header-cell>
+                        <mat-cell (click)="openTestScriptResultDialog(testScriptResult);"
+                                  *matCellDef="let testScriptResult"
+                                  class="size-40 no-justify link-purple">
+                            {{testScriptResult.testScriptName}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="passed">
+                        <mat-header-cell *matHeaderCellDef>Passed</mat-header-cell>
+                        <mat-cell *matCellDef="let testScriptResult">
+                            {{testScriptResult.progress.passed}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="failed">
+                        <mat-header-cell *matHeaderCellDef>Failed</mat-header-cell>
+                        <mat-cell *matCellDef="let testScriptResult">
+                            {{testScriptResult.progress.failed}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="skipped">
+                        <mat-header-cell *matHeaderCellDef>Skipped</mat-header-cell>
+                        <mat-cell *matCellDef="let testScriptResult">
+                            {{testScriptResult.progress.skipped}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total">
+                        <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+                        <mat-cell *matCellDef="let testScriptResult">
+                            {{testScriptResult.progress.total}}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></mat-row>
+                </mat-table>
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 20, 50]"
+                               [pageSize]="10"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

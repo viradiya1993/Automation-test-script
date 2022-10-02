@@ -1,0 +1,15 @@
+<div *ngIf="values.length === 1" class="alltag-text" matTooltip="{{values}}">
+    {{values}}
+</div>
+
+<div *ngIf="values.length > 1" class="alltag-text">
+    <div class="tag-text">{{values[0]}},</div>
+    <div *ngIf="minDisplayValues && (values.length > minDisplayValues)" class="plusmore"
+         matTooltip="{{toolTipValues}}" matTooltipClass="test">
+        +{{values.length - minDisplayValues}}
+    </div>
+</div>
+
+<div *ngIf="values.length === 0">
+    <div class="badge badge-info">No Label</div>
+</div>

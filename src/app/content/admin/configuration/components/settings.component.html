@@ -1,0 +1,29 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <app-settings-menu
+                        (menuSelect)="onMenuSelect($event)"
+                ></app-settings-menu>
+            </div>
+            <div class="col-md-9">
+                <div class="card custom-card mt-0 height-100">
+                    <app-global-parameters
+                            *ngIf="currentMenu === 'globalParameters'"
+                    ></app-global-parameters>
+                    <app-environment
+                            *ngIf="currentMenu === 'environment'"
+                    ></app-environment>
+                    <app-browser *ngIf="currentMenu === 'browsers'"></app-browser>
+                    <app-grid *ngIf="currentMenu === 'grids'"></app-grid>
+                    <app-mobile-device
+                            *ngIf="currentMenu === 'mobile-devices'"
+                    ></app-mobile-device>
+                    <app-mobile-apps
+                            *ngIf="currentMenu === 'mobile-apps'"
+                    ></app-mobile-apps>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

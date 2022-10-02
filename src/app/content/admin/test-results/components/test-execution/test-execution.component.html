@@ -1,0 +1,238 @@
+<div class="test-execution-wrapper p-0">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md align-items-center align-right">
+                <button (click)="manualRefresh()" class="btn btn-primary mr-3 p-2">
+                    Refresh
+                    <!--<i class="material-icons" aria-label="refresh">refresh</i> -->
+                </button>
+                <div class="togglebutton mr-4 mt-2">
+                    <label>
+                        <input [(ngModel)]="isAutoRefresh" type="checkbox">
+                        <span class="toggle"></span>
+                        Auto Refresh in 30 Sec
+                    </label>
+                </div>
+                <button #filterFormMatTrigger="matMenuTrigger"
+                        [matMenuTriggerFor]="filterMenu"
+                        class="btn btn-primary btn-link text-capitalize"
+                        mat-stroked-button>
+                    <i class="material-icons">filter_alt</i> Filter
+                </button>
+                <mat-menu #filterMenu="matMenu" [hasBackdrop]="false" class="filter-mat-menu-form mat-menu-form"
+                          xPosition="before">
+                    <div (click)="$event.stopPropagation()">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field appearance="fill">
+                                    <input [(ngModel)]="searchText" matInput name="name" placeholder="Name"/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button (click)="onFilterReset()" class="btn btn-primary" mat-raised-button>
+                                        Reset
+                                    </button>
+                                    <button (click)="applyFilter()" class="btn btn-primary" mat-raised-button>
+                                        Filter
+                                    </button>
+                                    <button (click)="onFilterCancelClick()" mat-button>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="customScroll-contentScroll list-contentScroll">
+            <mat-table [dataSource]="consolidatedExecutions" class="consolidated-executions-table" matSort
+                       matSortActive="executionName" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
+
+                <ng-container matColumnDef="executionName">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'custom-executionName'">Test Run Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-executionName'"
+                              class="name-cell p-0">
+                        <a (click)="expandedConsolidatedExecution = expandedConsolidatedExecution === consolidatedExecution ? null : consolidatedExecution"
+                           [ngClass]="{'show-up-arrow':expandedConsolidatedExecution === consolidatedExecution}"
+                           class="left-arrow btn btn-link btn-primary btn-just-icon"
+                           matTooltip="{{consolidatedExecution.executionName}}">
+                            <i aria-label="Show Test Scripts" class="material-icons fw-600">keyboard_arrow_down</i>
+                            <!-- <span class="custom-executionTitle">{{consolidatedExecution.testBotName}}</span> -->
+                            <!-- <span class="custom-executionTitle">{{consolidatedExecution.backgroundJobStatus}}</span> -->
+                            <!-- <i *ngIf="consolidatedExecution.backgroundJobStatus === 'SUCCEEDED'"
+                              class="material-icons succeeded exstatus-color" >task_alt</i>
+                            <i *ngIf="consolidatedExecution.backgroundJobStatus === 'DELETED'"
+                              class="material-icons deleted exstatus-color">delete_forever</i>
+                            <i *ngIf="consolidatedExecution.backgroundJobStatus === 'FAILED'"
+                              class="material-icons failed exstatus-color">highlight_off</i>
+                            <i *ngIf="consolidatedExecution.backgroundJobStatus === 'ENQUEUED'"
+                              class="material-icons enqueued exstatus-color">hourglass_top</i>
+                            <i *ngIf="consolidatedExecution.backgroundJobStatus === 'PROCESSING'"
+                              class="material-icons processing exstatus-color">update</i> -->                            
+                            <span class="custom-executionTitle">{{consolidatedExecution.executionName}}</span>
+                        </a>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="backgroundJobStatus">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'background-job-status'">Execution Status
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'background-job-status'">
+                        <div>
+                            <!-- {{consolidatedExecution.backgroundJobStatus}} -->
+                            <span #tooltip="matTooltip"
+                                  *ngIf="consolidatedExecution.backgroundJobStatus === 'SUCCEEDED'"
+                                  class="badge badge-success line"
+                                  matTooltip="This indicates that the job executed successfully, without any problems. It doesn’t indicate that all the tests have passed. The statistics are shown to the left indicating the execution status"
+                            >
+                <i class="material-icons succeeded exstatus-color">task_alt</i>
+                  <span>
+                      Succeeded
+                  </span>
+              </span>
+                            <span #tooltip="matTooltip"
+                                  *ngIf="consolidatedExecution.backgroundJobStatus === 'DELETED'"
+                                  class="badge badge-deleted line"
+                                  matTooltip="This indicates that the job that ran the tests has been cleaned up. The logs and test execution information however is retained for future references"
+                            >
+                <i class="material-icons deleted exstatus-color">delete_forever</i>
+                <span>Archived</span>
+              </span>
+                            <span #tooltip="matTooltip"
+                                  *ngIf="consolidatedExecution.backgroundJobStatus === 'FAILED'"
+                                  class="badge badge-danger line"
+                                  matTooltip="This indicates that there was some problem executing your job and the job was not successfully executed">
+                <i class="material-icons failed exstatus-color">highlight_off</i><span>Failed</span></span>
+                            <span #tooltip="matTooltip"
+                                  *ngIf="consolidatedExecution.backgroundJobStatus === 'ENQUEUED'"
+                                  class="badge badge-enqueued line"
+                                  matTooltip="This indicates that the job is queued up for execution. Whenever an execution agent is available, your job will be triggered on that Agent">
+                <i class="material-icons enqueued exstatus-color">hourglass_top</i><span>Enqueued</span></span>
+                            <span #tooltip="matTooltip"
+                                  *ngIf="consolidatedExecution.backgroundJobStatus === 'PROCESSING'"
+                                  class="badge badge-warning line customAnimation"
+                                  matTooltip="This indicates that the job has started processing and the execution is in progress">
+                <i class="material-icons processing exstatus-color">autorenew</i> <span>Processing</span></span>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="progress">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'custom-status'">Results</mat-header-cell>
+                    <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-status'" class="name-cell">
+                        <div *ngIf="consolidatedExecution.progress" class="custom-badge">
+                            <span class="badge badge-info line"
+                                  matTooltip="Total">{{consolidatedExecution.progress.total}}</span>
+                            <span class="badge badge-success line"
+                                  matTooltip="Passed">{{consolidatedExecution.progress.passed}}</span>
+                            <span class="badge badge-danger line"
+                                  matTooltip="Failed">{{consolidatedExecution.progress.failed}}</span>
+                            <span class="badge badge-warning line"
+                                  matTooltip="Skipped">{{consolidatedExecution.progress.skipped}}</span>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="executionTime">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'execution-date'">Execution Time</mat-header-cell>
+                    <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-date'">
+                        <div>
+                            <!-- <span class="material-icons material-icons-outlined orange-time">watch_later</span> -->
+                            {{consolidatedExecution.startTime | datesDiff:consolidatedExecution.endTime}}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- <ng-container matColumnDef="startTime">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'custom-date'">Start Date</mat-header-cell>
+                  <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-date'">
+                    {{consolidatedExecution.startTime | date:'medium'}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="endTime">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'custom-date'">End Date</mat-header-cell>
+                  <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-date'">
+                    {{consolidatedExecution.endTime | date:'medium'}}
+                  </mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="createdBy">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'custom-createdby'">Executed By</mat-header-cell>
+                    <mat-cell *matCellDef="let consolidatedExecution" [ngClass]="'custom-createdby'">
+                        <div class="d-block"> {{consolidatedExecution.createdBy?.firstName}} {{consolidatedExecution.createdBy?.lastName}} </div>
+                        <div class="d-block config-date-txt">{{consolidatedExecution.startTime | date:'medium'}}</div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="expandedDetail">
+                    <mat-cell *matCellDef="let consolidatedExecution" [attr.colspan]="displayedColumns.length">
+                        <div [@detailExpand]="consolidatedExecution == expandedConsolidatedExecution ? 'expanded' : 'collapsed'"
+                             class="element-detail w-100">
+                            <mat-table [dataSource]="consolidatedExecution.testSuiteResults"
+                                       class="test-suite-results-table" matSort
+                                       matSortActive="testSuiteName" matSortDirection="asc" matSortDisableClear>
+
+                                <ng-container matColumnDef="testSuiteName">
+                                    <mat-header-cell *matHeaderCellDef class="testsuite-nametable" mat-sort-header>Test
+                                        Suite Name
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let testSuiteResult"
+                                              class="testsuite-nametable description-cell name-cell link-purple">
+                                        <a (click)="openTestSuiteResultDialog(testSuiteResult, consolidatedExecution.executionConfiguration)"
+                                           matTooltip="{{testSuiteResult.testSuiteName}}">
+                                            {{testSuiteResult.testSuiteName}}
+                                        </a>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="progress">
+                                    <mat-header-cell *matHeaderCellDef class="testsuite-statustable" mat-sort-header>
+                                        Status
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let testSuiteResult"
+                                              class="testsuite-statustable description-cell name-cell custom-badge">
+                                        <span class="badge badge-success line"
+                                              matTooltip="Passed">{{testSuiteResult.progress.passed}}</span>
+                                        <span class="badge badge-danger line"
+                                              matTooltip="Failed">{{testSuiteResult.progress.failed}}</span>
+                                        <span class="badge badge-warning line"
+                                              matTooltip="Skipped">{{testSuiteResult.progress.skipped}}</span>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedTSColumns"></mat-header-row>
+
+                                <mat-row *matRowDef="let row; columns: displayedTSColumns;"
+                                         class="element-row"></mat-row>
+
+                            </mat-table>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <div class="mat-group">
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"
+                             [class.expanded-row]="expandedConsolidatedExecution === row"
+                             class="element-row">
+                    </mat-row>
+
+                    <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></mat-row>
+                </div>
+            </mat-table>
+        </div>
+        <div [style.display]="resultsLength == 0 ? '' : 'none'" class="no-results">
+            No results
+        </div>
+        <div class="pagination">
+            <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 20, 50]" [pageSize]="10"></mat-paginator>
+        </div>
+    </div>
+</div>

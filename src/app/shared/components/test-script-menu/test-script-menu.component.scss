@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: var(--ahq-white);
+  width: 250px;
+  height: 100vh;
+  padding: 80px 10px 10px 10px;
+  overflow-y: auto;
+}
+
+nav ul > li {
+  list-style: none;
+  position: relative;
+  margin-left: 25px;
+  cursor: pointer;
+}
+
+nav ul > li::before {
+  position: absolute;
+  content: '';
+  width: 12px;
+  height: 12px;
+  margin-left: -22px;
+  margin-top: 5px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/assets/icons/right-arrow.svg');
+}
+
+nav ul > li.active::before {
+  background-image: url('/assets/icons/down-arrow.svg');
+}
+
+nav ul > li > a {
+  display: inline-block;
+  margin-left: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--ahq-grey-11);
+  width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+nav ul > li > a::before {
+  position: absolute;
+  content: '';
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  margin-left: -20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('/assets/icons/close-folder.svg');
+}
+
+nav ul > li.active > a::before {
+  background-image: url('/assets/icons/open-folder.svg');
+}
+
+nav ul > li > ul {
+  display: none;
+}
+
+nav ul > li > ul > li::before {
+  background-image: url('/assets/icons/locator.svg');
+}
+
+nav ul > li > ul > li > a {
+  margin-left: 0;
+}
+
+nav ul > li > ul > li > a::before {
+  display: none;
+}

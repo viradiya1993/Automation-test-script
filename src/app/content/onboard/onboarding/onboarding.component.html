@@ -1,0 +1,127 @@
+<div class="onboard-page">
+    <div class="wrapper wrapper-full-page">
+        <div class="page-header login-page header-filter" filter-color="black">
+            <div class="wizard-container container">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="card card-project card-login pl-3 pr-3">
+                            <div class="card-header card-header-white text-center mx-0">
+                                <!-- <h4 class="card-title">AutomationHQ</h4> -->
+                                <div class="logo-form">
+                                    <img
+                                            alt="AutomationHQ"
+                                            src="/assets/img/logo/ahq-logo-login.png"
+                                    />
+                                </div>
+                            </div>
+                            <ng-container *ngIf="!layoutSubmit; else welcomeOnboard">
+                                <div class="wizard-navigation">
+                                    <ul class="nav nav-pills justify-content-around">
+                                        <li
+                                                (click)="layoutName = 'project'"
+                                                class="nav-item flex-grow-1"
+                                        >
+                                          <span
+                                                  [class.active]="layoutName === 'project'"
+                                                  class="nav-link"
+                                          >
+                                            <span class="wizard-num">1</span>
+                                            <span class="material-icons"> check_circle </span> Add
+                                            Project
+                                          </span>
+                                        </li>
+                                        <li class="nav-item flex-grow-1">
+                                          <span
+                                                  [class.active]="layoutName === 'user'"
+                                                  class="nav-link"
+                                          >
+                                            <span class="wizard-num">2</span> Invite Users
+                                          </span>
+                                        </li>
+                                        <li class="nav-item flex-grow-1">
+                                          <span
+                                                  [class.active]="layoutName === 'ahqAgent'"
+                                                  class="nav-link"
+                                          >
+                                            <span class="wizard-num">3</span> Download Agent
+                                          </span>
+                                        </li>
+                                        <li class="nav-item flex-grow-1">
+                                          <span
+                                                  [class.active]="layoutName === 'ahqOverview'"
+                                                  class="nav-link"
+                                          >
+                                            <span class="wizard-num">4</span> AHQ Overview
+                                          </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div [ngStyle]="layoutName === 'ahqAgent' ? {display: 'flex'} : {}"
+                                     class="card-body px-0 pb-3 mt-3 onboarding-height">
+                                    <div #layoutAddProject *ngIf="layoutName === 'project'">
+                                        <app-add-onboard-project-info
+                                                (next)="layoutName = 'user'">
+                                        </app-add-onboard-project-info>
+                                    </div>
+                                    <div #layoutaddUser *ngIf="layoutName === 'user'">
+                                        <app-add-onboard-users
+                                                (back)="layoutName = 'project'"
+                                                (next)="layoutName = 'ahqAgent'"
+                                                (skip)="skipToAgent()">
+                                        </app-add-onboard-users>
+                                    </div>
+                                    <div #layoutahqAgent *ngIf="layoutName === 'ahqAgent'"
+                                         class="d-flex justify-content-center align-items-center">
+                                        <app-ahq-agent
+                                                (back)="layoutName = 'user'"
+                                                (next)="layoutName = 'ahqOverview'">
+                                        </app-ahq-agent>
+                                    </div>
+                                    <div #layoutahqOverview *ngIf="layoutName === 'ahqOverview'">
+                                        <app-ahq-overview
+                                                (back)="layoutName = 'ahqAgent'"
+                                                (goToDashboard)="goToDashboard()"
+                                        >
+                                        </app-ahq-overview>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #welcomeOnboard>
+    <div class="p-3">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h1 class="text-center">
+                    <i class="material-icons display-3 text-primary">thumb_up</i>
+                    <h3 class="display-4 text-primary m-0">Congratulations!</h3>
+                </h1>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h4 class="mt-2 mb-3">
+                    You have setup the project and users. Once the users finish their
+                    signup, they will be login to AutomationHQ and access the modules
+                    based on their assigned roles.
+                </h4>
+                <h4>Welcome aboard!!!</h4>
+                <h4 class="text-right"><i>- AutomationHQ Support</i></h4>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <button
+                    (click)="goToDashboard()"
+                    class="btn btn-rose pull-right ml-auto"
+                    mat-raised-button
+                    type="button"
+            >
+                Go to Dashboard
+            </button>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</ng-template>

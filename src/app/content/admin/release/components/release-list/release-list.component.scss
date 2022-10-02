@@ -1,0 +1,59 @@
+.all-release-row {
+  padding: 10px 5px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 1px solid #e9e9e9;
+  cursor: pointer;
+
+  .all-release-title {
+    font-size: 16px;
+  }
+}
+
+.release-title:hover {
+  color: var(--ahq-primary);
+}
+
+.all-release-row:hover {
+  background: #f7f7f7;
+}
+
+.releases-list.mat-expansion-panel {
+  .mat-expansion-panel-header {
+    padding: 0 5px;
+    min-height: 40px !important;
+  }
+
+  .release-header-title {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .release-title {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 24px;
+    margin: 0;
+    text-overflow: ellipsis;
+    width: calc(100% - 100px);
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .release-descrpt {
+    font-weight: 300;
+    padding: 0 8px;
+  }
+
+  .badge {
+    max-height: 21px;
+    margin-top: 2px;
+  }
+}
+
+.mat-expanded {
+  background: #f7f7f7;
+  border-bottom: 1px solid #e9e9e9;
+}

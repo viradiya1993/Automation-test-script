@@ -1,0 +1,52 @@
+<div (click)="$event.stopPropagation()"
+    (keydown.tab)="changeTab(assignUser, assignUserRole, assignUserSaveBtn, assignUserCancelBtn)">
+    <!-- <h4 class="mat-title pb-3">Assign User</h4> -->
+
+    <form [formGroup]="assignForm" novalidate>
+        <mat-form-field appearance="fill" class="user-list">
+            <mat-label>User</mat-label>
+            <mat-chip-list #chipList aria-label="User selection">
+                <mat-chip (removed)="remove(user)" *ngFor="let user of users" [removable]="removable"
+                    [selectable]="selectable">
+                    {{ user.email }}
+                    <mat-icon *ngIf="removable" matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input #assignUser #userInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    formControlName="userId" placeholder="user..." />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)"
+                    class="list-contentScroll">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                        {{user.firstName ? user.firstName + " " + user.lastName : ''}}
+                        {{user.email ? user.email : ''}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-chip-list>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="role-list">
+            <mat-label>Role</mat-label>
+            <mat-select #assignUserRole [(ngModel)]="selectedRole" formControlName="roleId" placeholder="Select Role">
+                <mat-option class="mat-option-role" *ngFor="let role of roles" [value]="role.id">
+                    <span class="roleName">{{ role.roleName }}</span>
+                    <!-- <span class="roleDescription">
+            {{ role.description }}
+          </span> -->
+                    <mat-icon #tooltip="matTooltip" class="mat-icon-primary mat-icon-info ml-1 d-inline-block"
+                        matTooltip="{{ role.description }}">                        
+                    </mat-icon>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="submitted && f.roleId.errors" class="help-block" style="color: red">
+            <div *ngIf="f.roleId.errors.required">Role is required</div>
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-end">
+        <button #assignUserSaveBtn (click)="saveAssignUser()" [disabled]="!assignForm.valid" class="btn btn-primary"
+            mat-raised-button>Save
+        </button>
+        <button #assignUserCancelBtn (click)="onAssignUserCancel()" mat-button>Cancel</button>
+    </div>
+</div>

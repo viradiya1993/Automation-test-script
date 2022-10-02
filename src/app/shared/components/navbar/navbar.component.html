@@ -1,0 +1,99 @@
+<nav #navbar class="navbar navbar-expand-lg navbar-transparent">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+                <button (click)="minimizeSidebar()" class="btn btn-just-icon btn-white btn-fab btn-round"
+                        mat-raised-button>
+                    <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                    <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+                </button>
+            </div>
+        </div>
+        <button (click)="sidebarToggle()" class="navbar-toggler btn-no-ripple" mat-button type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="container-fluid custom-container">
+            <div class="row align-items-center justify-content-between">
+                <div class="d-flex flex-fill px-3 field-container">
+                    <div *ngIf="orgName" class="searchBar-top mr-4">
+                        <mat-form-field>
+                            <input class="input-color" disabled matInput placeholder="Organization Name"
+                                   value="{{ orgName }}"/>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="organizations.length" class="searchBar-top mr-4">
+                        <mat-form-field>
+                            <mat-label>Organization</mat-label>
+                            <mat-select (ngModelChange)="selectedOrganization=$event; organizationChange($event)"
+                                        [(ngModel)]="selectedOrganization">
+                                <mat-option value="">
+                                    Select Organization
+                                </mat-option>
+                                <mat-option *ngFor="let organization of organizations" [value]="organization.id">
+                                    {{organization.orgName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="searchBar-top">
+                        <mat-form-field *ngIf="projects.length > 0">
+                            <mat-label>Project</mat-label>
+                            <mat-select #projectSelect (ngModelChange)="selectedProject=$event; projectChange($event)"
+                                        (opened)="registerPanelScrollEvent()"
+                                        [(ngModel)]="selectedProject" [complete]="offset === options.length"
+                                        msInfiniteScroll>
+                                <mat-option *ngFor="let project of options" [value]="project.id">
+                                    {{project.projectName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <p *ngIf="!isProjectsLoading && !projects.length" class="text-danger">
+                            You have no projects assigned. Please contact your Supervisor Admin
+                            or Project Admin
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item dropdown pr-2 pt-2">
+                            <a aria-expanded="false" aria-haspopup="true" class="nav-link active"
+                               data-toggle="dropdown" href="#pablo" id="navbarDropdownProfile"
+                               style="background: #fff; padding: 0.5375rem;">
+                                    <span>
+                                      <i class="material-icons">person</i>{{ userData.firstName }}
+                                        {{ userData.lastName }}
+                                    </span>
+                                <!-- <p class="d-lg-none d-md-block">
+                                  Account
+                                </p> -->
+                                <div class="ripple-container"></div>
+                            </a>
+                            <div aria-labelledby="navbarDropdownProfile" class="dropdown-menu dropdown-menu-right">
+                                <!-- <a class="dropdown-item" href="javascript:void(0)">Profile</a>
+                                <a class="dropdown-item" href="javascript:void(0)">Settings</a> -->
+                                <!-- <div class="dropdown-divider"></div> -->
+                                <a (click)="logout()" class="dropdown-item logout-link" href="javascript:void(0)">
+                                    Log out
+                                </a>
+                            </div>
+                        </li>
+                        <li *ngIf="['/dashboard', '/object-repository', '/test-script', '/test-suite', '/test-bot', '/projects-and-users', '/settings'].includes(router.url)"
+                            class="nav-item">
+                            <button class="btn btn-primary btn-link text-capitalize btn-help ml-3"
+                            mat-stroked-button (click)="commonService.changeGotIt()" [matTooltipPosition]="'below'"
+                                    [matTooltip]="commonService.gotItTooltip()">
+                                <!-- <mat-icon>help_outline</mat-icon> -->
+                                Help
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation"></div>
+        </div>
+    </div>
+</nav>

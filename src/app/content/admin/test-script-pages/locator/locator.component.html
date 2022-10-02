@@ -1,0 +1,24 @@
+<div class="inner">
+    <h3>Locator</h3>
+    <form [formGroup]="locForm">
+        <mat-form-field class="example-full-width">
+            <input formControlName="locatorName" matInput placeholder="Name"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select formControlName="locatorType" placeholder="Locator Type">
+                <mat-option value="ID">ID</mat-option>
+                <mat-option value="NAME">NAME</mat-option>
+                <mat-option value="LINK_TEXT">LINK_TEXT</mat-option>
+                <mat-option value="PARTIAL_LINK_TEXT">PARTIAL_LINK_TEXT</mat-option>
+                <mat-option value="TAG_NAME">TAG_NAME</mat-option>
+                <mat-option value="CLASS_NAME">CLASS_NAME</mat-option>
+                <mat-option value="XPATH">XPATH</mat-option>
+                <mat-option value="CSS_SELECTOR">CSS_SELECTOR</mat-option>
+                <mat-option value="DYNAMIC_XPATH">DYNAMIC_XPATH</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input formControlName="locatorValue" matInput placeholder="Value"/>
+        </mat-form-field>
+    </form>
+</div>

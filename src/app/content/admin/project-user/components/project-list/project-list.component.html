@@ -1,0 +1,113 @@
+<div class="card custom-card mt-0 height-100">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title text-primary">Project</h4>
+            <button #projectFormMatTrigger="matMenuTrigger" (click)="addProject()"
+                    [matMenuTriggerFor]="projectForm" class="btn btn-primary btn-link text-capitalize"
+                    mat-stroked-button
+                    matTooltip="Add Project">
+                <i class="material-icons">add</i> Add Project
+            </button>
+        </div>
+        <mat-menu #projectForm="matMenu" [hasBackdrop]="false" class="add-edit-form mat-menu-form" xPosition="before">
+            <app-project-form (closeMenu)="projectFormMatTrigger.closeMenu()" (reload)="searchInProjectList('')"
+                              [mat-menu-prevent]></app-project-form>
+        </mat-menu>
+    </div>
+    <div class="card-body listCol-scroll">
+        <div class="all-epic-row">
+            <div class="d-flex justify-content-between">
+                <span class="all-epic-title">All Projects</span>
+                <span class="badge badge-primary-light mr-4" matTooltip="Number of Projects">{{ projects.length }}
+                </span>
+            </div>
+        </div>
+
+        <app-search-field (searchEvent)="searchInProjectList($event)" class="search-box"
+                          label="Search Projects"></app-search-field>
+
+        <div *ngIf="projects.length > 0" class="list-contentScroll">
+            <div *ngFor="let project of projects"
+                 [ngClass]="selectedProject && selectedProject.id === project.id ? ' active' : ''"
+                 class="expansion-list projectUser-list cursor-pointer">
+                <div class="projectUser-header-title d-flex justify-content-between">
+                    <div (click)="onProjectSelect(project, $event)" class="projectUser-title"
+                         matTooltip="{{ project.projectName }}">
+                         <span class="material-icons align-middle font-size-21 mat-icon-color">assignment</span>
+                         {{ project.projectName }}
+                    </div>
+                    <div class="epictitle-config d-flex justify-content-between align-items-center">
+                        <span class="badge badge-primary-light" matTooltip="Number of Users">
+                            {{ project.numberOfUsers ? project.numberOfUsers : 0 }}
+                        </span>
+                        <button [matMenuTriggerFor]="menu" aria-label="Releases More Menu"
+                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1" mat-icon-button>
+                            <mat-icon class="material-icons">more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button #projectFormMatTrigger="matMenuTrigger" (click)="onProjectEdit(project)"
+                                    [matMenuTriggerFor]="projectEditForm"
+                                    class="custom-matmenu" mat-menu-item
+                                    matTooltip="Edit Project">
+                                <mat-icon class="custom-btn-icon mr-0">edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                            <mat-menu #projectEditForm="matMenu" [hasBackdrop]="false"
+                                      class="add-edit-form mat-menu-form"
+                                      xPosition="before">
+                                <app-project-form (closeMenu)="projectFormMatTrigger.closeMenu()" [mat-menu-prevent]
+                                                  [project]="project">
+                                </app-project-form>
+                            </mat-menu>
+                            <!-- TODO:: can be enabled in future again-->
+                            <!--<button mat-menu-item class="custom-matmenu" (click)="setProjectToRemove(project)"
+                                data-toggle="modal" data-target="#removeProjectConfirmation"
+                                matTooltip="Delete Project">
+                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>-->
+                        </mat-menu>
+                    </div>
+                </div>
+                <!-- <mat-divider class="my-2"></mat-divider> -->
+            </div>
+        </div>
+
+        <div *ngIf="projects.length === 0" class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            Project do not exist.
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel"
+     class="modal fade modal-mini modal-primary deleteModal-dialog"
+     id="removeProjectConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Project</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ deletedProject ? deletedProject.projectName : "" }} project?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeProject(deletedProject)" class="btn btn-primary mr-2" data-dismiss="modal"
+                        mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button
+                        type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

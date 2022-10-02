@@ -1,0 +1,77 @@
+.epic-list-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-epic-row {
+  padding: 10px 5px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 1px solid #e9e9e9;
+  cursor: pointer;
+
+  .all-epic-title {
+    font-weight: 400;
+    color: #333;
+  }
+}
+
+.epic-title:hover {
+  color: var(--ahq-primary);
+}
+
+.all-epic-row:hover {
+  background: #f7f7f7;
+}
+
+.epics-list.mat-expansion-panel {
+  .mat-expansion-panel-header {
+    padding: 0 5px;
+    min-height: 40px !important;
+  }
+
+  .epic-header-title {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .epic-title {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 24px;
+    margin: 0;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .epics-descrpt {
+    font-weight: 300;
+    padding: 0 8px;
+  }
+
+  .badge {
+    max-height: 21px;
+    margin-top: 2px;
+  }
+}
+
+.epics-list.mat-expansion-panel.mat-expanded:first-child {
+  margin-top: 0;
+}
+
+.epics-list.mat-expansion-panel.mat-expanded {
+  background: #f7f7f7;
+  border-bottom: 0px solid #e9e9e9;
+  box-shadow: rgb(156, 39, 176, 0.6) 0px 0px 0px 1px inset;
+  margin-top: -1px;
+  outline: none;
+
+  .epic-title {
+    color: var(--ahq-primary);
+    font-weight: 400;
+  }
+}

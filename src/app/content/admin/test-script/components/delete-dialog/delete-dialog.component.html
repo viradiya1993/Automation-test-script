@@ -1,0 +1,23 @@
+<div class="popupframe-title">
+    <div class="mat-dialog-title">
+        <h2>Delete Test Script</h2>
+    </div>
+</div>
+<mat-dialog-content>
+    <p *ngIf="testSuiteViews.length === 0"> Are you sure you want to delete {{name}} test script?</p>
+    <div *ngIf="testSuiteViews.length > 0">
+        Removing {{name}} Test Script will impact the following Test Suites:
+        <ul>
+            <li *ngFor="let testSuiteView of testSuiteViews">
+                {{testSuiteView.name}}
+            </li>
+        </ul>
+        Are you sure, you want to delete this Test Script and all its references from the above Test Suites?
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button (click)="onConfirmClick()" class="btn btn-primary" mat-raised-button tabindex="1">Yes
+        <div class="ripple-container"></div>
+    </button>
+    <button class="btn btn-primary-outline" mat-dialog-close mat-raised-button tabindex="-1">No</button>
+</mat-dialog-actions>

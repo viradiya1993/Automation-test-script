@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Grid</h2>
+<mat-dialog-content>
+    <form [formGroup]="gridForm">
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>Name</mat-label>
+                <input formControlName="name" matInput placeholder="Name">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>User Name</mat-label>
+                <input formControlName="username" matInput placeholder="User Name">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>Access Key</mat-label>
+                <input formControlName="accessKey" matInput placeholder="Access Key">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>URL</mat-label>
+                <input formControlName="url" matInput placeholder="URL">
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button (click)="onGridSaveClick();" [disabled]="!gridForm.valid" [mat-dialog-close]="true"
+            class="btn btn-primary m-2"
+            mat-raised-button>Save
+    </button>
+    <button (click)="onGridCancelClick();" class="btn btn-plain m-2" mat-dialog-close mat-raised-button>Cancel</button>
+</mat-dialog-actions>

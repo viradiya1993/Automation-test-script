@@ -1,0 +1,199 @@
+<h2 *ngIf="!userInfo.userId" mat-dialog-title style="text-align: center;">
+    Add User Information
+</h2>
+<h2 *ngIf="userInfo.userId" mat-dialog-title style="text-align: center;">
+    Edit User Information
+</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <form [formGroup]="userInfoForm" novalidate role="form">
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    [(ngModel)]="userInfo.email"
+                                    [readonly]="userInfo.userId"
+                                    class="form-control input-sm"
+                                    formControlName="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email Address"
+                                    type="email"
+                            />
+                        </div>
+                        <!-- <div
+                          *ngIf="submitted && f.email.errors"
+                          class="help-block"
+                          style="color: red;"
+                        >
+                          <div *ngIf="f.email.errors.required">
+                            Email Address is required
+                          </div>
+                          <div *ngIf="f.email.errors.pattern">Email is not valid</div>
+                          <div *ngIf="f.email.errors.emailExists">
+                            This email is already taken. Please choose another email.
+                          </div>
+                        </div> -->
+                    </div>
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    [(ngModel)]="userInfo.firstName"
+                                    class="form-control input-sm"
+                                    formControlName="firstName"
+                                    id="first_name"
+                                    name="first_name"
+                                    placeholder="First Name"
+                                    type="text"
+                            />
+                        </div>
+                        <div
+                                *ngIf="submitted && f.firstName.errors"
+                                class="help-block"
+                                style="color: red;"
+                        >
+                            <div *ngIf="f.firstName.errors.required">
+                                First name is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    [(ngModel)]="userInfo.lastName"
+                                    class="form-control input-sm"
+                                    formControlName="lastName"
+                                    id="last_name"
+                                    name="last_name"
+                                    placeholder="Last Name"
+                                    type="text"
+                            />
+                        </div>
+                        <div
+                                *ngIf="submitted && f.lastName.errors"
+                                class="help-block"
+                                style="color: red;"
+                        >
+                            <div *ngIf="f.lastName.errors.required">
+                                Last name is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    [(ngModel)]="userInfo.password"
+                                    class="form-control input-sm"
+                                    formControlName="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    type="password"
+                            />
+                        </div>
+                        <div
+                                *ngIf="submitted && f.password.errors"
+                                class="help-block"
+                                style="color: red;"
+                        >
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <mat-form-field>
+                                <mat-select
+                                        [(ngModel)]="userInfo.phone.countryCode"
+                                        formControlName="countryCode"
+                                        name="code"
+                                        placeholder="Select Country"
+                                >
+                                    <mat-option
+                                            *ngFor="let code of countryCode"
+                                            [value]="code.dial_code"
+                                    >
+                                        {{code.code}} {{ code.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div
+                                *ngIf="submitted && f.countryCode.errors"
+                                class="help-block"
+                                style="color: red;"
+                        >
+                            <div *ngIf="f.countryCode.errors.required">
+                                Country is required
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group has-default">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                        </div>
+                        <mat-form-field>
+                          <mat-select placeholder="Select Role" [(ngModel)]="userRole.roleId" formControlName="role" name="role">
+                            <mat-option *ngFor="let role of roles" [value]="role.id">
+                              {{ role.roleName }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="submitted && f.role.errors" class="help-block" style="color: red">
+                        <div *ngIf="f.role.errors.required">Role is required</div>
+                      </div>
+                    </div> -->
+                    <div class="form-group has-default">
+                        <div class="input-group">
+                            <div class="input-group-prepend"></div>
+                            <input
+                                    [(ngModel)]="userInfo.phone.phoneNumber"
+                                    class="form-control input-sm"
+                                    formControlName="phone"
+                                    id="phone"
+                                    maxlength="10"
+                                    name="phone"
+                                    placeholder="Phone Number"
+                                    type="text"
+                            />
+                        </div>
+                        <div
+                                *ngIf="submitted && f.phone.errors"
+                                class="help-block"
+                                style="color: red;"
+                        >
+                            <div *ngIf="f.phone.errors.required">Phone is required</div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group has-default">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                        </div>
+                        <input type="text" name="userName" id="userName" formControlName="userName"
+                          [(ngModel)]="userInfo.userName" class="form-control input-sm" placeholder="User Name">
+                      </div>
+                      <div *ngIf="submitted && f.userName.errors" class="help-block" style="color: red">
+                        <div *ngIf="f.userName.errors.required">User Name is required</div>
+                      </div>
+                    </div> -->
+                    <mat-dialog-actions align="end">
+                        <button class="btn btn-default" mat-dialog-close>Cancel</button>
+                        <button
+                                (click)="saveUserInfo()"
+                                cdkFocusInitial
+                                class="btn btn-primary"
+                        >
+                            save
+                        </button>
+                    </mat-dialog-actions>
+                </form>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

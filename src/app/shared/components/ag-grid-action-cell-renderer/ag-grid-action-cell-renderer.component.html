@@ -1,0 +1,33 @@
+<div class="actions-container">
+    <div class="float-right">
+        <a (click)="onStartEditing()" *ngIf="!editable" class="btn btn-link btn-primary btn-just-icon">
+            <i aria-label="Edit TestSuite" class="material-icons">edit</i>
+        </a>
+        <a (click)="onStopEditing()" *ngIf="editable" class="btn btn-link btn-primary btn-just-icon">
+            <mat-icon aria-label="Save TestSuite">save</mat-icon>
+        </a>
+        <a (click)="onCancelEditing()" *ngIf="editable" class="btn btn-link btn-primary btn-just-icon">
+            <mat-icon aria-label="Close TestSuite">close</mat-icon>
+        </a>
+        <a (click)="onDeleteRow()" *ngIf="!editable" class="btn btn-link btn-primary btn-just-icon">
+            <i aria-label="Delete TestSuite" class="material-icons">delete</i>
+        </a>
+        <!-- <button *ngIf="!editable" mat-icon-button class="primary-color" (click)="onStartEditing()">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="editable" mat-icon-button class="primary-color" (click)="onStopEditing()">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button *ngIf="editable" mat-icon-button class="primary-color" (click)="onCancelEditing()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button *ngIf="!editable" mat-icon-button class="primary-color" (click)="onDeleteRow()">
+          <mat-icon>delete</mat-icon>
+        </button>  -->
+
+    </div>
+
+</div>
+
+
+

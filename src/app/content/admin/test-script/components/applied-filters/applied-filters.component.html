@@ -1,0 +1,56 @@
+<div class="filterList-grp">
+    <div class="d-flex justify-content-start">
+        <div>
+            <mat-chip-list class="primary-chip">
+                <mat-chip (removed)="removeFilter('epic')" *ngIf="appliedFilter.epic"
+                          [matTooltip]="appliedFilter.epic.name"
+                          class="primary-box">
+                    <span>Epic: {{ appliedFilter.epic.name }}</span>
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <mat-chip (removed)="removeFilter('website')" *ngIf="appliedFilter.website"
+                          [matTooltip]="appliedFilter.website.name"
+                          class="primary-box">
+                    <span>Website: {{ appliedFilter.website.name }}</span>
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <mat-chip (removed)="removeFilter('name')" *ngIf="appliedFilter.name" [matTooltip]="appliedFilter.name"
+                          class="primary-box">
+          <span>{{
+			appliedFilter.showList === "stories" ? "Story" : "TestScript"
+              }}
+              Name: {{ appliedFilter.name }}</span>
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <mat-chip (removed)="removeFilter('tags')" *ngIf="appliedFilter.tags.length"
+                          [matTooltip]="appliedFilter.tags"
+                          class="primary-box">
+                    <span>Label: {{ appliedFilter.tags.join(", ") }}</span>
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <mat-chip (removed)="removeFilter('status')" *ngIf="appliedFilter.status"
+                          [matTooltip]="appliedFilter.status"
+                          class="primary-box">
+                    <span>Status: {{ appliedFilter.status }}</span>
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <!-- <mat-chip class="primary-box" *ngIf="isFilterApplied" (removed)="removeFilter('clearAll')">
+                Clear Filters
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip> -->
+            </mat-chip-list>
+        </div>
+        <div>
+            <button (click)="removeFilter('clearAll')" *ngIf="isFilterApplied"
+                    class="btn btn-primary btn-link text-capitalize mt-1"
+                    mat-flat-button>
+                <medium>
+          <span class="mat-button-wrapper">
+            <i class="material-icons">close</i>
+          </span>
+                    Clear filters
+                </medium>
+            </button>
+        </div>
+    </div>
+</div>

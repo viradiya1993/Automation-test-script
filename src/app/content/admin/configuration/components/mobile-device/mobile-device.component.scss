@@ -1,0 +1,48 @@
+.sub-tabs {
+  padding: 15px 15px 15px 0;
+
+  ::ng-deep {
+    .mat-tab-group {
+      flex-direction: row;
+    }
+
+    .mat-tab-header {
+      border-bottom: none;
+    }
+
+    .mat-tab-header-pagination {
+      display: none !important;
+    }
+
+    .mat-tab-labels {
+      flex-direction: column;
+
+      .mat-tab-label {
+        padding: 0;
+        min-width: 100px;
+        justify-content: flex-start;
+      }
+
+      .mat-tab-label-active {
+        border-bottom: 3px solid #8e24aa;
+      }
+    }
+
+    .mat-ink-bar {
+      height: 100%;
+      left: 98% !important;
+      background-color: transparent;
+      width: 100%;
+    }
+
+    .mat-tab-body-wrapper {
+      flex: 1 1 auto;
+      padding: 0 25px;
+
+      h3 {
+        margin-top: 10px;
+      }
+    }
+  }
+
+}

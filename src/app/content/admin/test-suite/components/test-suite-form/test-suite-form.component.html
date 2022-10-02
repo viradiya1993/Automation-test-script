@@ -1,0 +1,41 @@
+<div class="add-test-suite">
+    <button #testSuiteFormMatTrigger="matMenuTrigger" [matMenuTriggerFor]="testSuiteFormMenu"
+            class="btn btn-primary btn-link text-capitalize" mat-stroked-button>
+        <i class="material-icons">add</i> Add Test Suite
+    </button>
+
+    <mat-menu #testSuiteFormMenu="matMenu" (closed)="testSuiteForm.reset()" [hasBackdrop]="false"
+              class="add-edit-form mat-menu-form"
+              xPosition="before">
+        <div (click)="$event.stopPropagation()">
+            <form [formGroup]="testSuiteForm" class="row">
+                <div class="col-md-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput placeholder="Name"/>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea cols="50" formControlName="description" matInput placeholder="Description"
+                                  rows="3"></textarea>
+                    </mat-form-field>
+                </div>
+
+            </form>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button (click)="onTestSuiteSaveClick()" [disabled]="!testSuiteForm.valid"
+                                class="btn btn-primary"
+                                mat-raised-button>
+                            Save
+                        </button>
+                        <button (click)="onTestSuiteCancelClick()" mat-button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-menu>
+</div>

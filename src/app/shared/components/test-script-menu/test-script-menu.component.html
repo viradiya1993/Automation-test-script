@@ -1,0 +1,11 @@
+<nav>
+    <ul>
+        <li *ngFor="let item of listPgs|keyvalue">
+            <a>{{item.key}}</a>
+            <ul *ngIf="item.value">
+                <li *ngFor="let loc of item.value"><a
+                        routerLink="/test-script/locator/{{loc.locatorId}}">{{loc.locatorName}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

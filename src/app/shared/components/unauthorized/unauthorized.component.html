@@ -1,0 +1,74 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="frame-wrapper">
+                    <div class="frame-element">
+                        <a
+                                (click)="toggleFrame3 = !toggleFrame3"
+                                class="btn btn-link btn-primary down-arrow show-up-arrow"
+                        >
+                            <h2 class="m-0">
+                                AHQ Knowledge
+                                <span
+                                ><i
+                                        aria-label="Show Test Scripts"
+                                        class="material-icons fw-600"
+                                >keyboard_arrow_down</i
+                                ></span
+                                >
+                            </h2>
+                        </a>
+                        <div *ngIf="toggleFrame3" class="frame-content">
+                            <div class="row ahq-video-wrapper">
+                                <div class="col-4">
+                                    <a
+                                            (click)="
+                      openVideoDialog(
+                        'https://www.youtube.com/embed/28Q5DIdfW3g?rel=0'
+                      )
+                    "
+                                            class="ahq-video-item"
+                                    >
+                                        <img alt="" src="/assets/img/Overview-demo-pic.png"/>
+                                        <img alt="" src="/assets/img/Overview-demo-pic.png"/>
+                                    </a>
+                                </div>
+                                <div class="col-4">
+                                    <a
+                                            (click)="
+                      openVideoDialog(
+                        'https://www.youtube.com/embed/E58eyhy0_mY?rel=0'
+                      )
+                    "
+                                            class="ahq-video-item"
+                                    >
+                    <span>
+                      <img alt="" src="/assets/img/TestScript-demo-pic.png"/>
+                      <img alt="" src="/assets/img/TestScript-demo-pic.png"/>
+                    </span>
+                                    </a>
+                                </div>
+                                <div class="col-4">
+                                    <a
+                                            (click)="
+                      openVideoDialog(
+                        'https://www.youtube.com/embed/n31v1IXEzMc?rel=0'
+                      )
+                    "
+                                            class="ahq-video-item"
+                                    >
+                    <span>
+                      <img alt="" src="/assets/img/Rolebased-demo-pic.png"/>
+                      <img alt="" src="/assets/img/Rolebased-demo-pic.png"/>
+                    </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

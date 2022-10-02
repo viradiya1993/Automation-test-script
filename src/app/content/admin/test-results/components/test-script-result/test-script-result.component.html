@@ -1,0 +1,138 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex  align-items-center mb-2">
+            <h2 mat-dialog-title>Test Script: {{ testScriptResult.testScriptName}}</h2>
+            <button (click)="closeAll()" [routerLink]="['/test-script']"
+                    [state]="{ openTestScriptId: testScriptResult.testScriptId }" class="btn btn-primary btn-sm ml-2">
+                Edit Script
+            </button>
+            <div *ngIf="testScriptResult.consolidatedResult" class="ml-2">
+                <button (click)="downloadConsolidatedReport()" color="primary" mat-icon-button>
+                    <mat-icon>download</mat-icon>
+                    Download the consolidated Report
+                </button>
+            </div>
+        </div>
+        <div class="rightpopup-section">
+            <!--TODO:: can be enabled again-->
+            <!--<button mat-stroked-button class="btn btn-primary btn-link text-capitalize" #filterFormMatTrigger="matMenuTrigger"
+              [matMenuTriggerFor]="filterMenu">
+              <i class="material-icons">filter_alt</i> Filter
+            </button>-->
+            <mat-menu #filterMenu="matMenu" [hasBackdrop]="false" class="filter-mat-menu-form mat-menu-form"
+                      xPosition="before">
+                <div (click)="$event.stopPropagation()">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill">
+                                <input matInput name="name" placeholder="Name"/>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Status</mat-label>
+                                <mat-select name="status">
+                                    <mat-option>Select Status</mat-option>
+                                    <mat-option value="Passed">Passed</mat-option>
+                                    <mat-option value="Failed">Failed</mat-option>
+                                    <mat-option value="Skipped">Skipped</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-end">
+                                <button (click)="applyFilter()" class="btn btn-primary" mat-raised-button>
+                                    Filter
+                                </button>
+                                <button (click)="onFilterCancelClick()" mat-button>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-menu>
+            <button class="btn-popupClose" mat-button mat-dialog-close><span class="material-icons">close</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="popup-dialog-content">
+    <div class="row">
+        <div *ngIf="testScriptResult.iterationResults.length" class="col-md">
+            <mat-table [dataSource]="testScriptResult.iterationResults" class="iteration-result-table mat-elevation-z8">
+                <ng-container matColumnDef="iterationNumber">
+                    <mat-header-cell *matHeaderCellDef class="iteration-no">Sr. No. table 2</mat-header-cell>
+                    <mat-cell *matCellDef="let iterationResult" class="iteration-no">
+            <span [ngClass]="{'badge-success':iterationResult.status === true,'badge-danger':iterationResult.status === false,'badge-warning':iterationResult.skipped === true}"
+                  class="badge">
+              {{iterationResult.iterationNumber}}
+            </span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dataInfo">
+                    <mat-header-cell *matHeaderCellDef class="iteration-datainfo">Data Info</mat-header-cell>
+                    <mat-cell (click)="openIterationResultDialog(testScriptResult, iterationResult.iterationNumber);"
+                              *matCellDef="let iterationResult"
+                              class="iteration-datainfo link-purple">
+                        <span *ngIf="iterationResult.dataInfo">{{iterationResult.dataInfo}}</span>
+                        <i *ngIf="!iterationResult.dataInfo">Single Data Test</i>
+
+                    </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="skipped">
+                  <mat-header-cell class="iteration-skipped" *matHeaderCellDef>Skipped</mat-header-cell>
+                  <mat-cell class="iteration-skipped" *matCellDef="let iterationResult">
+                    {{iterationResult.skipped}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <mat-header-cell class="iteration-status" *matHeaderCellDef>Status</mat-header-cell>
+                  <mat-cell class="iteration-status" *matCellDef="let iterationResult">
+                    {{iterationResult.status}}</mat-cell>
+                </ng-container> -->
+
+                <ng-container matColumnDef="executionTime">
+                    <mat-header-cell *matHeaderCellDef class="no-justify iteration-executiontime">Execution Time
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let iterationResult" class="iteration-executiontime">
+                        <div class="timing-show">
+                            <span class="material-icons material-icons-outlined orange-time">watch_later</span>
+                            {{iterationResult.startTimeStamp | datesDiff:iterationResult.endTimeStamp}}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="gridStatus">
+                    <mat-header-cell *matHeaderCellDef class="no-justify iteration-gridstatus">Agent Status
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let iterationResult" class="iteration-gridstatus">
+                        <div class="timing-show">
+                            {{iterationResult.gridStatus}}
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="startTimeStamp">
+                    <mat-header-cell *matHeaderCellDef class="no-justify iteration-starttime">Start Time
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let iterationResult" class="iteration-starttime">
+                        {{iterationResult.startTimeStamp | date:'medium'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="endTimeStamp">
+                    <mat-header-cell *matHeaderCellDef class="no-justify iteration-endtime">End Time</mat-header-cell>
+                    <mat-cell *matCellDef="let iterationResult" class="iteration-endtime">
+                        {{iterationResult.endTimeStamp | date:'medium'}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns2;" class="element-row"></mat-row>
+            </mat-table>
+            <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 20, 50]" [pageSize]="10"></mat-paginator>
+        </div>
+    </div>
+</div>

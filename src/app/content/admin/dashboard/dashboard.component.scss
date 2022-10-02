@@ -1,0 +1,31 @@
+.list-group-item-report {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0;
+  margin-bottom: 15px;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  .site-label {
+    font-size: 13px;
+    font-weight: 500;
+    justify-content: left;
+    margin: 5px 0 0 0;
+    display: flex;
+  }
+}
+
+.custom-card {
+  margin-bottom: 0;
+}
+
+.image-overly {
+  opacity: 0.25;
+  height: 100%;
+  width: 100%;
+}
+
+.margin-top--35 {
+  margin-top: -35%;
+}

@@ -1,0 +1,190 @@
+.multiline-tooltip {
+  white-space: pre-line;
+}
+
+// .expand-collapse-btn {
+//     position: absolute;
+//     top: -43px;
+//     right: 0;
+//     z-index: 999;
+// }
+.testRun-list.mat-expansion-panel-spacing:first-child {
+  margin-top: 5px;
+}
+
+.testRun-list.mat-expansion-panel {
+  margin: 10px 0;
+  border-radius: 0 !important;
+
+  .mat-expansion-panel-header-title {
+    margin-right: 0;
+    margin-top: 2px;
+  }
+
+  .mat-expansion-panel {
+    margin: -1px 0 0 0;
+
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 10px;
+    border: 1px solid #e5e5e5;
+    font-weight: 400;
+    height: 40px !important;
+    line-height: 20px;
+
+    &:hover {
+      background: #f7f7f7 !important;
+    }
+
+    .story-header-title {
+      margin-right: 0;
+    }
+
+    .story-name {
+      margin-top: 2px;
+    }
+
+    .badge {
+      max-height: 21px;
+    }
+
+    .badge-info-light {
+      .material-icons {
+        font-size: 16px;
+        vertical-align: middle;
+        margin-top: -2px;
+      }
+    }
+  }
+
+  .testRun-list-row {
+    padding: 8px 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    line-height: 18px;
+  }
+}
+
+.no-avaliable-text {
+  margin: 7px 0;
+}
+
+.mat-tab-main-wrapper .mat-tab-label:after {
+  content: "";
+  border-bottom: 2px solid var(--ahq-primary);
+}
+
+.group-iterationResult {
+  .iterationResult-title {
+    font-size: 12px;
+    overflow: visible;
+    margin: 10px 0 10px 0;
+    padding: 0;
+  }
+
+  .iterationResult-decrpt.timing-show {
+    margin-left: 0;
+  }
+
+  .data-descrpt {
+    .material-icons {
+      color: var(--ahq-primary);
+      vertical-align: middle;
+    }
+  }
+
+  border-top: 1px solid #eaeaea;
+}
+
+.link-icon {
+  color: var(--ahq-primary);
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 21px;
+}
+
+.iterationResult-decrpt {
+  margin: 10px 0;
+  font-weight: 400;
+}
+
+.iterationResult-decrpt:before {
+  content: ":";
+  margin: 0 6px 0 -10px;
+}
+
+.iterationResult-title {
+  font-size: 12px;
+  overflow: visible;
+  margin: 10px 0 10px 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+.timing-show {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.result-title {
+  .test-titlePopup {
+    margin: 10px 0;
+    vertical-align: middle;
+  }
+
+  .timing-show {
+    margin: 10px 20px;
+  }
+}
+
+.iteration-result-dialog-content {
+  padding: 0 24px;
+}
+
+.testRun-name {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0 5px;
+  text-overflow: ellipsis;
+  max-width: 25vw;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.testRun-name.text-truncate {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 24px;
+  margin: 0 5px;
+  text-overflow: ellipsis;
+  max-width: 25vw;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.test-suite-name {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 24px;
+  margin: 0 5px;
+  text-overflow: ellipsis;
+  max-width: 25vw;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.customScroll-contentScroll {
+  height: calc(100vh - 240px);
+  overflow-y: auto;
+  display: block;
+  overflow-x: hidden;
+}

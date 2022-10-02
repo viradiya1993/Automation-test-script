@@ -1,0 +1,91 @@
+.allusers {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 50px);
+  position: relative;
+  border: 1px solid #e5e5e5;
+}
+
+.expansion-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.testscriptlist-row {
+  border: 0;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.testscriptlist-row {
+  .testscript-name {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 12px;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: normal;
+    vertical-align: bottom;
+  }
+}
+
+.customScroll-contentScroll {
+  height: calc(100vh - 500px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+.expansion-list.customScroll-contentScroll {
+  height: calc(100vh - 430px);
+  overflow-y: auto;
+  display: block;
+}
+
+.mat-header-row, .mat-row {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 48px;
+
+  .user-mat-header {
+    flex: 0 0 30%;
+
+    .testscript-email {
+      text-overflow: ellipsis;
+      width: 14vw;
+      overflow: hidden;
+      display: block;
+      white-space: nowrap;
+    }
+  }
+
+  .lastActivity-mat-header {
+    flex: 0 0 20%;
+  }
+
+  .status-mat-header {
+    flex: 0 0 15%;
+  }
+
+  // .project-mat-header {
+  //   flex: 0 0 15%;
+  // }
+  .role-mat-header {
+    flex: 0 0 20%;
+  }
+
+  .action-mat-header {
+    flex: 0 0 15%;
+  }
+}
+
+.projectuser-mat-header {
+  min-height: 30px;
+}

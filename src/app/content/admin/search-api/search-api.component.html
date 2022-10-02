@@ -1,0 +1,61 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <table>
+                                <tr *ngFor="let m of posts">
+                                    <td>You search for title :{{m}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-header">
+                            <h4 class="card-title text-primary">Search for API</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div *ngIf="!selected" class="form-group">
+                                    <label>Seacrh as Click , drag , close , delete...</label>
+                                    <input (keyup)="getSearch()" [(ngModel)]="title"
+                                           class="form-control" name="title"
+                                           placeholder="Write the type of title you want..." type="text"/>
+                                </div>
+
+                                <div #dynamicTitle contenteditable="true">
+                                    <p><span #selectedOption (click)="setLocatorEditable()"
+                                             id="ui-locator"> {{locatorTitle}} </span></p>
+                                </div>
+                                <table>
+                                    <div *ngIf="getOptions" class="form-group">
+                                        <tr *ngFor="let opt of getOptions">
+                                            <td (click)="onSelect(opt.templateTitle)">{{opt.templateTitle}}</td>
+                                        </tr>
+                                    </div>
+                                    <div *ngIf="pages" class="form-group">
+                                        <tr *ngFor="let opt of pages">
+                                            <td (click)="onSelectPage(opt)">{{opt.pageName}}</td>
+                                        </tr>
+                                    </div>
+                                    <div *ngIf="locator" class="form-group">
+                                        <tr *ngFor="let opt of locator">
+                                            <td (click)="onSelectLocator(opt)">{{opt.locatorName}}</td>
+                                        </tr>
+                                    </div>
+                                </table>
+                                <div class="form-group">
+                                    <button (click)="onClick()" class="btn btn-success pull-right" type="submit">Click
+                                        Me
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

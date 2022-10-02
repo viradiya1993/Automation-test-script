@@ -1,0 +1,55 @@
+.story-list-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.story-list.mat-expansion-panel {
+  margin: 10px 0;
+  border-radius: 0 !important;
+
+  .mat-expansion-panel-header {
+    padding: 0 10px;
+    border: 1px solid #e5e5e5;
+    font-weight: 400;
+    height: 36px !important;
+    line-height: 20px;
+    color: #333;
+
+    &:hover {
+      background: #f7f7f7 !important;
+    }
+
+    .story-header-title {
+      margin-right: 0;
+    }
+
+    .story-name {
+      margin-top: 2px;
+    }
+
+    .badge {
+      max-height: 21px;
+      margin-top: 4px;
+    }
+  }
+
+  .allusers {
+    // border: 1px solid #e5e5e5;
+    border-top: 0;
+    padding: 0 0 15px 0;
+  }
+}
+
+.no-avaliable-text {
+  margin: 7px 0;
+}
+
+.expand-collapse-btn {
+  display: inline-block;
+}
+
+.customScroll-contentScroll {
+  height: calc(100% - 117px);
+  overflow-y: auto;
+  display: block;
+}

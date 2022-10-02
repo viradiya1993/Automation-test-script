@@ -1,0 +1,110 @@
+<div (click)="$event.stopPropagation()">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card
+                    *ngFor="let role of roles"
+                    class="onboard-projectRoleBox pb-1 mb-4 border-bottom border-left border-right"
+            >
+                <mat-card-header class="px-0 mx-0 mb-0">
+                    <mat-card-title class="text-dark m-0 d-flex justify-content-center align-items-center">
+                        <span class="mr-2">{{role.roleName}}</span>
+                        <mat-icon [matTooltipPosition]="'right'" [matTooltip]="role.description"
+                                  class="mat-icon-primary">
+                            info_outline
+                        </mat-icon>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="multi-insert-container">
+                        <div class="multi-insert-item-list">
+                            <div *ngFor="let toAddress of role.emailAddresses; let i = index" class="item-list">
+                                <span class="item--text">{{ toAddress }}</span>
+                                <span
+                                        (click)="removeEmailAddress(role.emailAddresses, i)"
+                                        class="fa fa-times item--remove"
+                                >
+                </span>
+                            </div>
+                            <input
+								#emailModelRef="ngModel"
+                                (blur)="
+                  role.emailInput = role.emailInput.trim();
+                  onEmailAddressBlur(role.emailAddresses, emailModelRef)
+                "
+                                (keydown)="
+                  onEmailAddressKeydown(
+                    $event,
+                    role.emailAddresses,
+                    emailModelRef
+                  )
+                "
+                                (keyup)="
+                  onEmailAddressKeyup(
+                    $event,
+                    role.emailAddresses,
+                    emailModelRef
+                  )
+                "
+                                (selectItem)="
+                  onEmailSelect($event, role.emailAddresses, emailModelRef)
+                "
+                                [(ngModel)]="role.emailInput"
+                                [email]="true"
+                                [id]="role.roleName + 'emailInput'"
+                                [ngModelOptions]="{ standalone: true }"
+                                [style.color]="
+                  emailModelRef.invalid && emailModelRef.touched
+                    ? 'red'
+                    : 'initial'
+                "
+                                autoComplete="nope"
+                                class="px-0 m-0"
+                                name="emailInput"
+                                placeholder="Type email address here..."
+                                type="text"
+                            />
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-12 mt-3">
+            <div class="d-flex justify-content-end">
+                <button
+                        (click)="saveUserInfo()"
+                        class="btn btn-primary"
+                        mat-raised-button
+                >
+                    Send
+                </button>
+                <button (click)="onUserCancel()" mat-button>Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!-- <div (click)="$event.stopPropagation()">
+  <form [formGroup]="userForm" novalidate>
+    <mat-form-field class="email-list" appearance="fill">
+      <mat-label>Email Address</mat-label>
+      <mat-chip-list #chipList aria-label="Email selection">
+        <mat-chip *ngFor="let email of emails" [selectable]="selectable" [removable]="removable"
+          (removed)="remove(email)">
+          {{ email }}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="email address..." #emailInput formControlName="emailCtrl" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)"
+          (blur)="addBlur($event)" [empty]="false" [addOnBlur]="false" />
+      </mat-chip-list>
+    </mat-form-field>
+  </form>
+
+  <div class="d-flex justify-content-end">
+    <button mat-raised-button class="btn btn-primary" [disabled]="!userForm.valid"
+      (click)="saveUserInfo()">Send</button>
+    <button mat-button (click)="onUserCancel()">Cancel</button>
+  </div>
+</div> -->

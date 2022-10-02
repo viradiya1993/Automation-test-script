@@ -1,0 +1,90 @@
+<div class="card custom-card mt-0 height-100">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title text-primary">Releases</h4>
+            <app-release-form (releaseSaveChange)="onReleaseSaveChange()"></app-release-form>
+        </div>
+    </div>
+    <div class="card-body listCol-scroll">
+        <div class="all-release-row">
+            <div class="d-flex justify-content-between">
+                <span (click)="showAllReleases()" class="all-release-title">All Releases</span>
+                <span class="badge badge-primary-light mr-4" matTooltip="Number of Releases">{{releases.length}}</span>
+            </div>
+        </div>
+        <mat-accordion *ngIf="releases.length > 0" [multi]="false" class="list-contentScroll">
+            <mat-expansion-panel *ngFor="let release of releases" class="expansion-list releases-list"
+                togglePosition='before'>
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="release-header-title d-flex justify-content-between">
+                        <div (click)="selectedRelease(release)" class="release-title" matTooltip="{{release.name}}">
+                            <i class="material-symbols-outlined">new_releases</i>
+                            {{release.name}}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge badge-primary-light mr-2"
+                                matTooltip="Number of Test Runs">{{release.numberOfTestRuns}}</span>
+                            <!-- <span class="badge badge-primary" matTooltip="Number of Test Bots">{{release.numberOfTestBots}}</span> -->
+
+                            <app-release-run-form (releaseRunSaveChange)="onReleaseRunSaveChange()"
+                                [releaseId]="release.releaseId">Run
+                            </app-release-run-form>
+                            <button [matMenuTriggerFor]="menu" aria-label="Releases More Menu"
+                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1" mat-icon-button>
+                                <mat-icon class="material-icons">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <app-release-form (releaseSaveChange)="onReleaseSaveChange()" [release]="release">Edit
+                                </app-release-form>
+                                <button (click)="setReleaseToRemove(release)" class="custom-matmenu"
+                                    data-target="#removeReleaseConfirmation" data-toggle="modal" mat-menu-item
+                                    matTooltip="Delete Release">
+                                    <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="releases-descrpt ml-2">{{release.description}}</div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div *ngIf="releases.length === 0" class="font-italic ml-1 font-weight-light">
+            Please add Releases to get started
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade modal-mini modal-primary deleteModal-dialog"
+    id="removeReleaseConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Release</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete {{releaseToRemove ? releaseToRemove.name : ''}} release along with
+                    their
+                    related stories and test scripts?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeRelease(releaseToRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                    mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

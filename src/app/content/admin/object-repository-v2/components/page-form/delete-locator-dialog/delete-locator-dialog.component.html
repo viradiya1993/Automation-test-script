@@ -1,0 +1,25 @@
+<div class="popupframe-title">
+    <div class="mat-dialog-title mb-3">
+        <h2 class="mt-2">
+            Confirm Delete Locator <small> - {{ locator?.locatorName }}</small>
+        </h2>
+        <h4 class="mt-2 mb-0">{{ locatorTestScripts.message }}</h4>
+    </div>
+</div>
+
+<mat-dialog-content class="mat-typography" style="max-height: 40vh;">
+    <div *ngFor="let testScript of visibleTestScripts" class="d-flex align-items-center py-2">
+        <i class="fa fa-circle" style="font-size:10px"></i>
+        <span class="ml-2">{{ testScript.name }}</span>
+    </div>
+</mat-dialog-content>
+<div *ngIf="locatorTestScripts?.testScripts.length > 5
+  && locatorTestScripts?.testScripts.length !== visibleTestScripts.length">
+    <a (click)="showLoadMore()" class="ml-auto" color="primary" mat-button>
+        Load more... ({{ locatorTestScripts?.testScripts.length - visibleTestScripts.length }})
+    </a>
+</div>
+<mat-dialog-actions align="end">
+    <button [mat-dialog-close]="false" cdkFocusInitial class="btn btn-plain" mat-raised-button>Cancel</button>
+    <button [mat-dialog-close]="true" class="btn btn-primary" mat-raised-button>Delete</button>
+</mat-dialog-actions>

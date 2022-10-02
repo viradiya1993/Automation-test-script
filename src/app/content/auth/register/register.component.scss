@@ -1,0 +1,62 @@
+.register-page .card-signup .form-group {
+  margin: 16px 0 0 7px;
+  padding-bottom: 0;
+}
+
+.alert-mt-10,
+.card-signup {
+  margin-top: 5rem;
+}
+
+.input-group-text {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 1px;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  color: var(--ahq-grey-12);
+  text-align: center;
+  white-space: nowrap;
+  background-color: var(--ahq-grey-2);
+  border: 1px solid var(--ahq-grey-6);
+  border-radius: .25rem;
+}
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child),
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group > .custom-file,
+.input-group > .custom-select,
+.input-group > .form-control,
+.input-group > .form-control-plaintext {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+}
+
+.input-group > .custom-select:not(:last-child),
+.input-group > .form-control:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.register-page .card-signup .form-check label {
+  margin-left: 5px;
+}
+
+.card-signup .form-check .form-check-sign {
+  left: 8px;
+}

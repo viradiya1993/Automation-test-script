@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Browser</h2>
+<mat-dialog-content>
+    <form [formGroup]="browserForm">
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>Name</mat-label>
+                <input formControlName="name" matInput placeholder="Name">
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="fill" class="col-md-12">
+                <mat-label>Configuration</mat-label>
+                <input formControlName="value" matInput placeholder="Configuration">
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button (click)="onBrowserSaveClick();" [disabled]="!browserForm.valid" [mat-dialog-close]="true"
+            class="btn btn-primary m-2"
+            mat-raised-button>Save
+    </button>
+    <button (click)="onBrowserCancelClick();" class="btn btn-plain m-2" mat-dialog-close
+            mat-raised-button>Cancel
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,7 @@
+.change-option-view {
+  ::ng-deep.mat-option-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

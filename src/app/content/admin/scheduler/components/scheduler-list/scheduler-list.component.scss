@@ -1,0 +1,32 @@
+.customScroll-contentScroll {
+  height: calc(100vh - 250px);
+  overflow-x: hidden;
+}
+
+.mat-table.scheduler-listTable {
+  .mat-header-row {
+    display: flex;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-style: solid;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom-color: rgba(0, 0, 0, .12);
+    min-height: 56px;
+
+    .mat-header-cell {
+      color: rgba(0, 0, 0, .54);
+    }
+  }
+
+  .mat-row {
+    min-height: 30px;
+    display: flex;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-style: solid;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom-color: rgba(0, 0, 0, .12);
+  }
+}

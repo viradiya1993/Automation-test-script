@@ -1,0 +1,85 @@
+@mixin circle($arc) {
+  border-radius: $arc;
+  -webkit-border-radius: $arc;
+  -moz-border-radius: $arc;
+}
+
+.item-list {
+  background-color: #FFF;
+  display: flex;
+  margin: 5px;
+  padding-right: 10px;
+  color: #000;
+  @include circle(30px);
+
+  .item--text {
+    padding: 5px 10px 5px 13px;
+  }
+
+  .item--remove {
+    color: var(--ahq-primary);
+    @include circle(21px);
+    margin: 6px 0px;
+    padding-top: 0;
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+.multi-insert-container {
+  display: flex;
+  height: auto;
+  padding: 0px 0;
+
+  .multi-insert-item-list {
+    position: relative;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    width: 100%;
+    display: inline-flex;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      background: #fff;
+      width: 7px;
+      height: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #c5c5c5;
+    }
+  }
+
+  input {
+    padding-left: 10px;
+    height: 32px;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    border: none;
+    width: auto;
+    margin: 5px;
+  }
+}
+
+.mat-icon {
+  font-size: 20px;
+
+  &:focus {
+    color: var(--ahq-primary);
+  }
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+  max-width: unset !important;
+  white-space: pre-wrap;
+  color: black !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  text-align: start !important;
+}

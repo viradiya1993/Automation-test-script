@@ -1,0 +1,58 @@
+<div class="release-run-filter-form">
+    <button
+		#releaseRunFilterFormMatTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="releaseRunFilterMenu"
+        class="btn btn-primary btn-link text-capitalize"
+        mat-stroked-button
+    >
+        <i class="material-icons">filter_alt</i> Filter
+    </button>
+    <mat-menu
+		#releaseRunFilterMenu="matMenu"
+        [hasBackdrop]="false"
+        class="release-run-filter-mat-menu-form mat-menu-form"
+        xPosition="before"
+    >
+        <div (click)="$event.stopPropagation()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="toggle-btn mt-1 mb-2">
+                        <mat-slide-toggle [(ngModel)]="appliedFilter.hasFailedTests"
+                        >Has Failed Tests
+                        </mat-slide-toggle
+                        >
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="toggle-btn mt-2 mb-2">
+                        <mat-slide-toggle [(ngModel)]="appliedFilter.noPassedTests"
+                        >No Passed Tests
+                        </mat-slide-toggle
+                        >
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="toggle-btn mt-2 mb-4">
+                        <mat-slide-toggle [(ngModel)]="appliedFilter.hasSkippedTests"
+                        >Has Skipped Tests
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <button
+                                (click)="applyFilter()"
+                                class="btn btn-primary"
+                                mat-raised-button
+                        >
+                            Filter
+                        </button>
+                        <button (click)="onFilterCancelClick()" mat-button>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-menu>
+</div>

@@ -1,0 +1,9 @@
+.remove-padding {
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: unset !important;
+  }
+}
+
+::ng-deep .mat-dialog-content {
+  max-height: unset !important;
+}

@@ -1,0 +1,43 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" style="background-color: #ffffff">
+                <div class="row">
+                    <div class="col-sm-12 cmpnyDomain">
+                        <b> {{ companyInfo.orgName }} </b>
+                    </div>
+                    <div class="col-sm-12 cmpnySubDomain">
+                        ({{ companyInfo.subDomain }})
+                    </div>
+                </div>
+                <mat-tab-group>
+                    <!-- <mat-tab label="Project Information">
+                      <app-project-info *ngIf="companyInfo.id" [orgId]="companyInfo.id"></app-project-info>
+                    </mat-tab>
+                    <mat-tab label="User Information">
+                      <app-user-info [orgId]="companyInfo.id" *ngIf="companyInfo.id"></app-user-info>
+                    </mat-tab> -->
+                    <mat-tab label="System Information">
+                        <app-system-info></app-system-info>
+                    </mat-tab>
+                </mat-tab-group>
+                <!-- <mat-horizontal-stepper #stepper>
+                  <mat-step>
+                    <ng-template matStepLabel>Project Information</ng-template>
+                    <app-project-info></app-project-info>
+
+                  </mat-step>
+                  <mat-step [stepControl]="secondFormGroup">
+                    <ng-template matStepLabel>User Information</ng-template>
+
+                    <app-user-info></app-user-info>
+                  </mat-step>
+                  <mat-step>
+                    <ng-template matStepLabel>System Information</ng-template>
+                    <app-system-info></app-system-info>
+                  </mat-step>
+                </mat-horizontal-stepper> -->
+            </div>
+        </div>
+    </div>
+</div>

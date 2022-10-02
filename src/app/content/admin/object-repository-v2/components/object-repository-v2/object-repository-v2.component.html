@@ -1,0 +1,68 @@
+<!-- <div class="main-content">
+  <div class="container-fluid">
+    <div class="row test-dev-wrapper flex-nowrap m-0">
+      <div class="" [ngStyle]="{'width': calcWidth}">
+        <app-website-list (counter1)="dispVal($event)"></app-website-list>
+      </div>
+
+      <div *ngIf="isAddWebsiteView" class="ahq-m-30">
+        <app-website-form></app-website-form>
+      </div>
+
+      <div *ngIf="isUpdateWebsiteView" class="ahq-m-30">
+        <app-website-form [website]="selectedWebsite"></app-website-form>
+      </div>
+
+      <div *ngIf="isUpdatePageView" class="ahq-m-30">
+          <app-page-form [websiteId]="selectedWebsiteId" [pageId]="selectedPageId"></app-page-form>
+      </div>
+
+      <div *ngIf="isAddPageView" class="ahq-m-30">
+        <app-page-form [websiteId]="selectedWebsiteId"></app-page-form>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+
+<div class="main-content">
+    <div class="container-fluid">
+        <app-website-list (counter1)="dispVal($event)" *ngIf="selectedProject"></app-website-list>
+
+        <div *ngIf="!selectedProject" class="row">
+            <div class="col-md-12">
+                <p>Please select Project</p>
+            </div>
+        </div>
+
+        <!-- <app-page-form
+                [websiteId]="selectedWebsiteId"
+                [pageId]="selectedPageId"
+              ></app-page-form> -->
+
+        <!-- <mat-sidenav-container class="object-repo-container" [hasBackdrop]="false">
+          <mat-sidenav
+            mode="over"
+            [opened]="isUpdatePageView || isAddPageView"
+            position="end"
+            disableClose="true"
+            fixedInViewport="true"
+            class="object-repo-sidenav"
+            [ngStyle]="{'width': sidenavWidth()}"
+          >
+            <div *ngIf="isUpdatePageView">
+              <app-page-form
+                [websiteId]="selectedWebsiteId"
+                [pageId]="selectedPageId"
+              ></app-page-form>
+            </div>
+
+            <div *ngIf="isAddPageView">
+              <app-page-form [websiteId]="selectedWebsiteId"></app-page-form>
+            </div>
+          </mat-sidenav>
+          <mat-sidenav-content class="object-repo-sidenav-content">
+          </mat-sidenav-content>
+        </mat-sidenav-container> -->
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<form (ngSubmit)="addProject()" [formGroup]="projectInfoForm" novalidate role="form">
+    <div class="row mt-2 mx-2">
+        <div class="col-md-12">
+            <mat-form-field appearance="standard" class="mt-2 mb-2">
+                <mat-label>Enter Project Name</mat-label>
+                <input formControlName="projectName" matInput name="projectName" placeholder="Project Name" required
+                       type="text">
+                <mat-error *ngIf="submitted && f.projectName.errors?.required">Project Name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <mat-label>Enter Description</mat-label>
+                <textarea cols="50" formControlName="description" matInput placeholder="Description"
+                          rows="3"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-md-12 mt-3" style="position: fixed; bottom: 2%;">
+        <button class="btn btn-rose pull-right mr-3" mat-raised-button type="submit">
+            Next
+        </button>
+    </div>
+    <div class="clearfix"></div>
+</form>

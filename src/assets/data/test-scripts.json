@@ -1,0 +1,12 @@
+[
+  {
+    "id": "id-1",
+    "name": "Test script 1",
+    "description": "Test script 1 desc"
+  },
+  {
+    "id": "id-2",
+    "name": "Test script 2",
+    "description": "Test script 2 desc"
+  }
+]

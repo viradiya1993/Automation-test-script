@@ -1,0 +1,10 @@
+<div class="filterList-grp">
+    <div class="d-flex justify-content-start align-items-center">
+        <mat-chip-list *ngIf="selectedProject" class="primary-chip">
+            <mat-chip (removed)="removeFilter()" class="primary-box">
+                Project: {{ selectedProject.projectName }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+</div>

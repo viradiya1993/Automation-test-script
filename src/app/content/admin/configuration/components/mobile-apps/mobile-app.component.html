@@ -1,0 +1,91 @@
+<div class="card-header d-flex justify-content-between">
+    <h4 class="card-title text-primary">Mobile App</h4>
+    <!-- <button mat-stroked-button class="btn btn-primary btn-link text-capitalize" (click)="openAddEnvironmentDialog()" matTooltip="Add Environment">
+      <i class="material-icons">add</i> Add Environment
+    </button> -->
+    <form [formGroup]="mobileAppForm">
+        <div class="btn-uploadFile">
+
+            <label class="btn btn-primary btn-link text-capitalize" mat-stroked-button>
+                <mat-ico class="material-icons custom-btn-icon mr-1">file_upload</mat-ico>
+                <span>Upload</span>
+                <input #inputImportFile (change)="onImportFileChange($event)" class="position-absolute d-none"
+                       type="file"/>
+            </label>
+        </div>
+    </form>
+</div>
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="customScroll-contentScroll list-contentScroll">
+                <mat-table [dataSource]="mobileApps" class="test-suites-table" matSort matSortActive="appName"
+                           matSortDirection="asc" matSortDisableClear>
+                    <ng-container matColumnDef="appName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>App Name</mat-header-cell>
+                        <mat-cell *matCellDef="let mobileApp" class="name-cell">
+                            {{ mobileApp.appName }}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="appVersion">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>App Version</mat-header-cell>
+                        <mat-cell *matCellDef="let mobileApp" class="appVersion-cell">
+                            {{ mobileApp.appVersion }}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fileType">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>File Type</mat-header-cell>
+                        <mat-cell *matCellDef="let mobileApp" class="fileType-cell">
+                            {{ mobileApp.fileType }}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="file">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>File</mat-header-cell>
+                        <mat-cell *matCellDef="let mobileApp" class="file-cell">
+                            {{ mobileApp.file }}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef class="align-right">
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let mobileApp" class="justify-content-end flex-g-small" mat-cell>
+                            <button [matMenuTriggerFor]="menu" aria-label="Mobile App More Menu" class="
+                  btn btn-link btn-primary btn-just-icon
+                  custom-btn-icon
+                  ml-1
+                " mat-icon-button>
+                                <mat-icon class="material-icons">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="editMobileApp(mobileApp)" class="custom-matmenu" mat-menu-item
+                                        matTooltip="Edit Mobile App">
+                                    <mat-icon class="custom-btn-icon mr-0">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button (click)="setMobileAppToRemove(mobileApp)" class="custom-matmenu"
+                                        data-target="#removeMobileAppConfirmation"
+                                        data-toggle="modal" mat-menu-item
+                                        matTooltip="Delete Mobile App">
+                                    <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                    <mat-row *matRowDef="let row; columns: displayedColumns" class="element-row">
+                    </mat-row>
+                </mat-table>
+                <div [style.display]="resultsLength == 0 ? '' : 'none'" class="no-results">
+                    No results
+                </div>
+            </div>
+            <div class="pagination">
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

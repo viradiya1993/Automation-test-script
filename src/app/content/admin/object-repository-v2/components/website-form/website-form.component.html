@@ -1,0 +1,26 @@
+<div (click)="$event.stopPropagation()">
+    <!-- <h4 class="mat-title" *ngIf="!website">Add Website</h4>
+    <h4 class="mat-title" *ngIf="website">Edit Website</h4> -->
+    <h2 mat-dialog-title>Add Application</h2>
+
+    <form [formGroup]="websiteFormGroup">
+        <mat-form-field appearance="fill">
+            <mat-label>Application Name</mat-label>
+            <input formControlName="name" matInput placeholder="Name"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>URL</mat-label>
+            <input formControlName="websiteUrl" matInput placeholder="Website Url"/>
+        </mat-form-field>
+    </form>
+
+    <div class="d-flex justify-content-end">
+        <button (click)="onWebsiteSaveClick()" [disabled]="!websiteFormGroup.valid" class="btn btn-primary m-2"
+                mat-raised-button>
+            Save
+        </button>
+        <button (click)="onWebsiteCancelClick()" class="btn btn-plain m-2" mat-dialog-close mat-raised-button>
+            Cancel
+        </button>
+    </div>
+</div>

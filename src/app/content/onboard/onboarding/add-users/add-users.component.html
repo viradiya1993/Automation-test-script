@@ -1,0 +1,100 @@
+<form novalidate>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-12 mx-2">
+            <mat-card
+                    *ngFor="let role of roles"
+                    class="onboard-projectRoleBox pb-1 mb-4 border-bottom border-left border-right"
+            >
+                <mat-card-header class="px-0 mx-0 mb-0">
+                    <mat-card-title class="text-dark m-0 d-flex justify-content-center align-items-center">
+                        <span class="mr-2">{{role.roleName}}</span>
+                        <mat-icon [matTooltipPosition]="'right'" [matTooltip]="role.description"
+                                  class="mat-icon-primary">
+                            info_outline
+                        </mat-icon>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="multi-insert-container">
+                        <div class="multi-insert-item-list">
+                            <div *ngFor="let toAddress of role.emailAddresses; let i = index" class="item-list">
+                                <span class="item--text">{{ toAddress }}</span>
+                                <span
+                                        (click)="removeEmailAddress(role.emailAddresses, i)"
+                                        class="fa fa-times item--remove"
+                                >
+                </span>
+                            </div>
+                            <input
+								#emailModelRef="ngModel"
+                                (blur)="
+                  role.emailInput = role.emailInput.trim();
+                  onEmailAddressBlur(role.emailAddresses, emailModelRef)
+                "
+                                (keydown)="
+                  onEmailAddressKeydown(
+                    $event,
+                    role.emailAddresses,
+                    emailModelRef
+                  )
+                "
+                                (keyup)="
+                  onEmailAddressKeyup(
+                    $event,
+                    role.emailAddresses,
+                    emailModelRef
+                  )
+                "
+                                (selectItem)="
+                  onEmailSelect($event, role.emailAddresses, emailModelRef)
+                "
+                                [(ngModel)]="role.emailInput"
+                                [email]="true"
+                                [id]="role.roleName + 'emailInput'"
+                                [ngModelOptions]="{ standalone: true }"
+                                [style.color]="
+                  emailModelRef.invalid && emailModelRef.touched
+                    ? 'red'
+                    : 'initial'
+                "
+                                autoComplete="nope"
+                                class="px-0 m-0"
+                                name="emailInput"
+                                placeholder="Type email address here..."
+                                type="text"
+                            />
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-12 mt-3" style="position: fixed; bottom: 2%;">
+            <button
+                    (click)="goToAHQAgent()"
+                    class="btn btn-rose pull-right ml-3"
+                    mat-raised-button
+                    type="button"
+            >
+                Next
+            </button>
+            <button
+                    (click)="skip.next()"
+                    class="btn-simple pull-right ml-3 mt-2 text-gray"
+                    mat-flat-button
+                    matTooltip="Skip to next step"
+                    type="button"
+            >
+                Skip
+            </button>
+            <button
+                    (click)="goToProjectInfo()"
+                    class="btn btn-basic pull-left mr-3"
+                    type="button"
+            >
+                Previous
+            </button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</form>

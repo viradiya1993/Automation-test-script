@@ -1,0 +1,169 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div class="mt-3" mat-dialog-title>
+            <h2>Test Script - {{testScript?.name}}</h2>
+        </div>
+        <div class="rightpopup-section mr-3">
+            <mat-action-list>
+                <div class="text-md-right">
+                    <button (click)="onTestScriptRunClick()" class="btn btn-primary ml-2" mat-raised-button>
+                        Run
+                    </button>
+                    <button (click)="openEditTestScript()" class="btn btn-primary ml-2" mat-raised-button>
+                        Edit Script
+                    </button>
+                    <button (click)="onTestScriptDebugClick()" class="btn btn-primary ml-2 d-none" mat-raised-button>
+                        Debug
+                    </button>
+                    <button (click)="onTestScriptStepOverClick()" class="btn btn-primary m-2 d-none" mat-raised-button>
+                        StepOver
+                    </button>
+                    <!--          TODO:: Remove commenting after AHQDEV-892 resolves-->
+                    <!-- <button mat-raised-button class="btn btn-primary m-2" (click)="onRestartClick()">
+                       Restart
+                     </button>-->
+                    <button (click)="onTestScriptCancelClick()" class="btn btn-plain ml-2" mat-button mat-dialog-close>
+                        Cancel
+                    </button>
+                </div>
+            </mat-action-list>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div *ngIf="titles?.length" class="col-xs-12 col-md-4">
+        <nav aria-label="breadcrumb" class="custombreadcrumb">
+            <ol class="breadcrumb">
+                <li *ngFor="let t of titles; let i = index" [ngClass]="i == titles.length - 1 ? 'active' : ''"
+                    aria-current="page" class="breadcrumb-item">
+                    <a *ngIf="i != titles.length - 1" class="epic-name" href="javascript:void(0)">{{ t }}</a>
+                    <span *ngIf="i == titles.length - 1">{{ t }}</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <div *ngIf="data.testScript?.consolidateResults" class="col-xs-12 col-md-8 text-right align-items-center">
+        <button [cdkCopyToClipboard]="copyVariableReportPath()" color="primary" mat-icon-button>
+            <mat-icon>content_copy</mat-icon>
+        </button>
+        Consolidated Variables Report is available in:<br/>
+        {{ data.testScript?.consolidatedResultFile }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <div class="test-script-execution-wrapper">
+            <mat-dialog-content>
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let testStep of testScript.testSteps;let i=index"
+                                         [disabled]="
+              !checkStatus(testStep.testStepId) &&
+              !checkKey(testStep.testStepTitle)
+            "
+                                         [hideToggle]="
+              !checkStatus(testStep.testStepId) &&
+              !checkKey(testStep.testStepTitle)
+            " id="test-step-{{ i }}">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                <span [ngClass]="setClass(testStep.status)" class="badge">
+                  <mat-icon>{{ getStr(testStep.status) }}</mat-icon>
+                </span>
+                                <span class="panel-title">{{ testStep.sequence }} - {{ testStep.testStepTitle }}</span>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <div class="custom-control custom-switch d-none">
+                                    <input (change)="
+                      toggleBreakpoint(testStep.testStepId, testStep.breakpoint)
+                    " [(ngModel)]="testStep.breakpoint"
+                                           class="custom-control-input"
+                                           id="switch-{{ testStep.sequence }}" type="checkbox"/>
+                                    <label class="custom-control-label" for="switch-{{ testStep.sequence }}"></label>
+                                </div>
+                                <button (click)="onTestScriptContinueClick(testStep.testStepId)" *ngIf="
+                    showContinueButton(testStep.breakpoint, testStep.status)
+                  " class="primary-color float-right"
+                                        mat-icon-button>
+                                    <mat-icon>fast_forward</mat-icon>
+                                </button>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 mb-2">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <td colspan="4">
+                                            <h3>Test Execution Log</h3>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let log of logs; let j = index" class="text-danger">
+                                        <td>{{ j + 1 }}.</td>
+                                        <td>
+                                            {{ log.endTimeStamp | date: "medium" }}
+                                        </td>
+                                        <td>{{ log.message }}</td>
+                                        <td>
+                        <span *ngIf="log.returnValue">
+                          {{ log.returnValue }}
+                        </span>
+                                            <span *ngIf="log.screenshotLink">
+                          {{ log.screenshotLink }}
+
+                                                <button [cdkCopyToClipboard]="log.screenshotLink"
+                                                        class="btn btn-link btn-primary btn-just-icon">
+                            <mat-icon class="material-icons">content_copy</mat-icon>
+                          </button>
+                        </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <!-- <div class="row">
+                  <div
+                    class="col-xs-12 col-md-12"
+                    *ngFor="let testStep of testScript.testSteps"
+                  >
+                    <div class="frame-wrapper" id="heading-{{testStep.sequence}}">
+                      <div class="frame-element">
+                        <a
+                          class="btn btn-link btn-primary down-arrow show-up-arrow"
+                          [ngClass]="{'show-up-arrow': checkKey(testStep.testStepTitle)}"
+                          (click)="showTabBody(testStep.testStepTitle)"
+                          matTooltip="{{testStep.sequence}} - {{testStep.testStepTitle}}"
+                        >
+                          <h2 class="m-0">
+                            {{testStep.sequence}}.
+                            <span class="title">{{testStep.testStepTitle}}</span>
+                            <div class="card-action">
+                              <span *ngIf="checkStatus(testStep.testStepId)"
+                                ><i
+                                  class="material-icons fw-600"
+                                  aria-label="Show Test Scripts"
+                                  >keyboard_arrow_down</i
+                                ></span
+                              >
+                            </div>
+                          </h2>
+                        </a>
+                        <div
+                          class="frame-content"
+                          *ngIf="checkStatus(testStep.testStepId) && checkKey(testStep.testStepTitle)"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+            </mat-dialog-content>
+        </div>
+    </div>
+</div>

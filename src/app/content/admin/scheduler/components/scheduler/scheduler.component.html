@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-end align-items-end">
+    <div *ngIf="commonService.getUpgradeRequire()" class="text-danger align-items-center mr-2 h4">
+        Please Upgrade to <a class="premium-chip" href="javascript:void(0)">Premium plan</a>
+    </div>
+    <button (click)="openSchedulerDialog()" [disabled]="!commonService.isUserPaid()"
+            [matTooltip]="commonService.getUpgradeRequire() ? 'Please upgrade to premium' : 'Add Scheduler'"
+            [ngStyle]="!commonService.isUserPaid() ? {'border-color': 'gray'} : {}"
+            class="btn btn-primary btn-link text-capitalize mr-2"
+            mat-stroked-button
+    >
+        <i class="material-icons">add</i> Add Scheduler
+    </button>
+</div>
+<div class="customScroll-contentScroll list-contentScroll pt-2">
+    <div class="row">
+        <div class="col-md-12">
+            <app-scheduler-list></app-scheduler-list>
+        </div>
+    </div>
+</div>

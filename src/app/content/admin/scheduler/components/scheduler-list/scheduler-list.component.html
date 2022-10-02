@@ -1,0 +1,65 @@
+<div class="customScroll-contentScroll list-contentScroll">
+    <div class="mat-table scheduler-listTable">
+        <div class="row mat-header-row">
+            <div class="col-md-2">
+                <div class="mat-header-cell">Name</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-header-cell">Emails</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-header-cell">Scheduler Recurring Rule</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-header-cell">Created</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-header-cell">Modified</div>
+            </div>
+            <div class="col-md-1">
+                <div class="mat-header-cell">Enabled</div>
+            </div>
+            <div class="col-md-1">
+                <div class="mat-header-cell">Actions</div>
+            </div>
+        </div>
+        <div *ngFor="let scheduler of schedulers" class="row mat-row">
+            <div class="col-md-2">
+                <div class="mat-cell">{{scheduler.name}}</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-cell">{{scheduler.emails}}</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-cell">{{parseCronTime(scheduler.recurringRule)}}</div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-cell">{{scheduler?.createdBy ? scheduler?.createdBy?.firstName + ' ' +
+					scheduler?.createdBy?.lastName : 'User Missing'}}</div>
+                <div class="mat-cell">
+                    <span class="d-block config-date-txt">{{scheduler?.createdDate | date:'medium'}}</span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mat-cell">{{scheduler?.updatedBy?.firstName ? scheduler?.updatedBy?.firstName + ' ' +
+					scheduler?.updatedBy?.lastName : 'User Missing'}}</div>
+                <div class="mat-cell">
+                    <span class="d-block config-date-txt">{{scheduler?.updatedDate | date:'medium'}}</span>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="mat-cell"> {{scheduler.active}}</div>
+            </div>
+            <div class="col-md-1">
+                <a (click)="openSchedulerDialog(scheduler)" class="btn btn-link btn-primary btn-just-icon"
+                   matTooltip="Edit Scheduler">
+                    <i aria-label="Edit Scheduler" class="material-icons">edit</i>
+                </a>
+                <a (click)="removeScheduler(scheduler)" class="btn btn-link btn-primary btn-just-icon"
+                   matTooltip="Delete Scheduler">
+                    <i aria-label="Delete Scheduler" class="material-icons">delete</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

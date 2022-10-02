@@ -1,0 +1,9 @@
+::ng-deep .toast-content {
+  width: 90%;
+}
+
+::ng-deep .toast-close-button {
+  right: 0;
+  top: 0;
+  display: inline-block;
+}

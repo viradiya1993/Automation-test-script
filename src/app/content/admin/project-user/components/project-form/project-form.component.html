@@ -1,0 +1,30 @@
+<div (click)="$event.stopPropagation()"
+     (keydown.tab)="changeTab(projectName, projectDescription, projectToggle, projectSaveBtn, projectCancelBtn)">
+    <!-- <h4 class="mat-title" *ngIf="!project">Add Project</h4>
+    <h4 class="mat-title" *ngIf="project">Edit Project</h4> -->
+
+    <form [formGroup]="projectFormGroup">
+        <mat-form-field appearance="fill">
+            <mat-label>Project Name</mat-label>
+            <input #projectName [(ngModel)]="projectInfo.projectName" formControlName="projectName"
+                   matInput
+                   placeholder="Project name"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Project Description</mat-label>
+            <input #projectDescription [(ngModel)]="projectInfo.description" formControlName="description"
+                   matInput placeholder="Project description"/>
+        </mat-form-field>
+        <mat-slide-toggle #projectToggle [(ngModel)]="projectInfo.isEnabled" color="primary" formControlName="isEnabled"
+                          id="isEnabled" name="isEnabled">
+            {{ projectInfo.isEnabled ? "Enabled" : "Disabled" }}
+        </mat-slide-toggle>
+    </form>
+
+    <div class="d-flex justify-content-end">
+        <button #projectSaveBtn (click)="onProjectSaveClick()" [disabled]="!projectFormGroup.valid"
+                class="btn btn-primary" mat-raised-button>Save
+        </button>
+        <button #projectCancelBtn (click)="onProjectCancelClick()" mat-button>Cancel</button>
+    </div>
+</div>

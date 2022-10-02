@@ -1,0 +1,11 @@
+div.multiSec {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+section#mainSec {
+  width: calc(100% - 250px);
+  min-height: 100vh;
+  margin-left: auto;
+}

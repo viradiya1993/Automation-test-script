@@ -1,0 +1,120 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 align-middle">
+                <div class="card custom-card mt-0 height-100">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title text-primary">User Scripts</h4>
+                        </div>
+                    </div>
+                    <div class="card-body listCol-scroll">
+                        <button (click)="scriptToEdit = null; scriptRemove = undefined" [disabled]="!scriptToEdit"
+                                class="w-100 my-2 small" dense
+                                mat-flat-button>
+                            <mat-icon>add</mat-icon>
+                            <span>Add New Script</span>
+                        </button>
+                        <hr class="mt-0"/>
+
+                        <div class="all-user-script-row">
+                            <div class="d-flex justify-content-between">
+                                <span class="all-user-script-title">All User Scripts</span>
+                                <span class="badge badge-primary-light mr-4"
+                                      matTooltip="Number of User Scripts">{{ commonFunctionList.length }}</span>
+                            </div>
+                        </div>
+
+                        <app-search-field (searchEvent)="searchInCommonFunctionList($event)" class="search-box"
+                                          label="Search User Scripts"></app-search-field>
+
+                        <div *ngIf="commonFunctionList.length > 0" class="list-contentScroll">
+                            <div *ngFor="let commonList of commonFunctionList" class="expansion-list user-scripts-list">
+                                <div class="user-script-header-title d-flex justify-content-between">
+                                    <h4 (click)="scriptToEdit = commonList" class="user-script-title pb-0"
+                                        matTooltip="{{ commonList.name }}">
+                                        {{ commonList.name }} <br/>
+                                        <span class="small text-gray">{{ commonList.description }}</span>
+                                    </h4>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button [matMenuTriggerFor]="menu"
+                                                aria-label="User Scripts More Menu"
+                                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1"
+                                                mat-icon-button>
+                                            <mat-icon class="material-icons">more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button (click)="scriptRemove = commonList" class="custom-matmenu"
+                                                    data-target="#removeUserScript"
+                                                    data-toggle="modal"
+                                                    mat-menu-item
+                                                    matTooltip="Delete User Script">
+                                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                                <span>Delete</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="commonFunctionList.length === 0" class="font-italic ml-1 font-weight-light">
+                            Please add user script to get started
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9 align-middle">
+                <div class="card custom-card mt-0">
+                    <div class="card-body">
+                        <div class="mat-tab-main-wrapper test-suite-table">
+                            <mat-tab-group animationDuration="0ms">
+                                <mat-tab label="User Script">
+                                    <ng-template matTabContent>
+                                        <app-edit-user-script
+                                                (reFetch)="$event === true ? getCommonFunctionList() : null"
+                                                [userscriptId]="scriptToEdit ? scriptToEdit.commonFunctionId : null"
+                                        ></app-edit-user-script>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel"
+     class="modal fade modal-mini modal-primary deleteModal-dialog"
+     id="removeUserScript" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete User Script</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ scriptRemove ? scriptRemove.name : "" }} ?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeUserscript(scriptRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                        mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button
+                        type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

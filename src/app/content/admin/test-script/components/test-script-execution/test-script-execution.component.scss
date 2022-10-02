@@ -1,0 +1,92 @@
+.step-success {
+  --selected-step-color: var(--success);
+  --text-color: var(--ahq-white);
+}
+
+.step-error {
+  --selected-step-color: var(--danger);
+  --text-color: var(--ahq-white);
+}
+
+.step-current {
+  --selected-step-color: var(--warning);
+  --text-color: var(--ahq-white);
+}
+
+.pending {
+  --selected-step-color: white;
+  --text-color: black;
+}
+
+.step-item {
+  background: var(--selected-step-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  padding: 5px;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  resize: both;
+
+  .mat-dialog-content {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.test-script-execution-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .mat-expansion-panel {
+    border: 1px solid #e5e5e5;
+    margin: 10px 0;
+    border-radius: 0 !important;
+    box-shadow: none;
+
+    .mat-expansion-panel-header {
+      padding: 0 15px;
+    }
+
+    .custom-switch {
+      .custom-control-input:checked ~ .custom-control-label::after {
+        background-color: #FFF;
+      }
+    }
+  }
+}
+
+.mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  justify-items: center;
+  align-items: center;
+}
+
+.mat-expansion-panel-header-title {
+  justify-content: flex-start;
+  justify-items: center;
+  align-items: center;
+}
+
+.mat-expansion-panel-header-title {
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .badge {
+    margin-right: 15px;
+    padding: 3px;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+
+    .mat-icon {
+      height: auto;
+      width: auto;
+      font-size: 24px;
+    }
+  }
+}

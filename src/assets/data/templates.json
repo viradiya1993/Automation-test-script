@@ -1,0 +1,62 @@
+[
+  {
+    "id": "template-id-70",
+    "templateTitle": "Verify {{ui-table}} sorted by header {{text}} in ascending order",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-71",
+    "templateTitle": "Verify {{ui-table}} and {{ui-locator}} sorted by header {{text}} in descending order",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-72",
+    "templateTitle": "Verify {{ui-table}} on page {{number}}",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-73",
+    "templateTitle": "Verify {{ui-table}} contains {{text}} in the entries for header {{text}}",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-74",
+    "templateTitle": "Verify {{text}} on the page",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-75",
+    "templateTitle": "Verify text {{text}} against {{variable}}",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-76",
+    "templateTitle": "Delete all cookies",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-77",
+    "templateTitle": "Close browser",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-78",
+    "templateTitle": "Close window by title {{text}}",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  },
+  {
+    "id": "template-id-79",
+    "templateTitle": "Close window by index {{number}}",
+    "type": "WEB",
+    "class": "com.testautomationhq.data_objects_library.Template"
+  }
+]

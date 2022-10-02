@@ -1,0 +1,33 @@
+<div>
+    <h2 class="text-danger">Access Denied</h2>
+    <hr class="w-100 mt-0"/>
+    <p>
+        You are unable to access this module because:
+    </p>
+    <ul>
+        <li>
+            You do not have enough access rights OR
+        </li>
+        <li>
+            You do not have access to this project OR
+        </li>
+        <li>
+            Your organization hasn't assigned any project to you
+        </li>
+    </ul>
+    <p>
+        Please contact your Site Admin ({{ siteAdmin.name }})
+        <a [href]="'mailto:'+siteAdmin.email">{{ siteAdmin.email }}</a>
+        for further assistance.
+    </p>
+</div>
+<div class="modal-footer justify-content-center">
+    <button
+            (click)="dialogRef.close()"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            mat-raised-button
+            type="button">
+        Okay
+    </button>
+</div>

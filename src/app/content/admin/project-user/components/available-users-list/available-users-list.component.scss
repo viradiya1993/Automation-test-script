@@ -1,0 +1,77 @@
+.allusers {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 50px);
+  position: relative;
+  border: 1px solid #e5e5e5;
+}
+
+.customScroll-contentScroll {
+  height: calc(100vh - 320px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+.expansion-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.testscriptlist-row {
+  .testscript-name {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 12px;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: normal;
+    vertical-align: bottom;
+  }
+}
+
+.userlist-row {
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+
+  .mat-header-cell {
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-height: inherit;
+  }
+}
+
+.mat-header-row, .mat-row {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 48px;
+
+  .user-mat-header {
+    flex: 0 0 40%;
+  }
+
+  .lastActivity-mat-header {
+    flex: 0 0 20%;
+  }
+
+  .status-mat-header {
+    flex: 0 0 20%;
+  }
+
+  .action-mat-header {
+    flex: 0 0 20%;
+  }
+}
+
+.mat-header-row.projectuser-mat-header {
+  min-height: 30px;
+}

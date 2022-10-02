@@ -1,0 +1,163 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 d-none">
+                <div class="frame-wrapper">
+                    <div class="frame-element">
+                        <div (click)="shortcutFrame = !shortcutFrame" [ngClass]="{ 'show-up-arrow': shortcutFrame }"
+                            class="d-flex justify-content-between align-items-center down-arrow show-up-arrow pt-2 pb-1 px-4">
+                            <h4 class="card-title text-primary">
+                                Shortcuts
+                            </h4>
+                            <span class="text-primary">
+                                <i aria-label="Show Test Scripts" class="material-icons fw-600">
+                                    keyboard_arrow_down
+                                </i>
+                            </span>
+                        </div>
+                        <div *ngIf="shortcutFrame" class="frame-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="frame-wrapper">
+                    <div class="frame-element">
+                        <div (click)="downloadFrame = !downloadFrame" [ngClass]="{ 'show-up-arrow': downloadFrame }"
+                            class="d-flex justify-content-between align-items-center down-arrow show-up-arrow pt-2 pb-1 px-4">
+                            <h4 class="card-title text-primary">
+                                Download AHQ Agents
+                            </h4>
+                            <span class="text-primary">
+                                <i aria-label="Show Download AHQ Agents" class="material-icons fw-600">
+                                    keyboard_arrow_down
+                                </i>
+                            </span>
+                        </div>
+                        <div *ngIf="downloadFrame" class="frame-content pt-0">
+                            <app-ahq-agent-download></app-ahq-agent-download>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!commonService.isSupportRole()" class="col-12">
+                <div class="frame-wrapper">
+                    <div class="frame-element">
+                        <div (click)="actionFrame = !actionFrame" [ngClass]="{ 'show-up-arrow': actionFrame }"
+                            class="d-flex justify-content-between align-items-center down-arrow show-up-arrow pt-2 pb-1 px-4">
+                            <h4 class="card-title text-primary">
+                                Actions
+                            </h4>
+                            <span class="text-primary">
+                                <i aria-label="Show Actions" class="material-icons fw-600">
+                                    keyboard_arrow_down
+                                </i>
+                            </span>
+                        </div>
+                        <div *ngIf="actionFrame" class="frame-content pt-0 text-center">
+                            <div class="row text-center justify-content-center mb-3">
+                                <div class="col-12 mb-3 frame-text">
+                                    Here is a list of things you may want to start with
+                                </div>
+
+                                <div *ngFor="let action of actionLists" class="col-2 cursor-pointer icon-hover mx-4">
+                                    <a [queryParams]="action.queryParams" [routerLink]="action.url" mat-button
+                                        style="border-radius: 4px">
+                                        <div class="flex-column py-2">
+                                            <mat-icon>{{ action.icon }}</mat-icon>
+                                            <div>
+                                                {{ action.name }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="frame-wrapper">
+            <div class="frame-element">
+                <div (click)="ahqKnowledgeFrame = !ahqKnowledgeFrame" [ngClass]="{ 'show-up-arrow': ahqKnowledgeFrame }"
+                    class="d-flex justify-content-between align-items-center down-arrow show-up-arrow pt-2 pb-1 px-4">
+                    <h4 class="card-title text-primary">
+                        AHQ Knowledge
+                    </h4>
+                    <span class="text-primary">
+                        <i aria-label="Show AHQ Knowledge" class="material-icons fw-600">
+                            keyboard_arrow_down
+                        </i>
+                    </span>
+                </div>
+                <div *ngIf="ahqKnowledgeFrame" class="frame-content">
+                    <div class="row ahq-video-wrapper justify-content-center">
+                        <div class="col-3">
+                            <a (click)="openVideoDialog('https://www.youtube.com/embed/niSnI10duYc?rel=0&amp;')"
+                                class="ahq-video-item">
+                                <img alt="" src="/assets/img/Overview-demo-pic.png" />
+                                <img alt="" src="/assets/img/Overview-demo-pic.png" />
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a (click)="
+                      openVideoDialog(
+                        'https://www.youtube.com/embed/WWIDJeApqfA?rel=0&amp;'
+                      )
+                    " class="ahq-video-item">
+                                <span>
+                                    <img alt="" src="/assets/img/TestScript-demo-pic.png" />
+                                    <img alt="" src="/assets/img/TestScript-demo-pic.png" />
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a (click)="
+                      openVideoDialog(
+                        'https://www.youtube.com/embed/n31v1IXEzMc?rel=0&amp;'
+                      )
+                    " class="ahq-video-item">
+                                <span>
+                                    <img alt="" src="/assets/img/Rolebased-demo-pic.png" />
+                                    <img alt="" src="/assets/img/Rolebased-demo-pic.png" />
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="frame-wrapper">
+            <div class="frame-element">
+                <div (click)="ahqShareFrame = !ahqShareFrame" [ngClass]="{ 'show-up-arrow': ahqShareFrame }"
+                    class="d-flex justify-content-between align-items-center down-arrow show-up-arrow pt-2 pb-1 px-4">
+                    <h4 class="card-title text-primary">
+                        AHQ Share
+                    </h4>
+                    <span class="text-primary">
+                        <i aria-label="Show AHQ Share buttons" class="material-icons fw-600">
+                            keyboard_arrow_down
+                        </i>
+                    </span>
+                </div>
+                <div *ngIf="ahqShareFrame" class="frame-content text-center">
+                    <share-buttons
+                        [include]="['email', 'copy', 'facebook', 'linkedin', 'twitter', 'whatsapp', 'messenger']"
+                        [showIcon]="true" [showText]="false" class="py-1"
+                        description="I am using this new No Code Test Automation platform - AutomationHQ and recommend it to my contacts. best tool if you are looking for easiest way to do test automation. Here is the link for free community edition."
+                        theme="circles-dark" twitterAccount="automationhqai"
+                        url='https://app.automationhq.ai/auth/register'>
+                    </share-buttons>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Frames -->

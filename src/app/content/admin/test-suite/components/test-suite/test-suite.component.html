@@ -1,0 +1,24 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 align-middle">
+                <app-test-suite-list></app-test-suite-list>
+            </div>
+            <div class="col-md-9 align-middle">
+                <div class="card custom-card mt-0 height-100">
+                    <div class="card-body">
+                        <div class="mat-tab-main-wrapper test-suite-table">
+                            <mat-tab-group animationDuration="0ms">
+                                <mat-tab label="Test Suite Details">
+                                    <ng-template matTabContent>
+                                        <app-test-suite-details></app-test-suite-details>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

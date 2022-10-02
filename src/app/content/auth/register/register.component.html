@@ -1,0 +1,325 @@
+<div class="main-container-wrapper">
+    <div class="container">
+        <div class="row d-flex justify-content-end align-items-center mr-4">
+            <div *ngIf="success" class="col-md-6 vh-100 d-flex align-items-center">
+                <div class="alert alert-success alert-mt-10">
+                    <button (click)="redirectLogin()" aria-label="Close" class="close mat-button" data-dismiss="alert"
+                            mat-button="" type="button">
+                        <span class="mat-button-wrapper"><i class="material-icons">close</i></span>
+                        <div class="mat-button-ripple mat-ripple" matripple=""></div>
+                        <div class="mat-button-focus-overlay"></div>
+                    </button>
+                    <span><b> {{ success }} </b></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row nomargin">
+        <section>
+            <div class="region region-content">
+                <div class="block block-system clearfix">
+                    <div class="ahq-signup-page-wrap">
+                        <div class="header-part">
+                        </div>
+                        <div *ngIf="!success" class="signup-form w-75">
+                            <form (ngSubmit)="register()" [formGroup]="registrationForm" class="form w-75" novalidate
+                                  role="form">
+                                <div class="ahq-product"><img alt="AutomationHQ" src="/assets/img/logo/ahq-logo.png">
+                                </div>
+                                <div class="card-login">
+                                    <div class="card-body px-0">
+                                        <h5 class="card-description">Register</h5>
+                                        <div class="row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group has-default">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <input [(ngModel)]="registrationModel.organizationName"
+                                                               class="form-control" formControlName="company"
+                                                               id="company"
+                                                               name="company"
+                                                               placeholder="Company" type="text"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.company.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.company.errors.required">
+                                                            Company name is required
+                                                        </div>
+                                                        <div *ngIf="f.company.errors.organizationExists">
+                                                            This organization name is already taken. Please choose
+                                                            another organization name
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('company')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['company'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <input [(ngModel)]="registrationModel.user.firstName"
+                                                               class="form-control" formControlName="firstName"
+                                                               id="first_name"
+                                                               name="first_name"
+                                                               placeholder="First Name" type="text"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.firstName.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.firstName.errors.required">
+                                                            First name is required
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('firstName')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['firstName'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <input [(ngModel)]="registrationModel.user.lastName"
+                                                               class="form-control" formControlName="lastName"
+                                                               id="last_name"
+                                                               name="last_name"
+                                                               placeholder="Last Name" type="text"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.lastName.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.lastName.errors.required">
+                                                            Last name is required
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('lastName')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['lastName'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default mt-3">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <mat-form-field>
+                                                            <input (blur)="countryBlur()"
+                                                                   (ngModelChange)="countryObject=$event; changeCountry($event)"
+                                                                   [(ngModel)]="countryObject" [matAutocomplete]="auto"
+                                                                   aria-label="Select Country Code"
+                                                                   formControlName="countryCode"
+                                                                   matInput placeholder="Select Country Code"
+                                                                   type="text"/>
+                                                            <mat-autocomplete #auto="matAutocomplete"
+                                                                              [displayWith]="displayFn">
+                                                                <mat-option
+                                                                        *ngFor="let code of filteredOptions | async | orderBy:'name'"
+                                                                        [value]="code">
+                                                                    {{code.name}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="submitted && !this.selectedCountryDialCode"
+                                                         class="help-block"
+                                                         style="color: red;">
+                                                        Country Code is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default mt-4">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-phone">
+                                                                {{selectedCountryDialCode }}
+                                                            </span>
+                                                        </div>
+                                                        <input [(ngModel)]="registrationModel.user.phone.phoneNumber"
+                                                               aria-describedby="basic-phone" aria-label="Phone Number"
+                                                               class="form-control"
+                                                               formControlName="phone"
+                                                               id="phone" maxlength="10" name="phone"
+                                                               placeholder="Phone Number" style="padding-left: 5px;"
+                                                               type="text"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.phone.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.phone.errors.required">
+                                                            Phone No. is required
+                                                        </div>
+                                                        <div *ngIf="f.phone.errors.pattern">
+                                                            Phone No. is not valid
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('phone')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['phone'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <input [(ngModel)]="registrationModel.user.email"
+                                                               class="form-control" formControlName="email"
+                                                               id="email"
+                                                               name="email"
+                                                               placeholder="Email Address" type="email"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.email.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.email.errors.required">
+                                                            Email is required
+                                                        </div>
+                                                        <div *ngIf="f.email.errors.pattern">
+                                                            Email is not valid
+                                                        </div>
+                                                        <div *ngIf="f.email.errors.emailExists">
+                                                            This email is already taken. Please choose another
+                                                            email.
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('email')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['email'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                                <div class="form-group has-default">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend"></div>
+                                                        <input [(ngModel)]="registrationModel.user.accessCode"
+                                                               class="form-control" formControlName="accessCode"
+                                                               id="access_code"
+                                                               name="access_code"
+                                                               placeholder="Promo Code" type="text"/>
+                                                    </div>
+                                                    <div *ngIf="submitted && f.accessCode.errors" class="help-block"
+                                                         style="color: red;">
+                                                        <div *ngIf="f.accessCode.errors.required">
+                                                            Promo Code is required, if you do not have one. Please
+                                                            contact <a
+                                                                href="mailto:support@automationhq.ai?Subject=Help"
+                                                                target="_top">
+                                                            AHQ Support
+                                                        </a>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('accessCode')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['accessCode'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-3">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input [(ngModel)]="registrationModel.user.termsAccepted"
+                                                               checked
+                                                               class="form-check-input" formControlName="termsAccepted"
+                                                               type="checkbox"
+                                                               value=""/>
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span></span>
+                                                        I read and agreed to the
+                                                        <a href="http://www.automationhq.ai/T&C.html"
+                                                           target="_blank">
+                                                            Terms & Conditions
+                                                        </a>
+                                                        &
+                                                        <a href="https://www.automationhq.ai/privacy-policy"
+                                                           target="_blank">
+                                                            Privacy Policy
+                                                        </a>
+                                                    </label>
+                                                    <div *ngIf="submitted && f.termsAccepted.errors" class="help-block"
+                                                         style="color: red; margin-top: 8px; margin-left: 8px;">
+                                                        <div *ngIf="f.termsAccepted.errors.required">
+                                                            Terms and conditions and Privacy Policy is required
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="submitted && hasError.hasOwnProperty('termsAccepted')"
+                                                         class="help-block" style="color: red;">
+                                                        {{ hasError['termsAccepted'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ngx-recaptcha2 [siteKey]="recaptchaSiteKey"
+                                                                formControlName="recaptcha">
+                                                </ngx-recaptcha2>
+                                                <div *ngIf="submitted && f.recaptcha.errors" class="help-block"
+                                                     style="color: red; margin-top: 8px; margin-left: 8px;">
+                                                    <div *ngIf="f.recaptcha.errors.required">
+                                                        Please verify that you are not a robot
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-check mt-3 mb-3 w-100">
+                                                    <button [disabled]="submitted && registrationForm.invalid"
+                                                            class="btn btn-rose w-100"
+                                                            mat-raised-button type="submit">
+                                                        Agree & Sign Up
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="p-4 w-25 d-flex align-items-center text-center justify-content-center">
+                                <h5 class="card-description">OR</h5>
+                            </div>
+                            <div class="my-2">
+                                <h5 class="card-description m-2">Sign up using</h5>
+                                <div class="row d-flex align-items-center justify-content-center">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <button (click)="signUpWithGoogle($event)" class="btn btn-google w-160 m-2"
+                                                mat-raised-button>
+                                            Google
+                                        </button>
+                                    </div>
+                                    <!--TODO:: will be enabled again after sso facebook logout feature fixed-->
+                                    <!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <button mat-raised-button class="btn btn-facebook w-160 m-2"
+                                                (click)="signUpWithFacebook($event)">
+                                            Facebook
+                                        </button>
+                                    </div>-->
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <button (click)="signUpWithMicrosoft($event)" class="btn btn-twitter w-160 m-2"
+                                                mat-raised-button>
+                                            Microsoft
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="signup-testimonial-wrap">
+                            <div class="testimonial-content">
+                                <span><img alt="" class="img-responsive"
+                                           height="64" src="assets/img/AHQ-Testimonal.png" typeof="foaf:Image"
+                                           width="64"></span>
+                                <h4 class="mt-2">“AutomationHQ™ is our sincere effort to empower software quality
+                                    assurance community. AHQ is a powerful test automation tool to match the speed of
+                                    Agile
+                                    delivery. Feel free to provide your feedback to our support team.”</h4>
+                                <h6 class="customer-detail mt-3">Team AutomationHQ</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

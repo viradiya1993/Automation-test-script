@@ -1,0 +1,267 @@
+<div class="d-flex justify-content-between">
+    <app-release-applied-filters></app-release-applied-filters>
+    <div class="text-right">
+        <div class="release-run-filter-list m-1 d-inline-block">
+            <app-release-run-filter-form></app-release-run-filter-form>
+        </div>
+        <div *ngIf="releaseRunViews.length > 0" class="expand-collapse-btn text-right">
+            <button (click)="toggle()" class="btn btn-primary btn-link text-capitalize m-1 p-1" mat-button>
+                <i class="material-icons">list</i> Expand / Collapse All
+            </button>
+        </div>
+    </div>
+</div>
+<div class="testBot-customScroll list-contentScroll customScroll-contentScroll">
+    <mat-accordion #releaseRunViewsMA *ngIf="releaseRunViews.length > 0" [multi]="true" class="mat-tabs">
+        <mat-expansion-panel *ngFor="let releaseRunView of releaseRunViews" class="expansion-list testRun-list"
+                             togglePosition='before'>
+            <mat-expansion-panel-header>
+                <mat-panel-title class="d-flex justify-content-between testRun-header-title">
+                    <div>
+                        <div *ngIf="releaseRunView.releaseView" class="badge badge-rose"
+                             matTooltip="{{releaseRunView.releaseView.name}}">R
+                        </div>
+                        <span class="testRun-name">{{releaseRunView.name}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="badge badge-info ml-2" matTooltip="Total">
+                            {{releaseRunView.progress.total}}</span>
+                        <span class="badge badge-success ml-2" matTooltip="Passed">
+                            {{releaseRunView.progress.passed}}</span>
+                        <span class="badge badge-danger ml-2 " matTooltip="Failed">
+                            {{releaseRunView.progress.failed}}</span>
+                        <span class="badge badge-warning ml-2" matTooltip="Skipped">
+                            {{releaseRunView.progress.skipped}}</span>
+                    </div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-template matExpansionPanelContent>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-accordion #testBotExecutionsMA *ngIf="releaseRunView.testBotExecutions.length > 0"
+                                       [multi]="true" class="mat-tabs">
+                            <mat-expansion-panel *ngFor="let testBotExecution of releaseRunView.testBotExecutions"
+                                                 class="expansion-list testRun-list"
+                                                 togglePosition='before'>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title class="d-flex justify-content-between testRun-header-title">
+                                        <div>
+                                            <div *ngIf="testBotExecution.testBotView" class="badge badge-rose"
+                                                 matTooltip="{{testBotExecution.testBotView.name}}">TB
+                                            </div>
+                                            <span class="testRun-name text-truncate">{{testBotExecution.name}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <span
+                                                        class="material-icons material-icons-outlined orange-time">watch_later</span>
+                                                {{testBotExecution.startTime | datesDiff:testBotExecution.endTime}}
+                                            </div>
+                                            <span class="badge badge-info ml-2" matTooltip="Total">
+                                                {{testBotExecution.progress.total}}</span>
+                                            <span class="badge badge-success ml-2" matTooltip="Passed">
+                                                {{testBotExecution.progress.passed}}</span>
+                                            <span class="badge badge-danger ml-2 " matTooltip="Failed">
+                                                {{testBotExecution.progress.failed}}</span>
+                                            <span class="badge badge-warning ml-2" matTooltip="Skipped">
+                                                {{testBotExecution.progress.skipped}}</span>
+                                        </div>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <ng-template matExpansionPanelContent>
+                                    <mat-tab-group animationDuration="0ms">
+                                        <mat-tab label="Test Suite Results">
+                                            <div *ngFor="let testSuiteResult of testBotExecution.testSuiteResults"
+                                                 class="testRun-list-row d-flex justify-content-between border">
+                                                <div (click)="openTestSuiteResultDialog(testSuiteResult, testBotExecution.executionConfiguration)"
+                                                     class="test-suite-name">
+                                                    {{testSuiteResult.testSuiteName}}
+                                                </div>
+                                                <div class="test-suite-info">
+                                                    <span class="badge badge-success line ml-2"
+                                                          matTooltip="Passed">{{testSuiteResult.progress.passed}}</span>
+                                                    <span class="badge badge-danger line ml-2"
+                                                          matTooltip="Failed">{{testSuiteResult.progress.failed}}</span>
+                                                    <span class="badge badge-warning line ml-2"
+                                                          matTooltip="Skipped">{{testSuiteResult.progress.skipped}}</span>
+                                                </div>
+                                            </div>
+                                        </mat-tab>
+                                        <mat-tab label="Configuration">
+                                            <div class="container-fluid group-iterationResult">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="iterationResult-title">Environment</div>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="iterationResult-decrpt">
+                                                            {{testBotExecution.executionConfiguration.baseUrl}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="iterationResult-title">Grid Url</div>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="iterationResult-decrpt">
+                                                            {{testBotExecution.executionConfiguration.gridUrl}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Browser</div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <span
+                                                                            class="material-icons link-icon">laptop_chromebook</span>
+                                                                    {{testBotExecution.executionConfiguration.browser}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Type</div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    {{testBotExecution.executionConfiguration.type}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Timeout in Sec</div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <div class="timing-show">
+                                                                        <span
+                                                                                class="material-icons material-icons-outlined orange-time">watch_later</span>
+                                                                        {{testBotExecution.executionConfiguration.timeout}}
+                                                                        s
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">
+                                                                    Explicit Timeout in Sec
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <div class="timing-show">
+                                                                        <span
+                                                                                class="material-icons material-icons-outlined orange-time">watch_later</span>
+                                                                        {{testBotExecution.executionConfiguration.waitForElementTimeout}}
+                                                                        s
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Screenshot After Each
+                                                                    Step
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <span [ngClass]="{'badge-success':testBotExecution.executionConfiguration.screenshotAfterEachStep === true,'badge-danger':testBotExecution.executionConfiguration.screenshotAfterEachStep === false}"
+                                                                          class="badge">
+                                                                        {{testBotExecution.executionConfiguration.screenshotAfterEachStep}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Close Browser After
+                                                                    Each
+                                                                    Execution
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <span [ngClass]="{'badge-success':testBotExecution.executionConfiguration.closeBrowserAfterEachExecution === true,'badge-danger':testBotExecution.executionConfiguration.closeBrowserAfterEachExecution === false}"
+                                                                          class="badge">
+                                                                        {{testBotExecution.executionConfiguration.closeBrowserAfterEachExecution}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Screenshot On Error
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <span [ngClass]="{'badge-success':testBotExecution.executionConfiguration.screenshotOnError === true,'badge-danger':testBotExecution.executionConfiguration.screenshotOnError === false}"
+                                                                          class="badge">
+                                                                        {{testBotExecution.executionConfiguration.screenshotOnError}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-title">Screenshot On Finish
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="iterationResult-decrpt">
+                                                                    <span [ngClass]="{'badge-success':testBotExecution.executionConfiguration.screenshotOnFinish === true,'badge-danger':testBotExecution.executionConfiguration.screenshotOnFinish === false}"
+                                                                          class="badge">
+                                                                        {{testBotExecution.executionConfiguration.screenshotOnFinish}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-tab>
+                                    </mat-tab-group>
+                                </ng-template>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </div>
+            </ng-template>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div *ngIf="releaseRunViews.length === 0" class="font-italic ml-2 font-weight-light d-flex justify-content-start">
+        <div class="no-avaliable-text">No Test Runs</div>
+    </div>
+</div>
+
+
+

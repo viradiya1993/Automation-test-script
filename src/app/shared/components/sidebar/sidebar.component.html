@@ -1,0 +1,65 @@
+<div class="logo">
+    <img alt="AutomationHQ" src="/assets/img/logo/ahq-logo.png"/>
+</div>
+
+<div *ngIf="menuItems" class="sidebar-wrapper">
+    <ul class="nav">
+        <li
+                *ngFor="let menuItem of menuItems"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="nav-item"
+                routerLinkActive="active"
+        >
+            <!--If is a single link-->
+            <a *ngIf="!menuItem.hasChildren && menuItem.enabled" [ngClass]="menuItem.enabled ? '' : 'link-disabled'"
+               [routerLink]="[menuItem.url]"
+               class="nav-link">
+                <i class="material-icons">
+                    {{ menuItem.iconType != null ? menuItem.iconType : 'apps' }}
+                </i>
+                <p>{{menuItem.title}}</p>
+            </a>
+            <!--If it have a subMenu-->
+            <a
+                    (click)="updatePS()"
+                    *ngIf="menuItem.hasChildren && menuItem.enabled"
+                    [ngClass]="menuItem.enabled ? '' : 'link-disabled'"
+                    aria-expanded="false"
+                    class="nav-link"
+                    data-toggle="collapse"
+                    href="#{{menuSlug(menuItem.title)}}-collapse"
+                    role="button"
+            >
+                <i class="material-icons"
+                >{{ menuItem.iconType != null ? menuItem.iconType : 'apps' }}</i
+                >
+                <p>{{menuItem.title}}<b class="caret"></b></p>
+            </a>
+
+            <!--Display the subMenu items-->
+            <div
+                    *ngIf="menuItem.hasChildren"
+                    [routerLinkActive]="['show']"
+                    class="collapse"
+                    id="{{menuSlug(menuItem.title)}}-collapse"
+            >
+                <ul class="nav nav-child">
+                    <li
+                            *ngFor="let childItem of menuItem.children"
+                            class="nav-item"
+                            routerLinkActive="active"
+                    >
+                        <a *ngIf="menuItem.enabled" [ngClass]="childItem.enabled ? '' : 'link-disabled'"
+                           [routerLink]="[menuItem.url, childItem.url]"
+                           class="nav-link">
+                            <i class="material-icons">
+                                {{ childItem.iconType != null ? childItem.iconType : 'apps'}}
+                            </i>
+                            <span class="sidebar-normal">{{childItem.title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

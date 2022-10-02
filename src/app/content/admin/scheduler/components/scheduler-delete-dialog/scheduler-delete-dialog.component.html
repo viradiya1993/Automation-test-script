@@ -1,0 +1,14 @@
+<div class="popupframe-title">
+    <div class="mat-dialog-title">
+        <h2>Delete Scheduler</h2>
+    </div>
+</div>
+<mat-dialog-content>
+    <p> Are you sure you want to delete {{scheduler.name}} scheduler?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button (click)="onConfirmClick()" class="btn btn-primary" mat-raised-button tabindex="1">Yes
+        <div class="ripple-container"></div>
+    </button>
+    <button class="btn btn-primary-outline" mat-dialog-close mat-raised-button tabindex="-1">No</button>
+</mat-dialog-actions>

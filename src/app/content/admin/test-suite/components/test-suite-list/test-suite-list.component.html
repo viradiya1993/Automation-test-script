@@ -1,0 +1,101 @@
+<div class="card custom-card mt-0 height-100">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title text-primary">Test Suites</h4>
+            <app-test-suite-form></app-test-suite-form>
+        </div>
+    </div>
+    <div class="card-body listCol-scroll">
+        <div class="all-test-suite-row">
+            <div class="d-flex justify-content-between">
+                <span class="all-test-suite-title">All Test Suites</span>
+                <span class="badge badge-primary-light mr-4" matTooltip="Number of Test Suites">{{ testSuites.length
+                    }}</span>
+            </div>
+        </div>
+        <app-search-field (searchEvent)="searchInTestSuites($event)" class="search-box"
+                          label="Search Test Suites"></app-search-field>
+
+        <div *ngIf="testSuites.length > 0" class="list-contentScroll">
+            <div *ngFor="let testSuite of testSuites; first as isFirst"
+                 [ngClass]="testSuiteToBeSelected && testSuiteToBeSelected.testSuiteId === testSuite.testSuiteId ? ' active' : ''"
+                 class="expansion-list test-suites-list cursor-pointer">
+                <div class="test-suite-header-title d-flex justify-content-between">
+                    <div (click)="selectedTestSuite(testSuite)" class="test-suite-title"
+                         matTooltip="{{ testSuite.name }}">
+                         <span class="material-icons align-middle font-size-21 mat-icon-color">work_outline</span>
+                         {{ testSuite.name }}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button [matMenuTriggerFor]="menu" aria-label="Test Suite More Menu"
+                                class="btn btn-link btn-primary btn-just-icon custom-btn-icon ml-1" mat-icon-button>
+                            <mat-icon class="material-icons">more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button (click)="setTestSuiteToRemove(testSuite)" class="custom-matmenu"
+                                    data-target="#removeTestSuiteConfirmation"
+                                    data-toggle="modal" mat-menu-item
+                                    matTooltip="Delete Test Suite">
+                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+                        <!-- <mat-menu #menu="matMenu" [hasBackdrop]="true">
+                            <button mat-menu-item class="custom-matmenu" (click)="setTestSuiteToRemove(testSuite)"
+                                data-toggle="modal" data-target="#removeTestSuiteConfirmation"
+                                matTooltip="Delete Test Suite">
+                                <mat-icon class="custom-btn-icon mr-0">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu> -->
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="totalCount > 0" class="text-center justify-content-center my-2">
+                <button (click)="onNext()" [disabled]="totalCount === testSuites.length"
+                        class="btn btn-primary btn-link text-capitalize" mat-flat-button>
+                    <mat-icon>replay_10</mat-icon>
+                    Load 10 more
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="testSuites.length === 0" class="font-italic ml-1 font-weight-light">
+            Please add Test Suites to get started
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel"
+     class="modal fade modal-mini modal-primary deleteModal-dialog"
+     id="removeTestSuiteConfirmation" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="popupframe-title">
+                    <div class="mat-dialog-title">
+                        <h2>Delete Test Suite</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body m-0 pt-3">
+                <p>
+                    Are you sure you want to delete
+                    {{ testSuiteToRemove ? testSuiteToRemove.name : "" }} Test Suite?
+                </p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button (click)="removeTestSuite(testSuiteToRemove)" class="btn btn-primary mr-2" data-dismiss="modal"
+                        mat-raised-button type="button">
+                    Yes
+                    <div class="ripple-container"></div>
+                </button>
+                <button class="btn btn-primary-outline" data-dismiss="modal" mat-raised-button
+                        type="button">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="row align-items-center justify-content-center margin-neg">
+    <div class="col-10 text-center">
+        <h3 class="text-primary font-weight-bold">Download AHQ Local Agent</h3>
+    </div>
+    <div class="col-auto pull-right text-right">
+        <button (click)="onCloseClick()" [autofocus]="false" dense mat-stroked-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="row text-center justify-content-center">
+    <div class="col-12 text-center text-bold mb-5">
+        You must download and install AHQ Local Agent on your local machine for test execution. Without this you will
+        not be able to run any test script. <br/>
+        Open AHQ Local Agent on your machine and click on “Start” button under Test Script / Test Bot
+    </div>
+    <div (click)="downloadAgent(agent.link)" (mouseleave)="onMouseLeave(agent)"
+         (mouseover)="onMouseOver(agent)" *ngFor="let agent of agents"
+         [matTooltip]="agent.name" class="col-3 pt-1 cursor-pointer">
+        <div class="flex-column icon-hover py-2" style="border-radius: 4px">
+            <img [src]="agent.agentIcon" height="60" width="60">
+            <div>{{ capitalize(agent.id) }}</div>
+            <button (click)="downloadAgent(agent.link)" mat-icon-button>
+                <mat-icon>download</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

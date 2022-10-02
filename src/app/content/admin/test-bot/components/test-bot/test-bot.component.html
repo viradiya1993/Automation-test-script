@@ -1,0 +1,45 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 align-middle">
+                <app-test-bot-list></app-test-bot-list>
+            </div>
+            <div class="col-md-9 align-middle">
+                <div class="card custom-card mt-0 height-100">
+                    <!-- <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title">Test Bots</h4>
+                        </div>
+                    </div> -->
+                    <div class="card-body">
+                        <div class="mat-tab-main-wrapper testBot-table text-primary">
+                            <mat-tab-group (selectedTabChange)="selectedTabChange($event)"
+                                [selectedIndex]="testBotFilterService.selectedTab" animationDuration="0ms">
+                                <!-- #docregion mat-tab-content -->
+                                <mat-tab class="text-primary" label="Test Results">
+                                    <ng-template matTabContent>
+                                        <!-- <app-test-bot-applied-filters></app-test-bot-applied-filters> -->
+                                        <app-test-results></app-test-results>
+                                    </ng-template>
+                                </mat-tab>
+                                <!-- #enddocregion mat-tab-content -->
+                                <mat-tab [disabled]="!testBotFilterService.appliedFilter.testBot" class="text-primary"
+                                    label="TestBot Details">
+                                    <ng-template matTabContent>
+                                        <app-test-bot-details></app-test-bot-details>
+                                    </ng-template>
+                                </mat-tab>
+                                <mat-tab [disabled]="!testBotFilterService.appliedFilter.testBot" class="text-primary"
+                                    label="Schedulers">
+                                    <ng-template matTabContent>
+                                        <app-scheduler></app-scheduler>
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

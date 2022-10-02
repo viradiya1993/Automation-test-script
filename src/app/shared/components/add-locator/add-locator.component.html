@@ -1,0 +1,83 @@
+<div class="popupframe-title">
+    <div class="d-flex justify-content-between">
+        <div class="mt-3" mat-dialog-title>
+            <h2 *ngIf="!data.locator else elseBlock">Add Locator</h2>
+            <ng-template #elseBlock>Edit Locator</ng-template>
+        </div>
+    </div>
+</div>
+<div (click)="$event.stopPropagation()">
+    <form [formGroup]="locatorFormGroup">
+        <div class="align-items-center">
+            <div class="row">
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Name</mat-label>
+                    <input formControlName="locatorName" matInput placeholder="Name"/>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>By</mat-label>
+                    <mat-select formControlName="locateBy">
+                        <mat-option value="ID">ID</mat-option>
+                        <mat-option value="NAME">NAME</mat-option>
+                        <mat-option value="XPATH">XPATH</mat-option>
+                        <mat-option value="CSS">CSS</mat-option>
+                        <mat-option value="CLASS">CLASS</mat-option>
+                        <mat-option value="LINK_TEXT">LINK_TEXT</mat-option>
+                        <mat-option value="PARTIAL_LINK_TEXT">PARTIAL_LINK_TEXT</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="locatorType" matTooltip="locatorType">
+                        <mat-option value="TEXTBOX">TEXTBOX</mat-option>
+                        <mat-option value="BUTTON">BUTTON</mat-option>
+                        <mat-option value="HYPERLINK">HYPERLINK</mat-option>
+                        <mat-option value="STATIC_TEXT">STATIC_TEXT</mat-option>
+                        <mat-option value="TABLE">TABLE</mat-option>
+                        <mat-option value="DROP_DOWN">DROP_DOWN</mat-option>
+                        <mat-option value="RADIO_BUTTON">RADIO_BUTTON</mat-option>
+                        <mat-option value="CHECK_BOX">CHECK_BOX</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill" class="col-md-12">
+                    <mat-label>Value</mat-label>
+                    <input
+                            autocomplete="off"
+                            formControlName="locatorValue"
+                            matInput
+                            matTooltip="locatorValue"
+                            placeholder="Value"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="rightpopup-section mr-3">
+                        <button
+                                (click)="onSaveLocator()"
+                                [disabled]="locatorFormGroup.invalid"
+                                class="btn btn-primary mr-2"
+                                mat-raised-button
+                        >
+                            Save
+                        </button>
+                        <button
+                                (click)="onCancelClick()"
+                                class="btn btn-plain"
+                                mat-dialog-close
+                                mat-raised-button
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

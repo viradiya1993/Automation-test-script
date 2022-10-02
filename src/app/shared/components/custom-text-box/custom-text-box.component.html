@@ -1,0 +1,6 @@
+<mat-form-field class="example-form-field">
+    <input [id]="id" [value]="value" matInput placeholder="Clearable input" type="text">
+    <button (click)="setValue('')" *ngIf="value" aria-label="Clear" mat-button mat-icon-button matSuffix>
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
